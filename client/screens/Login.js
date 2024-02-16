@@ -3,21 +3,21 @@ import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, Touc
 import { useNavigation } from '@react-navigation/native';
 
 //Rutas para las imagenes
-const fondo = require('./assets/fondo.jpg');
-const efecto = require('./assets/efecto.png');
-const facebook = require('./assets/facebook.png');
-const google = require('./assets/google.png');
-const logo = require('./assets/logo.png');
+const fondo = require('../../assets/fondo.jpg');
+const efecto = require('../../assets/efecto.png');
+const facebook = require('../../assets/facebook.png');
+const google = require('../../assets/google.png');
+const logo = require('../../assets/logo.png');
 
 const styles = StyleSheet.create({
   efecto: {
-    width: 400,
+    // width: 400,
     height: 300,
     marginTop: 150,
   },
   container: {
     backgroundColor: '#ffff',
-    width: 400,
+    // width: 400,
     height: 500,
     marginTop: -50,
   },
@@ -26,17 +26,17 @@ const styles = StyleSheet.create({
     width:270,
     height:400,
     borderColor:'#000000',
-    marginLeft:45,
+    marginLeft:80,
     marginTop:235,
   },
   titulo:{
     fontSize:40,
     fontWeight:'bold',
-    marginLeft:25
+    marginLeft:50
   },
   subtitulo:{
     fontSize:20,
-    marginLeft:60,
+    marginLeft:85,
     marginTop:20,
     color:'#474747'
   },
@@ -124,13 +124,17 @@ const styles = StyleSheet.create({
 
 const Login = () => {
 
-    // guardar las rutas en una pantalla
-    const navigation = useNavigation();
+    // // guardar las rutas en una pantalla
+    // const navigation = useNavigation();
 
-    // Ruta para enviar a pantalla Registrarse
-    const rutaRegistrarse = () => {
-      navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
-    };
+    // // Ruta para enviar a pantalla Registrarse
+    // const rutaLogin = () => {
+    //   navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
+    // };
+
+    // const rutaPrincipal = () => {
+    //   navigation.navigate('Principal'); // Navegar a la pantalla de creación de cuenta
+    // };
 
   return (
     <View style={{ flex: 1 }}>
@@ -152,7 +156,7 @@ const Login = () => {
           <Text>Recuérdame</Text>
         </View>
         <TouchableOpacity style={styles.button}>
-          <Text style={{ color: '#fff' }} onPress={rutaRegistrarse}>Iniciar</Text>
+          <Text style={{ color: '#fff' }} >Iniciar</Text>
         </TouchableOpacity>
         <View style={styles.lineContainer}>
           <View style={styles.lineSeparator} />

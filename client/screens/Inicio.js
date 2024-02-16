@@ -7,6 +7,10 @@ const Inicio = () => {
   const navigation = useNavigation();
 
   // Ruta para enviar a pantalla Registrarse
+  const rutaLogin = () => {
+    navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
+  };
+  // Ruta para enviar a pantalla Registrarse
   const rutaRegistrarse = () => {
     navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
   };
@@ -15,7 +19,7 @@ const Inicio = () => {
     <ImageBackground source={require('../../assets/fondo.jpg')} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.text}>RassLight</Text>
-        <TouchableOpacity style={[styles.button, { backgroundColor: '#16c1c8', }]}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: '#16c1c8', }]} onPress={rutaLogin}>
           <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'transparent' }]} onPress={rutaRegistrarse}>

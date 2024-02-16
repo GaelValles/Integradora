@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Importar las pantallas de las interfaces
 import Inicio from '../screens/Inicio';
 import Registrar from '../screens/Registrar';
-
+import Login from '../screens/Login';
 // Crea el stack para la navegacion
 const Stack = createStackNavigator();
 
@@ -19,6 +19,7 @@ function Router() {
       <Stack.Navigator initialRouteName='Inicio'> 
         <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
         <Stack.Screen name="Registrar" component={Registrar} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

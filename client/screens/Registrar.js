@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
+// Importar paquete con las rutas
+import { useNavigation } from '@react-navigation/native';
+
 const Registrar = () => {
   const [nombre, setNombre] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
@@ -9,6 +12,14 @@ const Registrar = () => {
   const [contraseña, setContraseña] = useState('');
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
 
+  // guardar las rutas en una pantalla
+  const navigation = useNavigation();
+
+  // Ruta para enviar a Login
+  const rutaIniciarSesion = () => {
+    navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
+  };
+  
   const handleSubmit = () => {
     // Aquí puedes manejar la lógica de enviar los datos a tu servidor o hacer lo que sea necesario con los datos del formulario.
     console.log('Formulario enviado:', { nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contraseña, aceptarTerminos });
@@ -16,15 +27,15 @@ const Registrar = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.secondaryButton}>
+      <TouchableOpacity style={styles.secondaryButton} onPress={rutaIniciarSesion}>
         <Text style={styles.secondaryButtonText}>Iniciar Sesión</Text>
       </TouchableOpacity>
       
-      <View style={styles.rightAlign}>
+      {/* <View style={styles.rightAlign}>
         <TouchableOpacity style={styles.secondaryButton}>
           <Text style={styles.secondaryButtonText}>Registrarte</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Text style={styles.title}>Registro</Text>
       <TextInput
