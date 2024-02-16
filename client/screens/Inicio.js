@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 
-const ColorInterface = () => {
+const Inicio = () => {
   return (
-    <ImageBackground source={require('./assets/fondo.jpg')} style={styles.background}>
+    <ImageBackground source={require('../../assets/fondo.jpg')} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.text}>RassLight</Text>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#16c1c8', }]}>
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ColorInterface;
+export default Inicio;
