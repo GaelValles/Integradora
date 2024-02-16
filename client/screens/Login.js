@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 20,
     marginTop: 20,
+  
     marginLeft:5,
     color: '#fff',
     borderColor:'#0000',
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     height:100,
     marginLeft:30,
   },
+ 
   lineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,14 +112,15 @@ const styles = StyleSheet.create({
   },
   logoContainer:{
     position:'absolute',
-    marginLeft:135,
-    marginTop:50,
+    marginLeft:170,
+    marginTop:70,
+    zIndex:2,
     width:100,
-    height:100
+    height:70
   },
   logo:{
-    width:100,
-    height:100
+    width:'100%',
+    height:'100%'
   }
 
 });
@@ -125,16 +128,16 @@ const styles = StyleSheet.create({
 const Login = () => {
 
     // // guardar las rutas en una pantalla
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
 
     // // Ruta para enviar a pantalla Registrarse
     // const rutaLogin = () => {
     //   navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
     // };
 
-    // const rutaPrincipal = () => {
-    //   navigation.navigate('Principal'); // Navegar a la pantalla de creación de cuenta
-    // };
+    const rutaRegistrar = () => {
+      navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
+    };
 
   return (
     <View style={{ flex: 1 }}>
@@ -158,6 +161,12 @@ const Login = () => {
         <TouchableOpacity style={styles.button}>
           <Text style={{ color: '#fff' }} >Iniciar</Text>
         </TouchableOpacity>
+        <View style={{top:10}}>
+          <Text>No tienes cuenta aun? <TouchableOpacity onPress={rutaRegistrar}>
+          <Text style={{ color: '#000',fontWeight:'800', top:3 }} >Regístrate</Text>
+        </TouchableOpacity></Text>
+         
+        </View>
         <View style={styles.lineContainer}>
           <View style={styles.lineSeparator} />
           <Text style={styles.ingresaConText}>O continua con:</Text>
@@ -172,8 +181,6 @@ const Login = () => {
           </TouchableOpacity>
         
       </View>
-
-
 
       </View>
     </View>

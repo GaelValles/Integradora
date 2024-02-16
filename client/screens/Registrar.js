@@ -81,7 +81,7 @@ const Registrar = () => {
         style={styles.button}
         onPress={handleSubmit}
         disabled={!aceptarTerminos}>
-        <Text style={[styles.buttonText, styles.buttonTextRight]}>Registrarse</Text>
+        <Text style={[styles.buttonText, styles.buttonTextRight]} onPress={rutaIniciarSesion}>Registrarse</Text>
       </TouchableOpacity>
 
     </View>
