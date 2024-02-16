@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const RegisterScreen = () => {
+const Registrar = () => {
   const [nombre, setNombre] = useState('');
   const [apellidoPaterno, setApellidoPaterno] = useState('');
   const [apellidoMaterno, setApellidoMaterno] = useState('');
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+export default Registrar;

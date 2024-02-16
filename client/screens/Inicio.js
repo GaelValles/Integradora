@@ -1,7 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Inicio = () => {
+  // guardar las rutas en una pantalla
+  const navigation = useNavigation();
+
+  // Ruta para enviar a pantalla Registrarse
+  const rutaRegistrarse = () => {
+    navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
+  };
+
   return (
     <ImageBackground source={require('../../assets/fondo.jpg')} style={styles.background}>
       <View style={styles.container}>
@@ -9,7 +18,7 @@ const Inicio = () => {
         <TouchableOpacity style={[styles.button, { backgroundColor: '#16c1c8', }]}>
           <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: 'transparent' }]}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: 'transparent' }]} onPress={rutaRegistrarse}>
           <Text style={[styles.buttonText, { color: 'black', fontSize: 16, marginTop:10 }]}>Crear una cuenta</Text>
         </TouchableOpacity>
       </View>
