@@ -139,6 +139,12 @@ const Login = () => {
       navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
     };
 
+
+    // Ruta para enviar a Login
+    const rutaPrincipal = () => {
+      navigation.navigate('Principal'); // Navegar a la pantalla de creación de cuenta
+    };
+    
   return (
     <View style={{ flex: 1 }}>
 
@@ -153,12 +159,12 @@ const Login = () => {
         <Text style={styles.titulo}>Bienvenido</Text>
         <Text style={styles.subtitulo}>Inicia sesión</Text>
         <TextInput style={styles.input} placeholder='Nombre de usuario' />
-        <TextInput style={styles.input} placeholder='Contraseña' />
+        <TextInput style={styles.input}  secureTextEntry={true} placeholder='Contraseña' />
         <View style={styles.checkboxContainer}>
           <View style={styles.checkbox}></View>
           <Text>Recuérdame</Text>
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}  onPress={rutaPrincipal}>
           <Text style={{ color: '#fff' }} >Iniciar</Text>
         </TouchableOpacity>
         <View style={{top:10}}>

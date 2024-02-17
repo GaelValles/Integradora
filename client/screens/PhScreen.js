@@ -1,13 +1,13 @@
 // import * as React from 'react';
 // import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-// const logo = require('./assets/logo.png')
-// const flecha = require('./assets/atras.png')
-// const user = require('./assets/user.png')
-// const home = require('./assets/home.png')
-// const ventas = require('./assets/ventas.png')
-// const dureza = require('./assets/dureza.png')
-// const ph = require('./assets/ph.png')
-// const flujo = require('./assets/flujo.png')
+// const logo = require('../../assets/logo.png')
+// const flecha = require('../../assets/atras.png')
+// const user = require('../../assets/user.png')
+// const home = require('../../assets/home.png')
+// const ventas = require('../../assets/ventas.png')
+// const dureza = require('../../assets/dureza.png')
+// const ph = require('../../assets/ph.png')
+// const flujo = require('../../assets/flujo.png')
 // import { useNavigation } from '@react-navigation/native';
 // const styles = StyleSheet.create({
   
