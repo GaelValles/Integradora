@@ -23,7 +23,6 @@ function Router() {
         <Stack.Screen name="Registrar" component={Registrar} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Principal" component={Principal} options={{ headerShown: false }} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
