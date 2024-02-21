@@ -53,7 +53,7 @@ export default function RegistroProductos() {
             <View style={styles.btnAgregar}>
               <Image
                 style={styles.logo}
-                source={require('./assets/iconos/botonAgregar.png')}
+                source={require('../../assets/iconos/botonAgregar.png')}
               />
             </View>
           </TouchableOpacity>
@@ -120,7 +120,7 @@ export default function RegistroProductos() {
             <View style={styles.btnAgregar}>
               <Image
                 style={styles.logo}
-                source={require('./assets/iconos/botonAgregar.png')}
+                source={require('../../assets/iconos/botonAgregar.png')}
               />
             </View>
           </TouchableOpacity>
