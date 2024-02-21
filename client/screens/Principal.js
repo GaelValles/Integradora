@@ -1,3 +1,5 @@
+// Modificado por Adrian
+
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import React from 'react';
 
@@ -10,74 +12,74 @@ export default function Principal() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Resumen del dia</Text>
-      <TouchableOpacity style={styles.press} activeOpacity={.9} onPress={() => handleBoxClick(1)}>
-        <View style={styles.box}>
-          <View style={styles.boxEnter}>
-            <Text style={styles.boxEnterText}>7</Text>
+      <View style={styles.viewTitle}>
+        <Text style={styles.title}>Resumen del dia</Text>
+      </View>
+      <View style={styles.btnPrincipal}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(1)}>
+          <View style={styles.box}>
+            <View style={styles.boxEnter}>
+              <Text style={styles.boxEnterText}>7</Text>
+            </View>
+            <View style={styles.boxOut}>
+              <Image
+                style={styles.tinyLogo}
+                source={require('../../assets/iconos/phIcono.png')}
+              />
+            </View>
+            <Text style={styles.boxText}>Nivel de Ph del agua</Text>
           </View>
-          <View style={styles.boxOut}>
-            <Image
-              style={styles.tinyLogo}
-              source={require('../../assets/iconos/phIcono.png')}
-            />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(2)}>
+          <View style={styles.box}>
+            <View style={styles.boxEnter}>
+              <Text style={styles.boxEnterText}>34</Text>
+            </View>
+            <View style={styles.boxOut}>
+              <Image
+                style={styles.tinyLogo}
+                source={require('../../assets/iconos/flujoAguaIcono.png')}
+              />
+            </View>
+            <Text style={styles.boxText}>Total de ventas</Text>
           </View>
-          <Text style={styles.boxText}>Nivel de Ph del agua</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.press} activeOpacity={.9} onPress={() => handleBoxClick(2)}>
-        <View style={styles.box}>
-          <View style={styles.boxEnter}>
-            <Text style={styles.boxEnterText}>34</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.btnPrincipal}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(3)}>
+          <View style={styles.box}>
+            <View style={styles.boxEnter}>
+              <Text style={styles.boxEnterText}>2.300</Text>
+            </View>
+            <View style={styles.boxOut}>
+              <Image
+                style={styles.tinyLogo}
+                source={require('../../assets/iconos/medidorAguaIcono.png')}
+              />
+            </View>
+            <Text style={styles.boxText}>Flujo del agua</Text>
           </View>
-          <View style={styles.boxOut}>
-            <Image
-              style={styles.tinyLogo}
-              source={require('../../assets/iconos/flujoAguaIcono.png')}
-            />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(4)}>
+          <View style={styles.box}>
+            <View style={styles.boxEnter}>
+              <Text style={styles.boxEnterText}>5</Text>
+            </View>
+            <View style={styles.boxOut}>
+              <Image
+                style={styles.tinyLogo}
+                source={require('../../assets/iconos/durezaAgua.png')}
+              />
+            </View>
+            <Text style={styles.boxText}>Dureza del agua</Text>
           </View>
-          <Text style={styles.boxText}>Total de ventas</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.press} activeOpacity={.9} onPress={() => handleBoxClick(3)}>
-        <View style={styles.box}>
-          <View style={styles.boxEnter}>
-            <Text style={styles.boxEnterText}>2.300</Text>
-          </View>
-          <View style={styles.boxOut}>
-            <Image
-              style={styles.tinyLogo}
-              source={require('../../assets/iconos/medidorAguaIcono.png')}
-            />
-          </View>
-          <Text style={styles.boxText}>Flujo del agua</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.press} activeOpacity={.9} onPress={() => handleBoxClick(4)}>
-        <View style={styles.box}>
-          <View style={styles.boxEnter}>
-            <Text style={styles.boxEnterText}>5</Text>
-          </View>
-          <View style={styles.boxOut}>
-            <Image
-              style={styles.tinyLogo}
-              source={require('../../assets/iconos/durezaAgua.png')}
-            />
-          </View>
-          <Text style={styles.boxText}>Dureza del agua</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-
-  title: {
-    fontSize: 30,
-    fontWeight: '500',
-    marginBottom: 120
-  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -88,10 +90,29 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 140
   },
+    viewTitle: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '500',
+    marginBottom: 100
+  },
+  btnPrincipal: {
+    flexDirection: 'row',
+    height: '25%',
+    width: '100%',
+  },
+  touchBox: {
+    flex: 1,
+    paddingHorizontal: 3,
+  },
   box: {
-    width: 150,
-    height: 150,
+    height: '75%',
     backgroundColor: '#6BEAEA',
+    width: '80%',
     margin: 14.9,
     justifyContent: 'center',
     alignItems: 'center',
@@ -154,8 +175,4 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  touchableOpacity: {
-    borderRadius: 10,
-    overflow: 'scroll',
-  }
 });

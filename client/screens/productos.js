@@ -1,10 +1,11 @@
 // Modificado por Adrian
 
-import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
 
 export default function RegistroProductos() {
+
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isChecked3, setIsChecked3] = useState(false);
@@ -36,27 +37,22 @@ export default function RegistroProductos() {
         break;
     }
   };
+  const [text, setText] = useState('');
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <Text style={styles.title}>Editar precios</Text>
-        <TouchableOpacity activeOpacity={.8}>
-          <View style={styles.buttonBox}>
-            <Text>Guardar</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.textView}>
-          <Text style={styles.text}>Cantidad</Text>
-          <Text style={styles.textSub}>Purificada</Text>
-          <TouchableOpacity activeOpacity={.8}>
-            <View style={styles.btnAgregar}>
-              <Image
-                style={styles.logo}
-                source={require('./assets/iconos/botonAgregar.png')}
-              />
-            </View>
-          </TouchableOpacity>
+        <View style={styles.viewInput}>
+          <Text style={styles.textIn}>Nombre:</Text>
+          <TextInput placeholder="Ingresa el nombre del agua" style={styles.textInput} />
+        </View>
+        <View>
+          <Text>Aqui va la grafica</Text>
+        </View>
+        <View style={styles.viewInputPh}>
+          <Text style={styles.textPh}>Ph del agua:</Text>
+          <TextInput placeholder="9.0" style={styles.textInputPh} />
         </View>
         <View style={styles.flexBox}>
           <View style={styles.box}>
@@ -114,73 +110,6 @@ export default function RegistroProductos() {
             </View>
           </View>
         </View>
-        <View style={styles.textView}>
-          <Text style={styles.textSub}>Alcalina</Text>
-          <TouchableOpacity activeOpacity={.8}>
-            <View style={styles.btnAgregar}>
-              <Image
-                style={styles.logo}
-                source={require('./assets/iconos/botonAgregar.png')}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.flexBox}>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
-            </View>
-            <View style={styles.textLabel}>
-              <Text>Garrafon</Text>
-            </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(4)}
-                isChecked={isChecked4}
-              />
-            </View>
-          </View>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
-            </View>
-            <View style={styles.textLabel}>
-              <Text>Medio Garrafon</Text>
-            </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(5)}
-                isChecked={isChecked5}
-              />
-            </View>
-          </View>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
-            </View>
-            <View style={styles.textLabel}>
-              <Text>Galon</Text>
-            </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(6)}
-                isChecked={isChecked6}
-              />
-            </View>
-          </View>
-        </View>
       </ScrollView>
     </View>
   )
@@ -201,40 +130,55 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     textAlign: 'center'
   },
-  buttonBox: {
+  viewInput: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     backgroundColor: '#16C1C8',
-    width: 120,
-    height: 40,
     marginTop: 30,
-    left: 40,
-    borderRadius: 10,
+    left: 35,
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  textView: {
-    marginTop: 30,
-    alignItems: 'center',
+    padding: 6,
     justifyContent: 'center',
+    width: 300,
+    height: 40,
+    borderRadius: 30,
+    paddingTop: 7
   },
-  text: {
-    fontSize: 20,
-    fontWeight: '500',
+  textInput: {
+    backgroundColor: '#fff',
+    height: 25,
+    borderRadius: 10,
+    width: 200,
+    marginLeft: 10,
+    padding: 5
   },
-  textSub: {
-    marginTop: 15,
-    color: '#16C1C8',
-    fontWeight: '900'
+  textIn: {
+    fontWeight: '600'
   },
-  btnAgregar: {
+  viewInputPh: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     backgroundColor: '#16C1C8',
-    marginTop: 5,
-    left: 140,
-    padding: 5,
-    borderRadius: 30
+    marginTop: 30,
+    left: 85,
+    alignItems: 'center',
+    padding: 6,
+    justifyContent: 'center',
+    width: 200,
+    height: 40,
+    borderRadius: 30,
+    paddingTop: 7
   },
-  logo: {
-    width: 25,
-    height: 25
+  textInputPh: {
+    backgroundColor: '#fff',
+    height: 25,
+    borderRadius: 10,
+    width: 100,
+    marginLeft: 10,
+    padding: 5
+  },
+  textPh: {
+    fontWeight: '600'
   },
   flexBox: {
     flexDirection: "row",
@@ -244,8 +188,8 @@ const styles = StyleSheet.create({
   },
   box: {
     backgroundColor: '#16C1C8',
-    height: 170,
-    width: '60%',
+    height: '50%',
+    width: 60,
     flex: 1,
     margin: 3,
     borderRadius: 20
