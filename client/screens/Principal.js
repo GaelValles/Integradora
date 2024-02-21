@@ -19,7 +19,7 @@ export default function Principal() {
           <View style={styles.boxOut}>
             <Image
               style={styles.tinyLogo}
-              source={require('./assets/iconos/phIcono.png')}
+              source={require('../../assets/iconos/phIcono.png')}
             />
           </View>
           <Text style={styles.boxText}>Nivel de Ph del agua</Text>
@@ -33,7 +33,7 @@ export default function Principal() {
           <View style={styles.boxOut}>
             <Image
               style={styles.tinyLogo}
-              source={require('./assets/iconos/flujoAguaIcono.png')}
+              source={require('../../assets/iconos/flujoAguaIcono.png')}
             />
           </View>
           <Text style={styles.boxText}>Total de ventas</Text>
@@ -47,7 +47,7 @@ export default function Principal() {
           <View style={styles.boxOut}>
             <Image
               style={styles.tinyLogo}
-              source={require('./assets/iconos/medidorAguaIcono.png')}
+              source={require('../../assets/iconos/medidorAguaIcono.png')}
             />
           </View>
           <Text style={styles.boxText}>Flujo del agua</Text>
@@ -61,7 +61,7 @@ export default function Principal() {
           <View style={styles.boxOut}>
             <Image
               style={styles.tinyLogo}
-              source={require('./assets/iconos/durezaAgua.png')}
+              source={require('../../assets/iconos/durezaAgua.png')}
             />
           </View>
           <Text style={styles.boxText}>Dureza del agua</Text>
