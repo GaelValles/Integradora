@@ -11,22 +11,23 @@ const logo = require('../../assets/logo.png');
 
 const styles = StyleSheet.create({
   efecto: {
-    // width: 400,
-    height: 300,
+    width: '100%',
+    height: '35%',
     marginTop: 150,
   },
   container: {
     backgroundColor: '#ffff',
-    // width: 400,
+    width: 400,
     height: 500,
     marginTop: -50,
+    
   },
   div:{
     position:'absolute',
     width:270,
     height:400,
     borderColor:'#000000',
-    marginLeft:80,
+    marginLeft:'6%',
     marginTop:235,
   },
   titulo:{
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height:50,
     padding: 5,
-    marginLeft:-3,
+    marginLeft:'7%',
     marginBottom: 10,
     marginTop:20,
     borderColor: '#DBF2EE',
@@ -54,8 +55,10 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
+    marginLeft:'7%',
     alignItems: 'center',
-
+    borderColor: '#DBF2EE',
+    border: 3
   },
   checkbox: {
     width: 20,
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
     borderColor:'black'
   },
   button: {
-    width:250,
+    width:'100%',
     height:40,
     display: 'flex',
     alignItems: 'center',
@@ -73,8 +76,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 20,
     marginTop: 20,
-  
-    marginLeft:5,
+    marginLeft:'7%',
     color: '#fff',
     borderColor:'#0000',
     },
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 10,
     color: 'gray',
+
   },
   socialLoginContainer: {
     flexDirection: 'row',
@@ -89,6 +92,7 @@ const styles = StyleSheet.create({
     width: 200,
     height:100,
     marginLeft:30,
+    
   },
  
   lineContainer: {
@@ -96,6 +100,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop:20,
     marginBottom: 10,
+    marginLeft:'10%',
   },
   lineSeparator: {
     flex: 1,
@@ -112,15 +117,15 @@ const styles = StyleSheet.create({
   },
   logoContainer:{
     position:'absolute',
-    marginLeft:170,
+    marginLeft:'37%',
     marginTop:70,
     zIndex:2,
     width:100,
-    height:70
+    height:100
   },
   logo:{
-    width:'100%',
-    height:'100%'
+    width:100,
+    height:100
   }
 
 });
@@ -167,7 +172,7 @@ const Login = () => {
         <TouchableOpacity style={styles.button}  onPress={rutaPrincipal}>
           <Text style={{ color: '#fff' }} >Iniciar</Text>
         </TouchableOpacity>
-        <View style={{top:10}}>
+        <View style={{top:10, marginLeft:'10%',}}>
           <Text>No tienes cuenta aun? <TouchableOpacity onPress={rutaRegistrar}>
           <Text style={{ color: '#000',fontWeight:'800', top:3 }} >Regístrate</Text>
         </TouchableOpacity></Text>
@@ -191,6 +196,22 @@ const Login = () => {
       </View>
     </View>
   );
-} 
+}
+
+const Registrar = () => {
+  const [nombre, setNombre] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [recuerdame, setRecuerdame] = useState(false);
+
+  const navigation = useNavigation();
+
+  const rutaIniciarSesion = () => {
+    navigation.navigate('Principal');
+  };
+  
+  const handleSubmit = () => {
+    console.log('Formulario enviado:', { nombre, contraseña, recuerdame });
+  };
+}
 
 export default Login;
