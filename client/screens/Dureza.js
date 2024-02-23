@@ -45,7 +45,7 @@ const waterData = {
   ],
 };
 
-export default function App() {
+export default function Dureza() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{waterData.title}</Text>

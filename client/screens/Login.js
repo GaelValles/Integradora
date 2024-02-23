@@ -142,7 +142,7 @@ const Login = () => {
 
     // Ruta para enviar a Login
     const rutaPrincipal = () => {
-      navigation.navigate('Principal'); // Navegar a la pantalla de creación de cuenta
+      navigation.navigate('TabNavigator'); // Navegar a la pantalla de creación de cuenta
     };
     
   return (
