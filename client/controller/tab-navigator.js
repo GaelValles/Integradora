@@ -4,12 +4,12 @@ import {StyleSheet, Text} from 'react-native'
 import { TabButton } from '../components/TabButton'
 
 // Importar las distinatas paginas que contendra el menu
-import Principal from './Principal'
-import Dureza from './Dureza'
-import PhScreen from './PhScreen'
-import Flujo from './Flujo'
-import Ventas from './Ventas'
-import Perfil from './Perfil'
+import Principal from '../screens/Principal'
+import Dureza from '../screens/Dureza'
+import PhScreen from '../screens/PhScreen'
+import Flujo from '../screens/Flujo'
+import Ventas from '../screens/Ventas'
+import Perfil from '../screens/Perfil'
 const Tab = createBottomTabNavigator()
 
 const TabNav = () => {

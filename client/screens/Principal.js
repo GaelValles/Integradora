@@ -2,13 +2,28 @@
 
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Principal() {
-
+  const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {
     console.log(`caja ${boxNumber} presionada`);
     // Aquí puedes agregar lógica adicional según el recuadro que se haya clickeado
   };
+
+  const rutaPh = () => {
+    navigation.navigate('PH'); // Navegar a la pantalla de PH
+  };
+  const rutaFlujo = () => {
+    navigation.navigate('Flujo'); // Navegar a la pantalla de Flujo
+  };
+  const rutaVentas = () => {
+    navigation.navigate('Ventas'); // Navegar a la pantalla de Ventas
+  };
+  const rutaDureza = () => {
+    navigation.navigate('Dureza'); // Navegar a la pantalla de Dureza
+  };
+
 
   return (
     <View style={styles.container}>
@@ -16,7 +31,7 @@ export default function Principal() {
         <Text style={styles.title}>Resumen del dia</Text>
       </View>
       <View style={styles.btnPrincipal}>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(1)}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaPh}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
               <Text style={styles.boxEnterText}>7</Text>
@@ -30,7 +45,7 @@ export default function Principal() {
             <Text style={styles.boxText}>Nivel de Ph del agua</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(2)}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaVentas}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
               <Text style={styles.boxEnterText}>34</Text>
@@ -46,7 +61,7 @@ export default function Principal() {
         </TouchableOpacity>
       </View>
       <View style={styles.btnPrincipal}>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(3)}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaFlujo}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
               <Text style={styles.boxEnterText}>2.300</Text>
@@ -60,7 +75,7 @@ export default function Principal() {
             <Text style={styles.boxText}>Flujo del agua</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={() => handleBoxClick(4)}>
+        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaDureza}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
               <Text style={styles.boxEnterText}>5</Text>
