@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
-// Importar paquete con las rutas
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Registrar = () => {
@@ -12,30 +10,28 @@ const Registrar = () => {
   const [contraseña, setContraseña] = useState('');
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
 
-  // guardar las rutas en una pantalla
   const navigation = useNavigation();
 
-  // Ruta para enviar a Login
   const rutaIniciarSesion = () => {
-    navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
+    navigation.navigate('Login');
   };
   
   const handleSubmit = () => {
-    // Aquí puedes manejar la lógica de enviar los datos a tu servidor o hacer lo que sea necesario con los datos del formulario.
     console.log('Formulario enviado:', { nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contraseña, aceptarTerminos });
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.secondaryButton} onPress={rutaIniciarSesion}>
-        <Text style={styles.secondaryButtonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
+      {/* Header */}
+      <Image 
+        style={styles.headerImage}
+        source={{uri: 'https://media.istockphoto.com/id/1076819942/es/foto/agua-splash-burbuja-l%C3%ADquida-gota-azul.webp?b=1&s=170667a&w=0&k=20&c=gOmyAgPHTn3VL2a7lF7HjQzmt8gZ5_-PSLqDkfmZuao='}}
+      />
       
-      {/* <View style={styles.rightAlign}>
-        <TouchableOpacity style={styles.secondaryButton}>
-          <Text style={styles.secondaryButtonText}>Registrarte</Text>
-        </TouchableOpacity>
-      </View> */}
+      <TouchableOpacity style={[styles.secondaryButton, styles.rightAlign]} onPress={rutaIniciarSesion}>
+  <Text style={styles.secondaryButtonText}>Iniciar Sesión</Text>
+</TouchableOpacity>
+
 
       <Text style={styles.title}>Registro</Text>
       <TextInput
@@ -84,6 +80,13 @@ const Registrar = () => {
         <Text style={[styles.buttonText, styles.buttonTextRight]} onPress={rutaIniciarSesion}>Registrarse</Text>
       </TouchableOpacity>
 
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Image 
+          style={[styles.footerImage, { transform: [{ scaleY: -1 }] }]}
+          source={{uri: 'https://media.istockphoto.com/id/1076819942/es/foto/agua-splash-burbuja-l%C3%ADquida-gota-azul.webp?b=1&s=170667a&w=0&k=20&c=gOmyAgPHTn3VL2a7lF7HjQzmt8gZ5_-PSLqDkfmZuao='}}
+        />
+      </View>
     </View>
   );
 };
@@ -91,16 +94,24 @@ const Registrar = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start', // Alinear en la parte superior
     paddingHorizontal: 20,
+  },
+  headerImage: {
+    width: '100%', // Ocupa todo el ancho del contenedor
+    height: 200, // Altura fija
+    resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
   title: {
     fontSize: 31,
     marginBottom: 10,
     color:"#16c1c8",
     fontWeight: 'bold',
-    alignSelf: 'flex-start', // Alinea el título a la izquierda
+    alignSelf: 'flex-start',
+    marginTop: 30,
+    marginBottom:15,
   },
   input: {
     width: '100%',
@@ -109,7 +120,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#16C1C8',
     paddingHorizontal: 10,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#16C1C8',
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     marginTop: 10,
+    marginRight:30,
   },
   secondaryButtonText: {
     color: '#16C1C8',
@@ -138,7 +150,8 @@ const styles = StyleSheet.create({
   termsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 30,
+    marginBottom:20
   },
   checkbox: {
     width: 20,
@@ -157,6 +170,17 @@ const styles = StyleSheet.create({
   termsText: {
     fontSize: 12,
     color:"#16C1C8",
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+  },
+  footerImage: {
+    width: '100%', // Ocupa todo el ancho del contenedor
+    height: 130, // Altura fija
+    resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
 });
 
