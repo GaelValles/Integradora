@@ -41,7 +41,7 @@ export default function Ventas() {
   };
 
   return (
-    
+    // View para agregar el AppBar
     <View style={styles.mainContainer}>
     <TopBar />
     <View style={styles.container}>

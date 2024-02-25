@@ -3,7 +3,7 @@
 import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, } from "react-native";
 import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
-
+import TopBar from "../components/TopBar";
 export default function RegistroProductos() {
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
@@ -38,6 +38,9 @@ export default function RegistroProductos() {
   };
 
   return (
+        // View para agregar el AppBar
+    <View style={styles.mainContainer}>
+    <TopBar />
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <Text style={styles.title}>Editar precios</Text>
@@ -183,10 +186,15 @@ export default function RegistroProductos() {
         </View>
       </ScrollView>
     </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  mainContainer:{
+    flex: 1,
+    flexDirection: 'column',
+    },
   container: {
     flex: 1,
     flexDirection: 'row',

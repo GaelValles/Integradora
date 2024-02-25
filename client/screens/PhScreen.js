@@ -8,9 +8,13 @@ const ventas = require('../../assets/ventas.png')
 const dureza = require('../../assets/dureza.png')
 const ph = require('../../assets/ph.png')
 const flujo = require('../../assets/flujo.png')
+import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
 const styles = StyleSheet.create({
-  
+  mainContainer:{
+    flex: 1,
+    flexDirection: 'column',
+    },
   header:{
     height:80
   },
@@ -138,6 +142,9 @@ const PhScreen = () => {
   //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
   // };
   return (
+    // View para mostrar el AppBar
+    <View style={styles.mainContainer}>
+    <TopBar />
     <View>
       
       <Text style={styles.titulo}>Nivel de PH</Text>
@@ -169,6 +176,7 @@ const PhScreen = () => {
       </View>
     </View>
     
+    </View>
     </View>
   );
 };
