@@ -4,7 +4,7 @@ import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, } from "re
 import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
 import TopBar from "../components/TopBar";
-export default function RegistroProductos() {
+export default function NuevosProductos() {
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isChecked3, setIsChecked3] = useState(false);

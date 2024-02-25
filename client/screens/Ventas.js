@@ -4,6 +4,8 @@ import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import TopBar from "../components/TopBar";
+import { useNavigation } from '@react-navigation/native';
+
 // Link para los iconos
 // https://pictogrammers.com/library/mdi/ y https://reactnativeelements.com/docs/1.2.0/icon#containerstyle
 
@@ -40,6 +42,14 @@ export default function Ventas() {
     }
   };
 
+  // funcion para cerrar Caja
+
+  // Nageacion entre paginas
+  const navigation = useNavigation();
+  // Navegar a interfaz de editar
+  const rutaNuevoProducto = () => {
+    navigation.navigate('NuevosProductos'); // Navegar a la pantalla de creación de cuenta
+  };
   return (
     // View para agregar el AppBar
     <View style={styles.mainContainer}>
@@ -51,7 +61,7 @@ export default function Ventas() {
         {/* Titulo inicial */}
         <Text style={styles.title}>Venta del Dia</Text>
         {/* Botones para editar o Cerrar Caja */}
-        <TouchableOpacity activeOpacity={.8}>
+        <TouchableOpacity activeOpacity={.8} onPress={rutaNuevoProducto}>
           <View style={styles.buttonBox}>
             {/* Icono de editar */}
             <Material name="file-edit" size={40} color="#000"/>
@@ -63,6 +73,15 @@ export default function Ventas() {
             <Text>Cierre de Caja</Text>
           </View>
         </TouchableOpacity>
+
+        {/* Vista para mostrar el total acumulado */}
+        <View style={styles.boxMoney}>
+          <Text style={{fontSize:30,marginRight:20, color:'#fff', fontWeight:"600"}}>TOTAL:</Text>
+          <View style={styles.boxMoneyContent}>
+          
+            <Text style={{fontSize:40}}>$4000.00</Text>
+          </View>
+        </View>
         {/* Texto sobre el agua */}
         <View style={styles.textView}>
           <Text style={styles.text}>Cantidad</Text>
@@ -212,6 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    marginBottom:60
 
     },
 //   Estilo para el titulo de la pagina
@@ -241,6 +261,26 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  // Estilo para la caja del dinero acumulado
+  boxMoney:{
+    backgroundColor: '#16C1C8',
+    marginTop:20,
+    height:150,
+    width:'100%',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flex:2
+  },
+  boxMoneyContent:{
+    backgroundColor: '#fff',
+    marginTop:50,
+    height:100,
+    width:'50%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 // Estilo para el conetenido de los textos sobre el agua
   textView: {
