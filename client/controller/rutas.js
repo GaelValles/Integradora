@@ -11,6 +11,8 @@ import Login from '../screens/Login';
 import Principal from '../screens/Principal';
 import RegistroProductos from '../screens/nuevosProductos';
 import TabNav from './tab-navigator';
+import Ventas from '../screens/Ventas';
+import TopBar from '../components/TopBar';
 // Crea el stack para la navegacion
 const Stack = createStackNavigator();
 
@@ -25,7 +27,9 @@ function Router() {
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="RegistrosProductos" component={RegistroProductos} options={{headerShown: false}}/>
         <Stack.Screen name="TabNavigator" component={TabNav} options={{headerShown: false}}/>
-        
+        <Stack.Screen name="Ventas" component={Ventas} options={{headerShown: false}}/>
+        <Stack.Screen name="TopBar" component={TopBar} options={{headerShown: false}}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

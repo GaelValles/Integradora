@@ -3,6 +3,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import TopBar from '../components/TopBar';
 
 export default function Principal() {
   const navigation = useNavigation();
@@ -26,7 +27,10 @@ export default function Principal() {
 
 
   return (
+    <View style={styles.mainContainer}>
+  <TopBar />
     <View style={styles.container}>
+    
       <View style={styles.viewTitle}>
         <Text style={styles.title}>Resumen del dia</Text>
       </View>
@@ -91,10 +95,15 @@ export default function Principal() {
         </TouchableOpacity>
       </View>
     </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainContainer:{
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -103,7 +112,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 10,
-    marginTop: 140
   },
     viewTitle: {
     width: '100%',
