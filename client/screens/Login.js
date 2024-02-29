@@ -12,18 +12,12 @@ const logo = require('../../assets/logo.png');
 const styles = StyleSheet.create({
   efecto: {
     width: '100%',
-    height: '50%',
-    marginTop: 150,
+    aspectRatio: 1, // Relación de aspecto 2:1
+    marginTop: '35%',
   },
-  container: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: '100%',
-    marginTop: '-50%',
-    
-  },
+
   formularioContainer:{
-  
+    flex: 1,
     position:'absolute',
     width:'101%',
     height:'50%',
@@ -32,31 +26,23 @@ const styles = StyleSheet.create({
     marginLeft:'-6%',
   },
   div:{
-    position:'absolute',
-    width:'100%',
-    height:'100%',
-    borderColor:'#000000',
-    marginLeft:'6%',
-    marginTop:'90%',
-  },
-  tituloContainer:{
-    position:'absolute',
-    marginLeft:'-6%',
-    width:'101%',
-    height:'15%',
+    backgroundColor:'white',
+    flex:1,
     borderColor:'#000000',
     alignItems:'center',
     marginTop:'-30%',
+    height:'100%'
   },
   titulo:{
     fontSize:35,
     fontWeight:'bold',
-
+    marginTop:'-30%'
   },
   subtitulo:{
     fontSize:20,
     marginTop:20,
-    color:'#474747'
+    color:'#474747',
+    marginTop:'-4%',
   },
   input: {
     width: '75%',
@@ -73,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: '#DBF2EE',
-    border: 3
+    border: 3,
   },
   checkbox: {
     width: 20,
@@ -129,7 +115,8 @@ const styles = StyleSheet.create({
   },
   logoContainer:{
     position:'absolute',
-    marginLeft:'37%',
+
+    alignItems:'center',
     marginTop:70,
     zIndex:2,
     width:'100%',
@@ -173,11 +160,8 @@ const Login = () => {
         <View style={styles.container}></View>
       </ImageBackground>
       <View style={styles.div}>
-        <View style={styles.tituloContainer}>
           <Text style={styles.titulo}>Bienvenido</Text>
           <Text style={styles.subtitulo}>Inicia sesión</Text>
-        </View>
-        <View style={styles.formularioContainer}>
         <TextInput style={styles.input} placeholder='Nombre de usuario' />
         <TextInput style={styles.input}  secureTextEntry={true} placeholder='Contraseña' />
         <View style={styles.checkboxContainer}>
@@ -208,7 +192,7 @@ const Login = () => {
           </View>
       </View>
 
-      </View>
+     
     </View>
   );
 }
