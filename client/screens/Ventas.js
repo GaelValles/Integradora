@@ -50,6 +50,9 @@ export default function Ventas() {
   const rutaNuevoProducto = () => {
     navigation.navigate('NuevosProductos'); // Navegar a la pantalla de creación de cuenta
   };
+  const rutaNuevaAgua = () => {
+    navigation.navigate('Productos'); // Navegar a la pantalla de creación de cuenta
+  };
   return (
     // View para agregar el AppBar
     <View style={styles.mainContainer}>
@@ -71,6 +74,12 @@ export default function Ventas() {
         <TouchableOpacity activeOpacity={.8}>
           <View style={styles.buttonBox2}>
             <Text>Cierre de Caja</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity activeOpacity={.8} onPress={rutaNuevaAgua}>
+          <View style={styles.buttonBox3}>
+            <Text>Agregar</Text>
           </View>
         </TouchableOpacity>
 
@@ -258,6 +267,16 @@ const styles = StyleSheet.create({
     height: 40,
     marginTop: -40,
     left: 70,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonBox3: {
+    backgroundColor: '#16C1C8',
+    width: 120,
+    height: 40,
+    marginTop: -40,
+    left: 210,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
