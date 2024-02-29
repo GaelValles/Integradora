@@ -15,34 +15,24 @@ const styles = StyleSheet.create({
     aspectRatio: 1, // Relación de aspecto 2:1
     marginTop: '35%',
   },
-
-  formularioContainer:{
-    flex: 1,
-    position:'absolute',
-    width:'101%',
-    height:'50%',
-    borderColor:'#000000',
-    alignItems:'center',
-    marginLeft:'-6%',
-  },
   div:{
+    position:'absolute',
     backgroundColor:'white',
-    flex:1,
     borderColor:'#000000',
     alignItems:'center',
-    marginTop:'-30%',
-    height:'100%'
+    marginTop:'80%',
+    height:'70%',
+    width:'100%'
   },
   titulo:{
     fontSize:35,
     fontWeight:'bold',
-    marginTop:'-30%'
   },
   subtitulo:{
     fontSize:20,
     marginTop:20,
     color:'#474747',
-    marginTop:'-4%',
+
   },
   input: {
     width: '75%',
@@ -64,7 +54,6 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 20,
     height: 20,
-
     borderColor:'black'
   },
   button: {
@@ -77,7 +66,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 20,
     marginTop: 20,
-    color: '#fff',
+    color: 'white',
     borderColor:'#0000',
     },
   ingresaConText: {
@@ -152,7 +141,7 @@ const Login = () => {
   return (
     <View style={{ flex: 1 }}>
 
-      <ImageBackground source={fondo} resizeMode="cover" style={{ flex: 1 }}>
+      <ImageBackground source={fondo} resizeMode="cover">
           <View style={styles.logoContainer}>
             <Image source={logo} style={styles.logo} />
           </View>
