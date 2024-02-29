@@ -1,10 +1,10 @@
 // Modificado por Adrian
 
-import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, TextInput } from "react-native";
 import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
-
-export default function RegistroProductos() {
+import TopBar from "../components/TopBar";
+export default function NuevosProductos() {
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isChecked3, setIsChecked3] = useState(false);
@@ -38,6 +38,9 @@ export default function RegistroProductos() {
   };
 
   return (
+        // View para agregar el AppBar
+    <View style={styles.mainContainer}>
+    <TopBar />
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <Text style={styles.title}>Editar precios</Text>
@@ -49,22 +52,11 @@ export default function RegistroProductos() {
         <View style={styles.textView}>
           <Text style={styles.text}>Cantidad</Text>
           <Text style={styles.textSub}>Purificada</Text>
-          <TouchableOpacity activeOpacity={.8}>
-            <View style={styles.btnAgregar}>
-              <Image
-                style={styles.logo}
-                source={require('../../assets/iconos/botonAgregar.png')}
-              />
-            </View>
-          </TouchableOpacity>
         </View>
         <View style={styles.flexBox}>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$30.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Garrafon</Text>
@@ -78,11 +70,8 @@ export default function RegistroProductos() {
             </View>
           </View>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$20.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Medio Garrafon</Text>
@@ -96,11 +85,8 @@ export default function RegistroProductos() {
             </View>
           </View>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$10.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Galon</Text>
@@ -116,22 +102,11 @@ export default function RegistroProductos() {
         </View>
         <View style={styles.textView}>
           <Text style={styles.textSub}>Alcalina</Text>
-          <TouchableOpacity activeOpacity={.8}>
-            <View style={styles.btnAgregar}>
-              <Image
-                style={styles.logo}
-                source={require('../../assets/iconos/botonAgregar.png')}
-              />
-            </View>
-          </TouchableOpacity>
         </View>
         <View style={styles.flexBox}>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$35.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Garrafon</Text>
@@ -145,11 +120,8 @@ export default function RegistroProductos() {
             </View>
           </View>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$25.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Medio Garrafon</Text>
@@ -163,11 +135,8 @@ export default function RegistroProductos() {
             </View>
           </View>
           <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
             <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+              <TextInput style={styles.textCount} placeholder="$15.00"></TextInput>
             </View>
             <View style={styles.textLabel}>
               <Text>Galon</Text>
@@ -183,10 +152,15 @@ export default function RegistroProductos() {
         </View>
       </ScrollView>
     </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  mainContainer:{
+    flex: 1,
+    flexDirection: 'column',
+    },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -194,7 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    marginTop: 110,
+    marginTop: 30,
   },
   title: {
     fontSize: 30,
@@ -222,56 +196,35 @@ const styles = StyleSheet.create({
   },
   textSub: {
     marginTop: 15,
+    marginBottom: 30,
     color: '#16C1C8',
     fontWeight: '900'
-  },
-  btnAgregar: {
-    backgroundColor: '#16C1C8',
-    marginTop: 5,
-    left: 140,
-    padding: 5,
-    borderRadius: 30
-  },
-  logo: {
-    width: 25,
-    height: 25
   },
   flexBox: {
     flexDirection: "row",
     flexWrap: "wrap",
     padding: 2,
-    marginBottom: 30
+    marginBottom: 20
   },
   box: {
     backgroundColor: '#16C1C8',
     height: 170,
-    width: '60%',
     flex: 1,
     margin: 3,
     borderRadius: 20
-  },
-  touchableOpacity: {
-    backgroundColor: '#49CCCC',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  arrow: {
-    fontSize: 20,
   },
   boxCount: {
     backgroundColor: '#fff',
     marginRight: 15,
     marginLeft: 15,
+    marginTop: 20,
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10
   },
   textCount: {
-    fontSize: 30,
+    fontSize: 25,
   },
   textLabel: {
     top: 15,
@@ -281,7 +234,7 @@ const styles = StyleSheet.create({
   },
   check: {
     backgroundColor: '#D9D9D9',
-    top: 32,
+    marginTop: 50,
     left: 40,
     height: 30,
     width: 30,

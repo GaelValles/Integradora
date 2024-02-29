@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, SafeAreaView, StyleSheet, View, FlatList } from 'react-native';
-
+import TopBar from '../components/TopBar';
 const waterData = {
   title: "Dureza de Agua",
   lastRevision: "26/01/2024 18:00",
@@ -47,6 +47,8 @@ const waterData = {
 
 export default function Dureza() {
   return (
+    <View style={styles.mainContainer}>
+    <TopBar />
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{waterData.title}</Text>
       <View style={styles.subtitleContainer}>
@@ -81,10 +83,16 @@ export default function Dureza() {
         />
       </View>
     </SafeAreaView>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer:{
+    flex: 1,
+    flexDirection: 'column',
+    },
   container: {
     flex: 1,
     justifyContent: 'center',

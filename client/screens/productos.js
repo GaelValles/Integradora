@@ -3,8 +3,9 @@
 import { View, ScrollView, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import CheckBox from "react-native-check-box";
 import React, { useState } from "react";
+import TopBar from "../components/TopBar";
 
-export default function RegistroProductos() {
+export default function Productos() {
 
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
@@ -40,82 +41,85 @@ export default function RegistroProductos() {
   const [text, setText] = useState('');
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scroll}>
-        <Text style={styles.title}>Editar precios</Text>
-        <View style={styles.viewInput}>
-          <Text style={styles.textIn}>Nombre:</Text>
-          <TextInput placeholder="Ingresa el nombre del agua" style={styles.textInput} />
-        </View>
-        <View>
-          <Text>Aqui va la grafica</Text>
-        </View>
-        <View style={styles.viewInputPh}>
-          <Text style={styles.textPh}>Ph del agua:</Text>
-          <TextInput placeholder="9.0" style={styles.textInputPh} />
-        </View>
-        <View style={styles.flexBox}>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+    <View style={styles.mainContainer}>
+      <TopBar />
+      <View style={styles.container}>
+        <ScrollView style={styles.scroll}>
+          <Text style={styles.title}>Agregar agua</Text>
+          <View style={styles.viewInput}>
+            <Text style={styles.textIn}>Nombre:</Text>
+            <TextInput placeholder="Ingresa el nombre del agua" style={styles.textInput} />
+          </View>
+          <View>
+            <Text>Aqui va la grafica</Text>
+          </View>
+          <View style={styles.viewInputPh}>
+            <Text style={styles.textPh}>Ph del agua:</Text>
+            <TextInput placeholder="9.0" style={styles.textInputPh} />
+          </View>
+          <View style={styles.flexBox}>
+            <View style={styles.box}>
+              <View style={styles.boxCount}>
+                <TextInput style={styles.textCount} placeholder="$30.00"></TextInput>
+              </View>
+              <View style={styles.textLabel}>
+                <Text>Garrafon</Text>
+              </View>
+              <View style={styles.check}>
+                <CheckBox
+                  style={styles.checkBox}
+                  onClick={() => handleCheckBoxClick(1)}
+                  isChecked={isChecked1}
+                />
+              </View>
             </View>
-            <View style={styles.textLabel}>
-              <Text>Garrafon</Text>
+            <View style={styles.box}>
+              <View style={styles.boxCount}>
+                <TextInput style={styles.textCount} placeholder="$20.00"></TextInput>
+              </View>
+              <View style={styles.textLabel}>
+                <Text>Medio Garrafon</Text>
+              </View>
+              <View style={styles.check}>
+                <CheckBox
+                  style={styles.checkBox}
+                  onClick={() => handleCheckBoxClick(2)}
+                  isChecked={isChecked2}
+                />
+              </View>
             </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(1)}
-                isChecked={isChecked1}
-              />
+            <View style={styles.box}>
+              <View style={styles.boxCount}>
+                <TextInput style={styles.textCount} placeholder="$10.00"></TextInput>
+              </View>
+              <View style={styles.textLabel}>
+                <Text>Galon</Text>
+              </View>
+              <View style={styles.check}>
+                <CheckBox
+                  style={styles.checkBox}
+                  onClick={() => handleCheckBoxClick(3)}
+                  isChecked={isChecked3}
+                />
+              </View>
             </View>
           </View>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
+          <TouchableOpacity activeOpacity={.8}>
+            <View style={styles.buttonBox3}>
+              <Text>Agregar</Text>
             </View>
-            <View style={styles.textLabel}>
-              <Text>Medio Garrafon</Text>
-            </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(2)}
-                isChecked={isChecked2}
-              />
-            </View>
-          </View>
-          <View style={styles.box}>
-            <TouchableOpacity activeOpacity={.3} style={styles.touchableOpacity}>
-              <Text style={styles.arrow}> ↑ </Text>
-            </TouchableOpacity>
-            <View style={styles.boxCount}>
-              <Text style={styles.textCount}>23</Text>
-            </View>
-            <View style={styles.textLabel}>
-              <Text>Galon</Text>
-            </View>
-            <View style={styles.check}>
-              <CheckBox
-                style={styles.checkBox}
-                onClick={() => handleCheckBoxClick(3)}
-                isChecked={isChecked3}
-              />
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -123,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    marginTop: 110,
+    marginTop: 40,
   },
   title: {
     fontSize: 30,
@@ -184,31 +188,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     padding: 2,
-    marginBottom: 30
+    marginBottom: 20,
+    marginTop: 30
   },
   box: {
     backgroundColor: '#16C1C8',
-    height: '50%',
-    width: 60,
+    height: 170,
     flex: 1,
     margin: 3,
     borderRadius: 20
-  },
-  touchableOpacity: {
-    backgroundColor: '#49CCCC',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  arrow: {
-    fontSize: 20,
   },
   boxCount: {
     backgroundColor: '#fff',
     marginRight: 15,
     marginLeft: 15,
+    marginTop: 20,
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
@@ -225,7 +219,7 @@ const styles = StyleSheet.create({
   },
   check: {
     backgroundColor: '#D9D9D9',
-    top: 32,
+    marginTop: 50,
     left: 40,
     height: 30,
     width: 30,
@@ -235,5 +229,15 @@ const styles = StyleSheet.create({
   },
   checkBox: {
     backgroundColor: '#fff'
-  }
+  },
+  buttonBox3: {
+    backgroundColor: '#16C1C8',
+    width: 120,
+    height: 40,
+    marginTop: 140,
+    left: 210,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 })  
