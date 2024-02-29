@@ -12,40 +12,56 @@ const logo = require('../../assets/logo.png');
 const styles = StyleSheet.create({
   efecto: {
     width: '100%',
-    height: '35%',
+    height: '50%',
     marginTop: 150,
   },
   container: {
-    backgroundColor: '#ffff',
-    width: 400,
-    height: 500,
-    marginTop: -50,
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
+    marginTop: '-50%',
     
+  },
+  formularioContainer:{
+  
+    position:'absolute',
+    width:'101%',
+    height:'50%',
+    borderColor:'#000000',
+    alignItems:'center',
+    marginLeft:'-6%',
   },
   div:{
     position:'absolute',
-    width:270,
-    height:400,
+    width:'100%',
+    height:'100%',
     borderColor:'#000000',
     marginLeft:'6%',
-    marginTop:235,
+    marginTop:'90%',
+  },
+  tituloContainer:{
+    position:'absolute',
+    marginLeft:'-6%',
+    width:'101%',
+    height:'15%',
+    borderColor:'#000000',
+    alignItems:'center',
+    marginTop:'-30%',
   },
   titulo:{
-    fontSize:40,
+    fontSize:35,
     fontWeight:'bold',
-    marginLeft:50
+
   },
   subtitulo:{
     fontSize:20,
-    marginLeft:85,
     marginTop:20,
     color:'#474747'
   },
   input: {
-    width: '100%',
+    width: '75%',
     height:50,
     padding: 5,
-    marginLeft:'7%',
     marginBottom: 10,
     marginTop:20,
     borderColor: '#DBF2EE',
@@ -55,7 +71,6 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: 'row',
-    marginLeft:'7%',
     alignItems: 'center',
     borderColor: '#DBF2EE',
     border: 3
@@ -63,11 +78,11 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 20,
     height: 20,
-    marginRight: 10,
+
     borderColor:'black'
   },
   button: {
-    width:'100%',
+    width:'75%',
     height:40,
     display: 'flex',
     alignItems: 'center',
@@ -76,22 +91,19 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 20,
     marginTop: 20,
-    marginLeft:'7%',
     color: '#fff',
     borderColor:'#0000',
     },
   ingresaConText: {
     fontSize: 16,
     marginHorizontal: 10,
-    color: 'gray',
-
+    color: 'gray'
   },
   socialLoginContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: 200,
+    width: '80%',
     height:100,
-    marginLeft:30,
     
   },
  
@@ -100,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop:20,
     marginBottom: 10,
-    marginLeft:'10%',
+
   },
   lineSeparator: {
     flex: 1,
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
     marginLeft:'37%',
     marginTop:70,
     zIndex:2,
-    width:100,
+    width:'100%',
     height:100
   },
   logo:{
@@ -161,8 +173,11 @@ const Login = () => {
         <View style={styles.container}></View>
       </ImageBackground>
       <View style={styles.div}>
-        <Text style={styles.titulo}>Bienvenido</Text>
-        <Text style={styles.subtitulo}>Inicia sesión</Text>
+        <View style={styles.tituloContainer}>
+          <Text style={styles.titulo}>Bienvenido</Text>
+          <Text style={styles.subtitulo}>Inicia sesión</Text>
+        </View>
+        <View style={styles.formularioContainer}>
         <TextInput style={styles.input} placeholder='Nombre de usuario' />
         <TextInput style={styles.input}  secureTextEntry={true} placeholder='Contraseña' />
         <View style={styles.checkboxContainer}>
@@ -172,7 +187,7 @@ const Login = () => {
         <TouchableOpacity style={styles.button}  onPress={rutaPrincipal}>
           <Text style={{ color: '#fff' }} >Iniciar</Text>
         </TouchableOpacity>
-        <View style={{top:10, marginLeft:'10%',}}>
+        <View style={{top:10}}>
           <Text>No tienes cuenta aun? <TouchableOpacity onPress={rutaRegistrar}>
           <Text style={{ color: '#000',fontWeight:'800', top:3 }} >Regístrate</Text>
         </TouchableOpacity></Text>
@@ -190,7 +205,7 @@ const Login = () => {
           <TouchableOpacity>
             <Image source={facebook} style={styles.icono2} />
           </TouchableOpacity>
-        
+          </View>
       </View>
 
       </View>
