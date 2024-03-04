@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   headerImage: {
     width: '100%', // Ocupa todo el ancho del contenedor
-    height: 200, // Altura fija
+    height: 100, // Altura fija
     resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
   title: {
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 16,
     fontWeight: 'bold',
+    zIndex:4
   },
   rightAlign: {
     width: '100%',
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
   },
   footerImage: {
     width: '100%', // Ocupa todo el ancho del contenedor
-    height: 130, // Altura fija
+    height: 100, // Altura fija
     resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
 });
