@@ -11,20 +11,23 @@ const client = new Client(
   `sensoresintegradora ${parseInt(Math.random() * 100)}`
 );
 
-
+// Funcion para manejar los datos del broker sobre el flujo de agua
 const Flujo = () => {
 
-  // funciones para 
+  //Guardar valores del flujo recibido en un estado
   const [Flujo, setFlujo] = useState(0);
 
+  // Funcion para leer los datos desde el topic
   function onMessage(message) {
     if (message.destinationName === "/Integradora/Flujo") {
+      // Guardar en variable el dato de caracter numerico en una variable
       const receivedValue = parseInt(message.payloadString);
+      // Actualizar el valor del flujo del estado 
       setFlujo(receivedValue);
       console.log(`Valor Flujo: ${receivedValue}`);
     }
   }
-
+  // UseEffect para comprobar conexion al broker y subcripcion al topic
   useEffect(() => {
     client.connect({
       onSuccess: () => {
@@ -43,6 +46,7 @@ const Flujo = () => {
       }
     };
   }, []);
+  
   
   const [data, setData] = useState([]);
 
