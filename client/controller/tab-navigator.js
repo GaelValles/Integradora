@@ -9,7 +9,8 @@ import Dureza from '../screens/Dureza'
 import PhScreen from '../screens/PhScreen'
 import Flujo from '../screens/Flujo'
 import Ventas from '../screens/Ventas'
-import Perfil from '../screens/Perfil'
+import Perfil from '../screens/perfil_edit'
+
 const Tab = createBottomTabNavigator()
 
 const TabNav = () => {

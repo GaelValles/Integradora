@@ -10,6 +10,9 @@ const ph = require('../../assets/ph.png')
 const flujo = require('../../assets/flujo.png')
 import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
+
+
+
 const styles = StyleSheet.create({
   mainContainer:{
     flex: 1,
@@ -141,6 +144,7 @@ const PhScreen = () => {
   // const rutaRegistrarse = () => {
   //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
   // };
+  
   return (
     // View para mostrar el AppBar
     <View style={styles.mainContainer}>

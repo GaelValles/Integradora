@@ -1,16 +1,56 @@
+import { Client } from "paho-mqtt";
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
 
+
+// Conexion al broker
+const client = new Client(
+  "broker.hivemq.com",
+  Number(8000),
+  `sensoresintegradora ${parseInt(Math.random() * 100)}`
+);
+
+
 const Flujo = () => {
+
+  // funciones para 
+  const [Flujo, setFlujo] = useState(0);
+
+  function onMessage(message) {
+    if (message.destinationName === "/Integradora/Flujo") {
+      const receivedValue = parseInt(message.payloadString);
+      setFlujo(receivedValue);
+      console.log(`Valor Flujo: ${receivedValue}`);
+    }
+  }
+
+  useEffect(() => {
+    client.connect({
+      onSuccess: () => {
+        console.log("Connected!");
+        client.subscribe("/Integradora/Flujo");
+        client.onMessageArrived = onMessage;
+      },
+      onFailure: () => {
+        console.log("Failed to connect!");
+      }
+    });
+
+    return () => {
+      if (client.isConnected()) {
+        client.disconnect();
+      }
+    };
+  }, []);
   
   const [data, setData] = useState([]);
 
   const fetchDataFromDatabase = () => {
     const exampleData = [
-      { date: '2024-02-26', pH: 7.2, state: 'Base' },
-      { date: '2024-02-25', pH: 6.8, state: 'Base' },
-      { date: '2024-02-24', pH: 7.5, state: 'Base' },
+      { date: '2024-02-26', Flujo: 7.2, state: 'Base' },
+      { date: '2024-02-25', Flujo: 6.8, state: 'Base' },
+      { date: '2024-02-24', Flujo: 7.5, state: 'Base' },
     ];
     setData(exampleData);
   };
@@ -30,7 +70,7 @@ const Flujo = () => {
         <View style={styles.sensorContainer}>
           <View style={styles.sensorContainer1}>
             <View style={styles.sensorContainer2}>
-              <Text style={styles.sensorValue}>72</Text>
+              <Text style={styles.sensorValue}>{Flujo}</Text>
               <Text style={styles.sensorLabel}>ml</Text>
             </View>
           </View>
@@ -47,7 +87,7 @@ const Flujo = () => {
           renderItem={({ item }) => (
             <View style={styles.dataItem}>
               <Text style={styles.dataText}>{item.date}</Text>
-              <Text style={styles.dataText}>{item.pH}</Text>
+              <Text style={styles.dataText}>{item.Flujo}</Text>
               <Text style={styles.dataText}>{item.state}</Text>
             </View>
           )}

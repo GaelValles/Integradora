@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
-const Profile = () => {
+import { useNavigation } from '@react-navigation/native';
+const Perfil = () => {
   const navigation = useNavigation();
+
 
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -118,7 +118,7 @@ const Profile = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => navigation.navigate('OtraPagina')}
+          onPress={() => navigation.navigate('Productos')}
         >
           <Text style={styles.editButtonText}>Cancelar</Text>
         </TouchableOpacity>
@@ -127,13 +127,6 @@ const Profile = () => {
   );
 };
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Profile />
-    </NavigationContainer>
-  );
-};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -261,5 +254,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Perfil;
 
