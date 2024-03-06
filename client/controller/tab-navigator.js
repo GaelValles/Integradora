@@ -5,11 +5,11 @@ import { TabButton } from '../components/TabButton'
 
 // Importar las distinatas paginas que contendra el menu
 import Principal from '../screens/Principal'
-import Dureza from '../screens/Dureza'
 import PhScreen from '../screens/PhScreen'
 import Flujo from '../screens/Flujo'
 import Ventas from '../screens/Ventas'
 import Perfil from '../screens/perfil_edit'
+import CalidadAgua from '../screens/CalidadAgua'
 
 const Tab = createBottomTabNavigator()
 
@@ -31,10 +31,10 @@ const TabNav = () => {
         },
         {
             id: 3,
-            title: 'Dureza',
-            screen: 'Dureza',
+            title: 'Calidad',
+            screen: 'Calidad',
             icon: 'hand-coin',
-            Component: Dureza,
+            Component: CalidadAgua,
         },
         {
             id: 4,

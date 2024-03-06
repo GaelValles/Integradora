@@ -22,7 +22,7 @@ export default function Principal() {
     navigation.navigate('Ventas'); // Navegar a la pantalla de Ventas
   };
   const rutaDureza = () => {
-    navigation.navigate('Dureza'); // Navegar a la pantalla de Dureza
+    navigation.navigate('Calidad'); // Navegar a la pantalla de Dureza
   };
 
 

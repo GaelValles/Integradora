@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, SafeAreaView, StyleSheet, View, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
+import { Client } from "paho-mqtt";
+
+// Conexion al broker
+const client = new Client(
+  "broker.hivemq.com",
+  Number(8000),
+  `sensoresintegradora ${parseInt(Math.random() * 100)}`
+);
+
+
 const waterData = {
-  title: "Dureza de Agua",
+  title: "Calidad del Agua",
   lastRevision: "26/01/2024 18:00",
   currentTime: new Date().toLocaleTimeString('en-US', { hour12: false }), // Get current time
   dataPoints: [
@@ -45,7 +55,41 @@ const waterData = {
   ],
 };
 
-export default function Dureza() {
+export default function CalidadAgua() {
+  //Guardar valores de la calidad de agua recibida en un estado
+  const [Calidad, setCalidad] = useState(0);
+
+  // Funcion para leer los datos desde el topic
+  function onMessage(message) {
+    if (message.destinationName === "/Integradora/Calidad") {
+      // Guardar en variable el dato de caracter numerico en una variable
+      const receivedValue = parseInt(message.payloadString);
+      // Actualizar el valor del Calidad del estado 
+      setCalidad(receivedValue);
+      console.log(`Valor Calidad del Agua: ${receivedValue}`);
+    }
+  }
+  // UseEffect para comprobar conexion al broker y subcripcion al topic
+  useEffect(() => {
+    client.connect({
+      onSuccess: () => {
+        console.log("Connected!");
+        client.subscribe("/Integradora/Calidad");
+        client.onMessageArrived = onMessage;
+      },
+      onFailure: () => {
+        console.log("Failed to connect!");
+      }
+    });
+
+    return () => {
+      if (client.isConnected()) {
+        client.disconnect();
+      }
+    };
+  }, []);
+
+
   return (
     <View style={styles.mainContainer}>
     <TopBar />
@@ -53,7 +97,7 @@ export default function Dureza() {
       <Text style={styles.title}>{waterData.title}</Text>
       <View style={styles.subtitleContainer}>
         <View style={styles.subtitleBackground}>
-          <Text style={[styles.subtitleText, { color: 'teal' }]}>PH: {waterData.dataPoints[0].ph}</Text>
+          <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {Calidad}</Text>
           <Text style={styles.subtitleText}>Última Revisión: {waterData.lastRevision}</Text>
         </View>
       </View>
@@ -62,11 +106,11 @@ export default function Dureza() {
         <Text style={styles.currentTime}>{waterData.currentTime}</Text>
       </View>
       <View style={styles.dataContainer}>
-        <Text style={styles.sectionTitle}>Historial de Dureza:</Text>
+        <Text style={styles.sectionTitle}>Historial de Calidad De Agua:</Text>
         <View style={styles.tableHeader}>
           <Text style={styles.columnHeader}>Hora</Text>
           <Text style={styles.columnHeader}>Fecha</Text>
-          <Text style={styles.columnHeader}>Nivel de Dureza</Text>
+          <Text style={styles.columnHeader}>Nivel de CalidadAgua</Text> 
           <Text style={styles.columnHeader}>mg/L</Text>
         </View>
         <FlatList
