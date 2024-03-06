@@ -31,12 +31,12 @@ const Flujo = () => {
   useEffect(() => {
     client.connect({
       onSuccess: () => {
-        console.log("Connected!");
-        client.subscribe("/Integradora/Flujo");
+        console.log("Conectado al broker!");
+        client.subscribe("/Integradora/ph");
         client.onMessageArrived = onMessage;
       },
       onFailure: () => {
-        console.log("Failed to connect!");
+        console.log("Fallo la conexion!");
       }
     });
 

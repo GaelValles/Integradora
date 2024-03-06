@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
+import { Client } from "paho-mqtt";
 import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 const logo = require('../../assets/logo.png')
 const flecha = require('../../assets/atras.png')
@@ -12,7 +13,96 @@ import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
 
 
+// Conexion al broker
+const client = new Client(
+  "broker.hivemq.com",
+  Number(8000),
+  `sensoresintegradora ${parseInt(Math.random() * 100)}`
+);
 
+
+
+const PhScreen = () => {
+  const [Ph, setPh] = useState(0);
+
+  // Funcion para leer los datos desde el topic
+  function onMessage(message) {
+    if (message.destinationName === "/Integradora/ph") {
+      // Guardar en variable el dato de caracter numerico en una variable
+      const receivedValue = parseInt(message.payloadString);
+      // Actualizar el valor del Ph del estado 
+      setPh(receivedValue);
+      console.log(`Valor Ph del Agua: ${receivedValue}`);
+    }
+  }
+  // UseEffect para comprobar conexion al broker y subcripcion al topic
+  useEffect(() => {
+    client.connect({
+      onSuccess: () => {
+        console.log("Conectado al broker!");
+        client.subscribe("/Integradora/ph");
+        client.onMessageArrived = onMessage;
+      },
+      onFailure: () => {
+        console.log("Fallo la conexion!");
+      }
+    });
+
+    return () => {
+      if (client.isConnected()) {
+        client.disconnect();
+      }
+    };
+  }, []);
+  // guardar las rutas en una pantalla
+  // const navigation = useNavigation();
+
+  // // Ruta para enviar a pantalla Registrarse
+  // const rutaRegistrarse = () => {
+  //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
+  // };
+  
+  return (
+    // View para mostrar el AppBar
+    <View style={styles.mainContainer}>
+    <TopBar />
+    <View>
+      
+      <Text style={styles.titulo}>Nivel de PH</Text>
+      <View style={styles.total}>
+          <Image source={flecha} style={styles.flecha} />
+      </View>
+          <View style={styles.container}>
+      <Text style={styles.title}>Historial de revisiones</Text>
+      <View style={styles.tableContainer}>
+        <View style={styles.tableRow}>
+          <Text style={styles.columnHeader}>Hora</Text>
+          <Text style={styles.columnHeader}>Fecha</Text>
+          <Text style={styles.columnHeader}>Nivel de pH</Text>
+          <Text style={styles.columnHeader}>Estado</Text>
+        </View>
+        {/* Aquí puedes colocar las filas de datos */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cell}>10:00</Text>
+          <Text style={styles.cell}>2024-02-10</Text>
+          <Text style={styles.cell}>{Ph}</Text>
+          <Text style={styles.cell}>Normal</Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={styles.cell}>12:30</Text>
+          <Text style={styles.cell}>2024-02-11</Text>
+          <Text style={styles.cell}>{Ph}</Text>
+          <Text style={styles.cell}>Anormal</Text>
+        </View>
+      </View>
+    </View>
+    
+    </View>
+    </View>
+  );
+};
+
+// Estilos de la pagina
 const styles = StyleSheet.create({
   mainContainer:{
     flex: 1,
@@ -134,55 +224,5 @@ const styles = StyleSheet.create({
     marginLeft:280
   },
 });
-
-const PhScreen = () => {
-
-  // guardar las rutas en una pantalla
-  // const navigation = useNavigation();
-
-  // // Ruta para enviar a pantalla Registrarse
-  // const rutaRegistrarse = () => {
-  //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
-  // };
-  
-  return (
-    // View para mostrar el AppBar
-    <View style={styles.mainContainer}>
-    <TopBar />
-    <View>
-      
-      <Text style={styles.titulo}>Nivel de PH</Text>
-      <View style={styles.total}>
-          <Image source={flecha} style={styles.flecha} />
-      </View>
-          <View style={styles.container}>
-      <Text style={styles.title}>Historial de revisiones</Text>
-      <View style={styles.tableContainer}>
-        <View style={styles.tableRow}>
-          <Text style={styles.columnHeader}>Hora</Text>
-          <Text style={styles.columnHeader}>Fecha</Text>
-          <Text style={styles.columnHeader}>Nivel de pH</Text>
-          <Text style={styles.columnHeader}>Estado</Text>
-        </View>
-        {/* Aquí puedes colocar las filas de datos */}
-        <View style={styles.tableRow}>
-          <Text style={styles.cell}>10:00</Text>
-          <Text style={styles.cell}>2024-02-10</Text>
-          <Text style={styles.cell}>7.0</Text>
-          <Text style={styles.cell}>Normal</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.cell}>12:30</Text>
-          <Text style={styles.cell}>2024-02-11</Text>
-          <Text style={styles.cell}>6.5</Text>
-          <Text style={styles.cell}>Anormal</Text>
-        </View>
-      </View>
-    </View>
-    
-    </View>
-    </View>
-  );
-};
 
 export default PhScreen;
