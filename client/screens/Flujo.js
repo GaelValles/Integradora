@@ -11,7 +11,7 @@ const client = new Client(
   `sensoresintegradora ${parseInt(Math.random() * 100)}`
 );
 
-// Funcion para manejar los datos del broker sobre el flujo de agua
+// Funcion para el componente de la pagina
 const Flujo = () => {
 
   //Guardar valores del flujo recibido en un estado
