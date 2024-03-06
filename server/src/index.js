@@ -1,14 +1,21 @@
 // server.js
-const express = require('express');
-const app = express();
-const port = 3000;
+const express = require("express");
 const connectDB = require('./config/conexiondb')
+const rutas = require('./routes/rutas.js')
+
+
+const app = express();
+
 connectDB();
 
-app.get('/', (req, res) => {
-  res.send('¡Hola, mundo!');
-});
+// middleware
+app.use(express.json());
+app.use('/api', rutas);
 
-app.listen(port, () => {
-  console.log(`El servidor Express está escuchando en el puerto ${port}`);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(` conectado en el puerto ${PORT}`);
 });
+// Comporbar Conexion
+console.log('Servidor Up');
