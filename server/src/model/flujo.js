@@ -9,7 +9,13 @@ const FlujoSchema = new mongoose.Schema({
         type:Number,
     },
     estado:{
-        type:String
+        type:String,
+    },
+    ph: {
+        type:Number,
+    },
+    FlujoAcumulado:{
+     type:Number,   
     }
 });
 

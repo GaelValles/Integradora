@@ -27,7 +27,12 @@ const {Ph} = require('../model/ph.js')
  }
 
 // Mostrar Registros
- exports.MostrarPh= async(req,res)=>{
-    const ph= await Ph.find()
-    res.json(ph)
+exports.MostrarPh = async (req, res) => {
+  try {
+    const ph = await Ph.find();
+    res.json(ph);
+  } catch (error) {
+    console.error('Error al obtener registros de la base de datos', error);
+    res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
+  }
 }

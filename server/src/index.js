@@ -2,6 +2,7 @@
 const express = require("express");
 const connectDB = require('./config/conexiondb')
 const rutas = require('./routes/rutas.js')
+const cors = require("cors");
 
 
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 connectDB();
 
 // middleware
+app.use(cors()); //middleware para permitir entrada desde Frontend
 app.use(express.json());
 app.use('/api', rutas);
 
