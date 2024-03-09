@@ -11,8 +11,6 @@ const ph = require('../../assets/ph.png')
 const flujo = require('../../assets/flujo.png')
 import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
-
-
 // Conexion al broker
 const client = new Client(
   "broker.hivemq.com",

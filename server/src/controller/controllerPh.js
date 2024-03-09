@@ -1,17 +1,22 @@
-const {Ph} = require('../model/ph.js')
+const { Ph } = require('../model/ph.js')
+const { DateTime } = require('luxon');
 
 
- exports.AgregarPh =async(req,res)=>{
+exports.AgregarPh = async (req, res) => {
     try {
         // Requerir los datos de PH
-        const { nivel,estado} = req.body;
-        // Crear el modelo de datos para el PH
+        const { nivel, estado } = req.body;
 
-        if(nivel==''||estado==''){
+        //cambiar el formato de fecha
+        const fechaActual = DateTime.now().setZone('America/Mexico_City');
+        const formatoFecha = fechaActual.toFormat('dd-MM-yyyy HH:mm:ss');
+        console.log(formatoFecha)
+
+        if (nivel == '' || estado == '') {
             res.status(500).json({ message: 'Se requieren parametros' });
-        }else{
+        } else {
             const ph = new Ph({
-                fecha : new Date(),
+                fecha: formatoFecha,
                 nivel,
                 estado
             });
@@ -24,15 +29,15 @@ const {Ph} = require('../model/ph.js')
         console.error(error);
         res.status(500).json({ message: 'Error al guardar el Ph' });
     }
- }
+}
 
 // Mostrar Registros
 exports.MostrarPh = async (req, res) => {
-  try {
-    const ph = await Ph.find();
-    res.json(ph);
-  } catch (error) {
-    console.error('Error al obtener registros de la base de datos', error);
-    res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
-  }
+    try {
+        const ph = await Ph.find();
+        res.json(ph);
+    } catch (error) {
+        console.error('Error al obtener registros de la base de datos', error);
+        res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
+    }
 }
