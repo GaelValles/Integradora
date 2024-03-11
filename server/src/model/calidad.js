@@ -6,7 +6,7 @@ const turbidez= new mongoose.Schema({
         type:Date,
     },
     nivel_turbidez:{
-        type:String,
+        type:Number ,
         require:true,
     },
     status:{
