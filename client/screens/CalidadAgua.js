@@ -11,49 +11,7 @@ const client = new Client(
 );
 
 
-const waterData = {
-  title: "Calidad del Agua",
-  lastRevision: "26/01/2024 18:00",
-  currentTime: new Date().toLocaleTimeString('en-US', { hour12: false }), // Get current time
-  dataPoints: [
-    {
-      ph: 120.8,
-      waterType: "Agua Dura",
-      hardnessHistory: [
-        {
-          date: "26/01/2023",
-          hardnessLevel: "Blanda",
-          poValue: "mg/1",
-        },
-        {
-          date: "26/01/2023",
-          hardnessLevel: "Blanda",
-          poValue: "mg/1",
-        },
-        {
-          date: "26/01/2023",
-          hardnessLevel: "Blanda",
-          poValue: "mg/1",
-        },
-        {
-          date: "26/01/2023",
-          hardnessLevel: "Blanda",
-          poValue: "mg/1",
-        },
-        {
-          date: "26/01/2023",
-          hardnessLevel: "Blanda",
-          poValue: "mg/1",
-        },
-      ],
-      salesFlow: {
-        unit: "Mg/L",
-        value: 60,
-      },
-    },
-    // Add more data points here...
-  ],
-};
+
 
 export default function CalidadAgua() {
   //Guardar valores de la calidad de agua recibida en un estado
@@ -67,6 +25,7 @@ export default function CalidadAgua() {
       // Actualizar el valor del Calidad del estado 
       setCalidad(receivedValue);
       console.log(`Valor Calidad del Agua: ${receivedValue}`);
+      agregarTBaDB(receivedValue)
     }
   }
   // UseEffect para comprobar conexion al broker y subcripcion al topic
@@ -74,7 +33,7 @@ export default function CalidadAgua() {
     client.connect({
       onSuccess: () => {
         console.log("Conectado al broker!");
-        client.subscribe("/Integradora/ph");
+        client.subscribe("/Integradora/Calidad");
         client.onMessageArrived = onMessage;
       },
       onFailure: () => {
@@ -89,21 +48,48 @@ export default function CalidadAgua() {
     };
   }, []);
 
+  // funcion para mandar los datos a la api
+  async function agregarTBaDB(nuevaCalidad) {
+    try {
+     console.log("dato en la funcion",nuevaCalidad)
+      // Enviar los datos a la api
+      const response = await fetch('http://localhost:3000/api/agregarCalidad', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nivel_turbidez: nuevaCalidad,
+          status: true,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        console.log('Calidad guardado correctamente en la base de datos', data.Calidad);
+      } else {
+        console.error('Error al guardar en la base de datos', data.message);
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud al servidor', error);
+    }
+  }
 
   return (
     <View style={styles.mainContainer}>
     <TopBar />
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{waterData.title}</Text>
+      <Text style={styles.title}></Text>
       <View style={styles.subtitleContainer}>
         <View style={styles.subtitleBackground}>
           <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {Calidad}</Text>
-          <Text style={styles.subtitleText}>Última Revisión: {waterData.lastRevision}</Text>
+          <Text style={styles.subtitleText}>Última Revisión: </Text>
         </View>
       </View>
       <View style={styles.currentTimeContainer}>
         <Text style={styles.currentTimeTitle}>Hora de Introducción de Datos:</Text>
-        <Text style={styles.currentTime}>{waterData.currentTime}</Text>
+        <Text style={styles.currentTime}></Text>
       </View>
       <View style={styles.dataContainer}>
         <Text style={styles.sectionTitle}>Historial de Calidad De Agua:</Text>
@@ -113,7 +99,7 @@ export default function CalidadAgua() {
           <Text style={styles.columnHeader}>Nivel de CalidadAgua</Text> 
           <Text style={styles.columnHeader}>mg/L</Text>
         </View>
-        <FlatList
+        {/* <FlatList
           data={waterData.dataPoints[0].hardnessHistory}
           renderItem={({ item }) => (
             <View style={styles.tableRow}>
@@ -124,7 +110,7 @@ export default function CalidadAgua() {
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}
-        />
+        /> */}
       </View>
     </SafeAreaView>
     </View>

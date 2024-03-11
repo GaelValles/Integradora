@@ -57,11 +57,14 @@ const PhScreen = () => {
   // funcion para mandar los datos a la api
   async function agregarPhaDB(nuevoPh) {
     try {
-      // definir el estado del ph segun el dato recibido del sensor
+
       let estado;
-      if (nuevoPh < 5) {
+      // condicion para determinar el estado del ph segun el valor recibido
+      if (nuevoPh<0){
+        estado='No';
+      } else if (nuevoPh>0 && nuevoPh < 5) {
         estado = 'Ácido';
-      } else if (nuevoPh >= 5 && nuevoPh < 7) {
+      } else if (nuevoPh >= 5 && nuevoPh <= 7) {
         estado = 'Neutro';
       } else {
         estado = 'Alcalina';
@@ -73,7 +76,7 @@ const PhScreen = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nivel: nuevoPh,
+          nivel_ph: nuevoPh,
           estado: estado,
         }),
       });
