@@ -5,19 +5,19 @@ const { DateTime } = require('luxon');
 exports.AgregarPh = async (req, res) => {
     try {
         // Requerir los datos de PH
-        const { nivel, estado } = req.body;
+        const { nivel_ph, estado } = req.body;
 
         //cambiar el formato de fecha
-        const fechaActual = DateTime.now().setZone('America/Mexico_City');
-        const formatoFecha = fechaActual.toFormat('dd-MM-yyyy HH:mm:ss');
-        console.log(formatoFecha)
+        // const fechaActual = DateTime.now().setZone('America/Mexico_City');
+        // const formatoFecha = fechaActual.toFormat('dd-MM-yyyy HH:mm:ss');
+        // console.log(formatoFecha)
 
-        if (nivel == '' || estado == '') {
+        if (nivel_ph == '' || estado == '') {
             res.status(500).json({ message: 'Se requieren parametros' });
         } else {
             const ph = new Ph({
-                fecha: formatoFecha,
-                nivel,
+                fecha: new Date(),
+                nivel_ph,
                 estado
             });
             console.log(ph);
