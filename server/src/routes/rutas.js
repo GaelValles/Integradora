@@ -2,6 +2,7 @@ const express = require("express");
 const controladorUser = require('../controller/controllerUser.js')
 const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
+const controladorFlujo = require('../controller/controllerFlujo.js')
 const router =express.Router();
 
 // Rutas pora modificaciones
@@ -15,6 +16,8 @@ router.get('/agregarPh',controladorPh.MostrarPh); //Mostrar Registros de nivel d
 router.post('/agregarCalidad',controladorCalidad.AgregarCalidad) //Registrar datos de Calidad de agua
 router.get('/agregarCalidad',controladorCalidad.MostrarCalidad) //Mostrar datos de calidad de agua
 
+router.post('/agregarFlujo',controladorFlujo.AgregarFlujo) //Registrar datos a de Flujo
+router.get('/agregarFlujo',controladorFlujo.MostrarFlujo) //Mostar datos de flujo
 
 
 module.exports = router;
