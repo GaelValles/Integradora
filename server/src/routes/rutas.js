@@ -1,4 +1,5 @@
 const express = require("express");
+const login = require('../controller/login.js')
 const controladorUser = require('../controller/controllerUser.js')
 const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
