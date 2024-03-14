@@ -3,24 +3,34 @@ const bcrypt = require("bcrypt");
 
 // Creacion del modelo de usuario
 const UserSchema = new mongoose.Schema({
-    nombres: {
-        type: String,
+    nombres:{
+        type:String,
     },
-    apPaterno: {
-        type: String,
+    apellidoPaterno:{
+        type:String,
     },
-    apMaterno: {
-        type: String,
+    apellidoMaterno:{
+        type:String,
     },
-    correo: {
-        type: String,
-        required: true,
-        unique: true,
+    telefono:{
+        type:String,
+        unique:true
     },
-    password: {
-        type: String,
-        required: true,
-
+    correo:{
+        type:String,
+        unique:true,
+    },
+    password:{
+        type:String,
+        required:true,
+    },
+    estatus:{
+        type:Boolean,
+        required:true
+    },
+    fechaEliminacion:{
+        type:Date,
+        default:null
     }
 })
 
