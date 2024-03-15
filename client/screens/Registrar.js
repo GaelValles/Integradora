@@ -18,13 +18,14 @@ const Registrar = () => {
       console.log(formData);
       const res = await regis(formData);
       console.log(res);
+      
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleChange = (name, value) => {
-    setFormData({ ...formData, [name]: value });
+    // setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -63,6 +64,7 @@ const Registrar = () => {
         <TextInput
         style={styles.input}
         placeholder="Telefono"
+        maxLength='10'
         onChangeText={(text) => handleChange('telefono', text)} 
       />
        <TextInput
