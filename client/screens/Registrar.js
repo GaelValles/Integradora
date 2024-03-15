@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { regis } from '../api/auth';
 
 const Registrar = () => {
-  const [nombre, setNombre] = useState('');
-  const [apellidoPaterno, setApellidoPaterno] = useState('');
-  const [apellidoMaterno, setApellidoMaterno] = useState('');
-  const [correoElectronico, setCorreoElectronico] = useState('');
-  const [contraseña, setContraseña] = useState('');
+  const [formData, setFormData] = useState({});
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
-
   const navigation = useNavigation();
 
   const rutaIniciarSesion = () => {
     navigation.navigate('Login');
   };
-  
-  const handleSubmit = () => {
-    console.log('Formulario enviado:', { nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contraseña, aceptarTerminos });
+
+  const handleSubmit = async () => {
+    try {
+      console.log(formData);
+      const res = await regis(formData);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -29,43 +36,42 @@ const Registrar = () => {
       />
       
       <TouchableOpacity style={[styles.secondaryButton, styles.rightAlign]} onPress={rutaIniciarSesion}>
-  <Text style={styles.secondaryButtonText}>Iniciar Sesión</Text>
-</TouchableOpacity>
-
+        <Text style={styles.secondaryButtonText}>Iniciar Sesión</Text>
+      </TouchableOpacity>
 
       <Text style={styles.title}>Registro</Text>
       <TextInput
         style={styles.input}
-        placeholder="Nombre"
-        value={nombre}
-        onChangeText={text => setNombre(text)}
+        placeholder="Nombre de usuario"
+        onChangeText={(text) => handleChange('nombres', text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Apellido Paterno"
-        value={apellidoPaterno}
-        onChangeText={text => setApellidoPaterno(text)}
+        onChangeText={(text) => handleChange('apellidoPaterno', text)}
       />
-      <TextInput
+       <TextInput
         style={styles.input}
         placeholder="Apellido Materno"
-        value={apellidoMaterno}
-        onChangeText={text => setApellidoMaterno(text)}
+        onChangeText={(text) => handleChange('apellidoMaterno', text)}
       />
-      <TextInput
+       <TextInput
         style={styles.input}
-        placeholder="Correo Electrónico"
-        value={correoElectronico}
-        onChangeText={text => setCorreoElectronico(text)}
+        placeholder="Correo electrónico"
+        onChangeText={(text) => handleChange('correo', text)} 
       />
-      <TextInput
+        <TextInput
         style={styles.input}
-        placeholder="Contraseña"
+        placeholder="Telefono"
+        onChangeText={(text) => handleChange('telefono', text)} 
+      />
+       <TextInput
+        style={styles.input}
         secureTextEntry={true}
-        value={contraseña}
-        onChangeText={text => setContraseña(text)}
+        placeholder="Contraseña"
+        onChangeText={(text) => handleChange('password', text)}
       />
-      <View style={styles.termsContainer}>
+          <View style={styles.termsContainer}>
         <TouchableOpacity
           style={styles.checkbox}
           onPress={() => setAceptarTerminos(!aceptarTerminos)}>
@@ -77,7 +83,7 @@ const Registrar = () => {
         style={styles.button}
         onPress={handleSubmit}
         disabled={!aceptarTerminos}>
-        <Text style={[styles.buttonText, styles.buttonTextRight]} onPress={rutaIniciarSesion}>Registrarse</Text>
+        <Text style={[styles.buttonText, styles.buttonTextRight]}>Registrarse</Text>
       </TouchableOpacity>
 
       {/* Footer */}
@@ -90,6 +96,9 @@ const Registrar = () => {
     </View>
   );
 };
+
+
+
 
 const styles = StyleSheet.create({
   container: {
