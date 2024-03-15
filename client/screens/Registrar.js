@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+// import axios from 'axios';
 import { regis } from '../api/auth';
 
 const Registrar = () => {
