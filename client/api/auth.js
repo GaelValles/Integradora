@@ -1,5 +1,6 @@
 import axios from 'axios';
 
-const api = "http://localhost:3000/api";
+// Cambiar la ip segun la red local que utilices
+const api = "http://192.168.1.14:3000/api";
 
 export const regis = async (User) => axios.post(`${api}/registrarse`, User);
