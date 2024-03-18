@@ -3,12 +3,16 @@ const {User} = require('../model/users.js')
 // Registrar un nuevo usuario
 exports.registrar= async (req,res)=>{
     try {
-        const { nombres, apellidoPaterno, apellidoMaterno,telefono, correo, password} = req.body;
+        const { nombres, apellidos,telefono, correo, password} = req.body;
+
+        const userFound = await User.findOne({correo});
+        const numberFound = await User.findOne({telefono});
+
+        if (userFound || numberFound) return res.status(400).json(["la cuenta ya esta en uso"]);
         // Crear el usuario 
         const usuario = new User({
             nombres,
-            apellidoPaterno,
-            apellidoMaterno,
+            apellidos,
             telefono,
             correo,
             password,

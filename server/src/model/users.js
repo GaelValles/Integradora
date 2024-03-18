@@ -6,10 +6,7 @@ const UserSchema = new mongoose.Schema({
     nombres:{
         type:String,
     },
-    apellidoPaterno:{
-        type:String,
-    },
-    apellidoMaterno:{
+    apellidos:{
         type:String,
     },
     telefono:{
