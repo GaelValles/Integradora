@@ -25,7 +25,7 @@ const Registrar = () => {
   };
 
   const handleChange = (name, value) => {
-    // setFormData({ ...formData, [name]: value });
+     setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -64,7 +64,6 @@ const Registrar = () => {
         <TextInput
         style={styles.input}
         placeholder="Telefono"
-        maxLength='10'
         onChangeText={(text) => handleChange('telefono', text)} 
       />
        <TextInput
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
   },
   footerImage: {
     width: '100%', // Ocupa todo el ancho del contenedor
-    height: 100, // Altura fija
+    height: '10%', // Altura fija
     resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
 });
