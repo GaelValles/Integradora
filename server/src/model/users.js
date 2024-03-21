@@ -24,25 +24,25 @@ const UserSchema = new mongoose.Schema({
     estatus:{
         type:Boolean,
         required:true
-    },
-    fechaEliminacion:{
-        type:Date,
-        default:null
     }
+    // fechaEliminacion:{
+    //     type:Date,
+    //     default:null
+    // }
 })
 
 
-UserSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        return next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
-UserSchema.methods.comparePassword = async function (password) {
-    return bcrypt.compare(password, this.password);
-};
+// UserSchema.pre("save", async function (next) {
+//     if (!this.isModified("password")) {
+//         return next();
+//     }
+//     const salt = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password, salt);
+//     next();
+// });
+// UserSchema.methods.comparePassword = async function (password) {
+    // return bcrypt.compare(password, this.password);
+// };
 
 const User = mongoose.model('User', UserSchema);
 module.exports = { User };

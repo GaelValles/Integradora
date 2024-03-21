@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import { TOKEN_SECRET } from "../config/config";
-export function createAccessToken(payload) {
+const jwt = require('jsonwebtoken');
+const { TOKEN_SECRET } = require ("../config/config");
+exports.createAccessToken=(payload)=> {
     return new Promise((resolve, reject) => {
         jwt.sign(
             payload,
