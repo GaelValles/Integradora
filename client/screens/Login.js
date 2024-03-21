@@ -69,39 +69,6 @@ const styles = StyleSheet.create({
     color: 'white',
     borderColor:'#0000',
     },
-  ingresaConText: {
-    fontSize: 16,
-    marginHorizontal: 10,
-    color: 'gray'
-  },
-  socialLoginContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    height:100,
-    
-  },
- 
-  lineContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop:20,
-    marginBottom: 10,
-
-  },
-  lineSeparator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: 'gray',
-  },
-  icono1:{
-    width:60,
-    height:50,
-  },
-  icono2:{
-    width:50,
-    height:50,
-  },
   logoContainer:{
     position:'absolute',
 
@@ -166,19 +133,7 @@ const Login = () => {
         </TouchableOpacity></Text>
          
         </View>
-        <View style={styles.lineContainer}>
-          <View style={styles.lineSeparator} />
-          <Text style={styles.ingresaConText}>O continua con:</Text>
-          <View style={styles.lineSeparator} />
-        </View>
-        <View style={styles.socialLoginContainer}>
-          <TouchableOpacity>
-            <Image source={google} style={styles.icono1} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={facebook} style={styles.icono2} />
-          </TouchableOpacity>
-          </View>
+      
       </View>
 
      
