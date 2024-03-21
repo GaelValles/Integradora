@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useNavigation } from '@react-navigation/native';
 // import axios from 'axios';
 import { regis } from '../api/auth';
+import { set } from 'mongoose';
 
 const Registrar = () => {
   const [formData, setFormData] = useState({});
@@ -24,10 +25,13 @@ const Registrar = () => {
   };
 
   const handleChange = (name, value) => {
+    console.log('valor de password 1:',password1)
     if (name === 'password' && value.length < 6) {
       return;
     }
-    setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [name]: value });
+    
+    
   };
 
   return (
@@ -45,12 +49,12 @@ const Registrar = () => {
       <Text style={styles.title}>Registro</Text>
       <TextInput
         style={styles.input}
-        placeholder="Nombre de usuario"
+        placeholder="Nombre(s)"
         onChangeText={(text) => handleChange('nombres', text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Apellido Paterno"
+        placeholder="Apellido(s)"
         onChangeText={(text) => handleChange('apellidos', text)}
       />
       <TextInput
@@ -69,6 +73,13 @@ const Registrar = () => {
         secureTextEntry={true}
         placeholder="Contraseña"
         onChangeText={(text) => handleChange('password', text)}
+      />
+      {/* input para confirmar password */}
+      <TextInput
+        style={styles.input}
+        secureTextEntry={true}
+        placeholder="Confirmar Contraseña"
+        onChangeText={(text) => handleChange('passwordConfirmada', text)}
       />
       <View style={styles.termsContainer}>
         <TouchableOpacity
