@@ -5,3 +5,5 @@ import axios from 'axios';
 const api = "http://192.168.1.14:3000/api";
 
 export const regis = async (User) => axios.post(`${api}/registrarse`, User);
+
+export const login= async(User)=> axios.post(`${api}/login`, User)

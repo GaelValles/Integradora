@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useNavigation } from '@react-navigation/native';
 // import axios from 'axios';
 import { regis } from '../api/auth';
-import { set } from 'mongoose';
 
 const Registrar = () => {
   const [formData, setFormData] = useState({});
@@ -33,8 +32,6 @@ const Registrar = () => {
       return;
     }
       setFormData({ ...formData, [name]: value });
-    
-    
   };
 
   return (
