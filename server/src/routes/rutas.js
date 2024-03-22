@@ -21,6 +21,6 @@ router.get('/agregarCalidad',controladorCalidad.MostrarCalidad) //Mostrar datos 
 
 router.post('/agregarFlujo',controladorFlujo.AgregarFlujo) //Registrar datos a de Flujo
 router.get('/agregarFlujo',controladorFlujo.MostrarFlujo) //Mostar datos de flujo
-
+router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo)
 
 module.exports = router;
