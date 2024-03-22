@@ -16,6 +16,10 @@ const Registrar = () => {
 
   const handleSubmit = async () => {
     try {
+      if (formData.password !== formData.passwordConfirmada) {
+        console.error('Las contraseñas no coinciden');
+        return;
+      }
       console.log(formData);
       const res = await regis(formData);
       console.log(res)
@@ -25,7 +29,6 @@ const Registrar = () => {
   };
 
   const handleChange = (name, value) => {
-    console.log('valor de password 1:',password1)
     if (name === 'password' && value.length < 6) {
       return;
     }

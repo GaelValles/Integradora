@@ -24,7 +24,7 @@ exports.registrar = async (req, res) => {
         });
         console.log(usuario);
         await usuario.save();
-        const token = await CreateAccessToken({id:user._id});
+        const token = await CreateAccessToken({id:usuario._id});
         res.cookie('token',token);
         res.json({
           message:"usuario creado correctamente",
