@@ -43,7 +43,7 @@ const PhScreen = () => {
         client.onMessageArrived = onMessage;
       },
       onFailure: () => {
-        console.log("Fallo la conexion!");
+        console.log("Fallo la conexion al broker!");
       }
     });
 
