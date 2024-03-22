@@ -1,15 +1,17 @@
 const express = require("express");
-const login = require('../controller/login.js')
 const controladorUser = require('../controller/controllerUser.js')
 const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
 const controladorFlujo = require('../controller/controllerFlujo.js')
 const router =express.Router();
 
-// Rutas pora modificaciones
+// Rutas de login y registro
 router.post('/registrarse',controladorUser.registrar); //Registrar un nuevo usuario
 router.get('/registrarse',controladorUser.Mostrarusuario); //Ruta para mostrar los registros de usuarios
 
+router.post('/login',controladorUser.login)
+
+// Rutas de sensores
 router.post('/agregarPh',controladorPh.AgregarPh); //Registrar nivel de pH
 router.get('/agregarPh',controladorPh.MostrarPh); //Mostrar Registros de nivel de pH
 

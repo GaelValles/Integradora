@@ -1,19 +1,21 @@
-import jwt from 'jsonwebtoken';
-import { TOKEN_SECRET } from "../config/config";
-export function createAccessToken(payload) {
-    return new Promise((resolve, reject) => {
+const { TOKEN_SECRET } = require("../config/config");
+const jwt =require("jsonwebtoken")
+
+exports.CreateAccessToken=(payload)=>{
+    return new Promise((resolve,reject)=>{
         jwt.sign(
             payload,
             TOKEN_SECRET,
-            "secret123",
             {
-                expiresIn: "1d",
+                expiresIn:"1d",
             },
-            (err, token) => {
-                if (err) reject(err)
-                resolve(token)
-            }
-        );
+            (error, token) => {
+                if (error) {
+                    reject(error)
+                } else {
+                    resolve(token)
+                }
+              }      
+            )
     })
 }
-
