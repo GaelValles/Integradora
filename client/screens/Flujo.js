@@ -80,18 +80,6 @@ const Flujo = () => {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   const [data, setData] = useState([]);
 
   const fetchDataFromDatabase = () => {
@@ -125,6 +113,7 @@ const Flujo = () => {
           </View>
           <View style={styles.sensorContainer3}></View>
         </View>
+        {/* Tabla para el historial */}
         <View style={styles.tableContainer}>
           <View style={[styles.dataItem, styles.header]}>
             <Text style={[styles.dataText, styles.headerText]}>Historial</Text>

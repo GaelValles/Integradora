@@ -100,8 +100,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#00BCC5',
     paddingVertical: 5,
-    marginBottom: 9,
-
+    marginBottom: 20,
   },
 
   editButton: {
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    marginTop: 10,
+    marginTop: 30,
   },
   editButtonText: {
     color: 'white',

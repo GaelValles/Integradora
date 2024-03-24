@@ -76,11 +76,25 @@ export default function CalidadAgua() {
     }
   }
 
+
+  const [data, setData] = useState([]);
+
+  const fetchDataFromDatabase = () => {
+    const exampleData = [
+      { date: '2024-02-26', Flujo: 7.2, state: 'Base' },
+      { date: '2024-02-25', Flujo: 6.8, state: 'Base' },
+      { date: '2024-02-24', Flujo: 7.5, state: 'Base' },
+    ];
+    setData(exampleData);
+  };
+
+  useEffect(() => {
+    fetchDataFromDatabase();
+  }, []);
   return (
     <View style={styles.mainContainer}>
     <TopBar />
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}></Text>
       <View style={styles.subtitleContainer}>
         <View style={styles.subtitleBackground}>
           <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {Calidad}</Text>
@@ -91,27 +105,34 @@ export default function CalidadAgua() {
         <Text style={styles.currentTimeTitle}>Hora de Introducción de Datos:</Text>
         <Text style={styles.currentTime}></Text>
       </View>
-      <View style={styles.dataContainer}>
-        <Text style={styles.sectionTitle}>Historial de Calidad De Agua:</Text>
-        <View style={styles.tableHeader}>
-          <Text style={styles.columnHeader}>Hora</Text>
-          <Text style={styles.columnHeader}>Fecha</Text>
-          <Text style={styles.columnHeader}>Nivel de CalidadAgua</Text> 
-          <Text style={styles.columnHeader}>mg/L</Text>
+      <View style={styles.container}>
+        {/* Tabla para mostrar historial de Calidad de agua */}
+        <View style={styles.tableContainer}>
+          <View style={[styles.dataItem, styles.header]}>
+            <Text style={[styles.dataText, styles.headerText]}>Historial</Text>
+          </View>
+          <FlatList
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.dataItem}>
+                <Text style={styles.dataText}>{item.date}</Text>
+                <Text style={styles.dataText}>{item.Flujo}</Text>
+                <Text style={styles.dataText}>{item.state}</Text>
+              </View>
+            )}
+            ListHeaderComponent={
+              <View style={[styles.dataItem, styles.header]}>
+                <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
+                <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
+                <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
+              </View>
+            }
+          />
         </View>
-        {/* <FlatList
-          data={waterData.dataPoints[0].hardnessHistory}
-          renderItem={({ item }) => (
-            <View style={styles.tableRow}>
-              <Text style={styles.tableData}>{item.date}</Text>
-              <Text style={styles.tableData}>{item.date}</Text>
-              <Text style={styles.tableData}>{item.hardnessLevel}</Text>
-              <Text style={styles.tableData}>{item.poValue}</Text>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        /> */}
+
       </View>
+      
     </SafeAreaView>
     </View>
 
@@ -137,6 +158,7 @@ const styles = StyleSheet.create({
   },
   subtitleContainer: {
     alignItems: 'center',
+    marginTop:20
   },
   subtitleBackground: {
     backgroundColor: 'cyan',
@@ -148,6 +170,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 5,
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  titleTable: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  dataItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    // borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  dataText: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  header: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    fontWeight: 'bold',
+  },
+  headerText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  tableContainer: {
+    flex: 1,
+    marginTop: 50,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.50,
+    shadowRadius: 6.84,
+    elevation: 7,
   },
   currentTimeContainer: {
     alignItems: 'center',
@@ -161,38 +228,5 @@ const styles = StyleSheet.create({
   currentTime: {
     fontSize: 16,
     marginBottom: 5,
-  },
-  dataContainer: {
-    marginTop: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#ddd',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-  },
-  columnHeader: {
-    fontWeight: 'bold',
-    flex: 1,
-    textAlign: 'center',
-  },
-  tableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  tableData: {
-    flex: 1,
-    textAlign: 'center',
   },
 });

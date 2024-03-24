@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Client } from "paho-mqtt";
-import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, FlatList } from 'react-native';
 const logo = require('../../assets/logo.png')
 const flecha = require('../../assets/atras.png')
 const user = require('../../assets/user.png')
@@ -60,9 +60,9 @@ const PhScreen = () => {
 
       let estado;
       // condicion para determinar el estado del ph segun el valor recibido
-      if (nuevoPh<0){
-        estado='No';
-      } else if (nuevoPh>0 && nuevoPh < 5) {
+      if (nuevoPh < 0) {
+        estado = 'No';
+      } else if (nuevoPh > 0 && nuevoPh < 5) {
         estado = 'Ácido';
       } else if (nuevoPh >= 5 && nuevoPh <= 7) {
         estado = 'Neutro';
@@ -103,42 +103,52 @@ const PhScreen = () => {
   //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
   // };
 
+  const [data, setData] = useState([]);
+
+  const fetchDataFromDatabase = () => {
+    const exampleData = [
+      { date: '2024-02-26', Flujo: 7.2, state: 'Base' },
+      { date: '2024-02-25', Flujo: 6.8, state: 'Base' },
+      { date: '2024-02-24', Flujo: 7.5, state: 'Base' },
+    ];
+    setData(exampleData);
+  };
+
+  useEffect(() => {
+    fetchDataFromDatabase();
+  }, []);
   return (
     // View para mostrar el AppBar
     <View style={styles.mainContainer}>
       <TopBar />
-      <View>
-
-        <Text style={styles.titulo}>Nivel de PH</Text>
-        <View style={styles.total}>
-          <Image source={flecha} style={styles.flecha} />
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>Historial de revisiones</Text>
-          <View style={styles.tableContainer}>
-            <View style={styles.tableRow}>
-              <Text style={styles.columnHeader}>Hora</Text>
-              <Text style={styles.columnHeader}>Fecha</Text>
-              <Text style={styles.columnHeader}>Nivel de pH</Text>
-              <Text style={styles.columnHeader}>Estado</Text>
-            </View>
-            {/* Aquí puedes colocar las filas de datos */}
-            <View style={styles.tableRow}>
-              <Text style={styles.cell}>10:00</Text>
-              <Text style={styles.cell}>2024-02-10</Text>
-              <Text style={styles.cell}>{Ph}</Text>
-              <Text style={styles.cell}>Normal</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.cell}>12:30</Text>
-              <Text style={styles.cell}>2024-02-11</Text>
-              <Text style={styles.cell}>{Ph}</Text>
-              <Text style={styles.cell}>Anormal</Text>
-            </View>
+      <View style={styles.container}>
+        {/* Tabla para mostrar historial de PH */}
+        <View style={styles.tableContainer}>
+          <View style={[styles.dataItem, styles.header]}>
+            <Text style={[styles.dataText, styles.headerText]}>Historial</Text>
           </View>
+          <FlatList
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.dataItem}>
+                <Text style={styles.dataText}>{item.date}</Text>
+                <Text style={styles.dataText}>{item.Flujo}</Text>
+                <Text style={styles.dataText}>{item.state}</Text>
+              </View>
+            )}
+            ListHeaderComponent={
+              <View style={[styles.dataItem, styles.header]}>
+                <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
+                <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
+                <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
+              </View>
+            }
+          />
         </View>
 
       </View>
+
     </View>
   );
 };
@@ -149,120 +159,50 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  header: {
-    height: 80
-  },
-  atras: {
-    width: 50,
-    height: 50,
-    marginTop: 25,
-    marginLeft: 10
-  },
-  logo: {
-    width: 50,
-    height: 40,
-    marginLeft: 155,
-    marginTop: -45
-  },
-  user: {
-    width: 40,
-    height: 40,
-    marginLeft: 290,
-    marginTop: -45
-  },
-  titulo: {
-    fontSize: 30,
-    marginLeft: '25%',
-    marginTop: '5%'
-  },
-  total: {
-    width: 200,
-    height: 120,
-    marginLeft: 75,
-    marginTop: 20,
-    borderTopRightRadius: 100,
-    borderTopLeftRadius: 100,
-    borderTopColor: 'yellow',
-    borderLeftColor: 'green',
-    borderRightColor: 'red',
-    borderBottomColor: 'white',
-    borderWidth: 20
-  },
-  flecha: {
-    width: 70,
-    height: 60,
-    marginLeft: 20,
-    marginTop: 45
-  },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    height: 200
+    padding: 20,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
+    textAlign: 'center',
   },
-  tableContainer: {
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    padding: 10,
-    height: 100
-  },
-  tableRow: {
+  dataItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
+    paddingHorizontal: 10,
     paddingVertical: 5,
+    // borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   },
-  columnHeader: {
+  dataText: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  header: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
     fontWeight: 'bold',
-    flex: 1,
+  },
+  headerText: {
     textAlign: 'center',
+    fontWeight: 'bold',
   },
-  cell: {
+  tableContainer: {
     flex: 1,
-    textAlign: 'center',
-    height: 100
-  },
-  bottomTab: {
-    height: 70,
-    width: '100%',
-    backgroundColor: '#7CD7CF',
-    marginTop: 460
-  },
-  bottomIcon1: {
-    height: 35,
-    width: 35,
-    marginTop: 15,
-    marginLeft: 40
-  },
-  bottomIcon2: {
-    height: 35,
-    width: 35,
-    marginTop: -35,
-    marginLeft: 100
-  },
-  bottomIcon3: {
-    height: 35,
-    width: 35,
-    marginTop: -35,
-    marginLeft: 160
-  },
-  bottomIcon4: {
-    height: 35,
-    width: 36,
-    marginTop: -35,
-    marginLeft: 220
-  },
-  bottomIcon5: {
-    height: 35,
-    width: 36,
-    marginTop: -35,
-    marginLeft: 280
+    marginTop: 50,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.50,
+    shadowRadius: 6.84,
+    elevation: 7,
   },
 });
 
