@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
-const Profile = () => {
+import TopBar from '../components/TopBar';
+const Perfil = () => {
   const navigation = useNavigation();
 
   const [nombre, setNombre] = useState('');
@@ -25,6 +25,8 @@ const Profile = () => {
   };
 
   return (
+    <View style={styles.mainContainer}>
+      <TopBar />
     <View style={styles.container}>
     <View style={styles.halfCircle}></View>
       <View style={styles.wheelContainer}>
@@ -119,22 +121,21 @@ const Profile = () => {
       
       </View>
     </View>
+    </View>
   );
 };
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Profile />
-    </NavigationContainer>
-  );
-};
+
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 50,
-    paddingHorizontal: 20,
+    // paddingVertical: 50,
+    // paddingHorizontal: 20,
   },
   halfCircle: {
     width: 500,
@@ -143,8 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#00BCC5',
     borderBottomLeftRadius: 10000,
     borderBottomRightRadius: 10000,
-    paddingTop: 200,
-    marginBottom: -120, // Mover hacia arriba para que se solape con el contenido
   },
   wheelContainer: {
     position: 'absolute', // Colocar encima de la media luna
@@ -257,5 +256,5 @@ optionsContainer: {
   },
 });
 
-export default App;
+export default Perfil;
 
