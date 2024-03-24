@@ -54,7 +54,9 @@ const styles = StyleSheet.create({
   boxProfile: {
     width: '100%',
     height: 110,
-    backgroundColor: '#16C1C8'
+    backgroundColor: '#16C1C8',
+   borderBottomEndRadius:100,
+   borderBottomLeftRadius:100,
   },
   image: {
     width: 30,
@@ -64,6 +66,8 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 100,
+    borderWidth:3,
+    borderColor:'#fff',
     marginTop: 40
   },
   container: {
