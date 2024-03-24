@@ -8,7 +8,7 @@ import Principal from '../screens/Principal'
 import PhScreen from '../screens/PhScreen'
 import Flujo from '../screens/Flujo'
 import Ventas from '../screens/Ventas'
-import Perfil from '../screens/perfil_edit'
+import Perfil from '../screens/Perfil'
 import CalidadAgua from '../screens/CalidadAgua'
 
 const Tab = createBottomTabNavigator()
