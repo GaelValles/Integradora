@@ -1,126 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
 const Perfil = () => {
-  const navigation = useNavigation();
-
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [horaInicio, setHoraInicio] = useState('');
-  const [horaFin, setHoraFin] = useState('');
-  const [edad, setEdad] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Matituno');
-
-  const handleGuardar = () => {
-    // Lógica para guardar los datos
-  };
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setShowOptions(false);
-  };
 
   return (
     <View style={styles.mainContainer}>
-      <TopBar />
-    <View style={styles.container}>
-    <View style={styles.halfCircle}></View>
-      <View style={styles.wheelContainer}>
-        <View style={styles.wheel}>
-          <View style={styles.profileImage}></View>
+        {/* Importar el TopBar */}
+        <TopBar />
+        {/* Seccion para colocar la imagen, nombre del usuario y rol */}
+        <View style={styles.boxProfile}>
+          {/*  */}
+          <View style={{ alignItems: 'center' }}>
+            <Image source={require('../../assets/user-perfil.jpg')} style={styles.imagePerfil} ></Image>
+            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>Nombre y apellido</Text>
+            <Text style={{fontSize:15, fontWeight:'bold', color:'grey'}}>Rol</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.label}>Nombre(s):</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Ingresa tu nombre"
-          value={nombre}
-          onChangeText={setNombre}
-        />
-        <Text style={styles.label}>Apellido(s):</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Ingresa tu apellido"
-          value={apellido}
-          onChangeText={setApellido}
-        />
-        <Text style={styles.label}>Correo electrónico:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Ingresa tu correo electrónico"
-          value={correo}
-          onChangeText={setCorreo}
-        />
-        <View style={styles.rowContainer}>
-          <Text style={styles.label}>Horario:</Text>
-          <TextInput
-            style={[styles.input, styles.smallInput]}
-            placeholder="HH"
-            value={horaInicio}
-            onChangeText={setHoraInicio}
-            keyboardType="numeric"
-          />
-          <Text style={styles.label}>:</Text>
-          <TextInput
-            style={[styles.input, styles.smallInput]}
-            placeholder="MM"
-            value={horaFin}
-            onChangeText={setHoraFin}
-            keyboardType="numeric"
-         
-          />
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => setShowOptions(!showOptions)}
-          >
-            <Text>{selectedOption}</Text>
-          </TouchableOpacity>
-          {showOptions && (
-            <View style={styles.optionsContainer}>
-              <TouchableOpacity
-                style={styles.option}
-                onPress={() => handleOptionSelect('Matituno')}
-              >
-                <Text>Matituno</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.option}
-                onPress={() => handleOptionSelect('Despertino')}
-              >
-                <Text>Despertino</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+
+        <View style={styles.container}>
+          {/* Caja para coloar los datos del usuario */}
+          <View style={styles.box}>
+            
+            <Text style={styles.label}>Correo electrónico:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="No disponible"
+              editable={false}
+            />
+            <Text style={styles.label}>Teléfono:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="No disponible"
+              editable={false}
+            />
+            {/* Boton para cerrar sesion */}
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.editButtonText}>Cerrar Sesion</Text>
+            </TouchableOpacity>
+
+          </View>
         </View>
-        <View style={styles.rowContainer}>
-          <Text style={styles.label}>Edad:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder=" edad"
-            value={edad}
-            onChangeText={setEdad}
-            keyboardType="numeric"
-          />
-          <Text style={styles.label}>Teléfono:</Text>
-          <TextInput
-            style={ styles.smallInput_1}
-            placeholder="teléfono"
-            value={telefono}
-            onChangeText={setTelefono}
-            keyboardType="numeric"
-          />
-        </View>
-        <TouchableOpacity style={styles.editButton} onPress={handleGuardar}>
-          <Text style={styles.editButtonText}>Guardar</Text>
-        </TouchableOpacity>
-      
-      </View>
-    </View>
     </View>
   );
 };
@@ -131,41 +51,28 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  boxProfile: {
+    width: '100%',
+    height: 110,
+    backgroundColor: '#16C1C8'
+  },
+  image: {
+    width: 30,
+    height: 30
+  },
+  imagePerfil: {
+    width: 140,
+    height: 140,
+    borderRadius: 100,
+    marginTop: 40
+  },
   container: {
     flex: 1,
     alignItems: 'center',
-    // paddingVertical: 50,
-    // paddingHorizontal: 20,
-  },
-  halfCircle: {
-    width: 500,
-    height: 2,
-    borderRadius: 100,
-    backgroundColor: '#00BCC5',
-    borderBottomLeftRadius: 10000,
-    borderBottomRightRadius: 10000,
-  },
-  wheelContainer: {
-    position: 'absolute', // Colocar encima de la media luna
-    top: 200, // Ajustar según sea necesario
-  },
-  wheel: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'gray',
+    marginTop: 150
   },
   box: {
     backgroundColor: 'white',
-    marginTop: 200,
     padding: 20,
     borderWidth: 1,
     borderColor: 'lightgray',
@@ -181,9 +88,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   label: {
-    fontSize: 14,
+    fontSize: 15,
     marginBottom: 5,
-    color: 'gray',
+    color: '#000',
   },
   input: {
     borderBottomWidth: 1,
@@ -192,22 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 9,
 
   },
-  rowContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  smallInput: {
-    width: '20%',
-  },
-  smallInput_1: {
-    width: '40%',
-    borderBottomWidth: 1,
-    borderBottomColor: '#00BCC5',
-    paddingVertical: 5,
-    marginBottom: 9,
-  },
+
   editButton: {
     backgroundColor: '#00BCC5',
     paddingVertical: 10,
@@ -219,40 +111,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
-  },
-  optionButton: {
-    backgroundColor: '#FFFFFF', // Fondo blanco
-    shadowColor: '#000', // Color de la sombra
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    borderBottomWidth: 2,
-    padding: 5,
-    marginBottom: 10,
-    borderRadius: 10,
-  },
-optionsContainer: {
-  position: 'absolute',
-  top: 40,
-  backgroundColor: 'white',
-  borderWidth: 1,
-  borderColor: 'lightgray',
-  borderRadius: 5,
-  padding: 2,
-  zIndex: 1,
-  left: 0, // Alinea las opciones a la izquierda
-  width: '100%', // Ancho completo
-  height: 60, // Altura fija para evitar que las opciones se muevan
-  overflow: 'hidden', // Evita el desplazamiento de la página
-  marginTop: 2, // Espacio adicional debajo del botón
-},
-
-  option: {
-    padding: 0,
   },
 });
 
