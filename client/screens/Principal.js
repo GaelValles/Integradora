@@ -1,11 +1,12 @@
-// Modificado por Adrian
-
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
-import React from 'react';
+import React,{useContext} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
+import BrokerContext from '../context/calidad.context';
 
 export default function Principal() {
+
+  const { calidad } = useContext(BrokerContext);
   const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {
     console.log(`caja ${boxNumber} presionada`);
@@ -82,7 +83,7 @@ export default function Principal() {
         <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaDureza}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>5</Text>
+              <Text style={styles.boxEnterText}>{calidad}</Text>
             </View>
             <View style={styles.boxOut}>
               <Image
@@ -90,7 +91,7 @@ export default function Principal() {
                 source={require('../../assets/iconos/durezaAgua.png')}
               />
             </View>
-            <Text style={styles.boxText}>Dureza del agua</Text>
+            <Text style={styles.boxText}>Calidad del agua</Text>
           </View>
         </TouchableOpacity>
       </View>
