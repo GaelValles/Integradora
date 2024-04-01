@@ -37,3 +37,16 @@ exports.MostrarCalidad=async(req,res)=>{
     }
    
 }
+
+exports.MostrarUltimaTurbidez = async (req, res) => {
+    try {
+        const ultimaTurbidez = await Turbidez.findOne().sort({ $natural: -1 }).select('nivel_turbidez').limit(1); // Busca el último documento y selecciona solo el campo 'nivel_ph'
+        if (!ultimaTurbidez) {
+            return res.status(404).json({ message: "No se encontraron datos de la Turbidez" });
+        }
+        res.json(ultimaTurbidez.nivel_turbidez); // Devuelve solo el valor de 'nivel_turbidez' del último documento
+    } catch (error) {
+        console.error("Error al obtener el último valor de la Turbidez:", error);
+        res.status(500).json({ message: "Error del servidor" });
+    }
+};

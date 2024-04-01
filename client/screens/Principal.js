@@ -1,14 +1,54 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
-import React,{useContext} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
-import BrokerContext from '../context/broker.context';
-
+import axios from 'axios';
 export default function Principal() {
 
-  const { calidad } = useContext(BrokerContext);
-  const { Ph } = useContext(BrokerContext);
-  const { flujo } = useContext(BrokerContext);
+  const [nivelPh, setnivelPh] = useState(null);
+  const [nivelFlujo, setnivelFlujo] = useState(null);
+  const [nivelTurbidez, setnivelTurbidez] = useState(null);
+
+  // Llamar los ultimos datos registrados en la base de datos
+  try {
+    useEffect(() => {
+      // Función para obtener los últimos datos de cada sección
+      const api = "http://192.168.1.11:3000/api";
+      const obtenerDatos = async () => {
+        try {
+          // Hacer solicitudes HTTP para obtener los datos más recientes
+          const datosPh = await axios.get(`${api}/UltimoPh`);
+          const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
+          const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
+
+          // Establecer los estados con los datos más recientes
+          // console.log("Ultimo PH:", datosPh.data);
+          setnivelPh(datosPh.data);
+          // Datos del flujo
+          // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
+          setnivelFlujo(datosFlujo.data)
+          // Datos del Trubidez
+          // console.log("Ultimo dato de Turbidez: ", datoTurbidez.data)
+          setnivelTurbidez(datoTurbidez.data)
+        } catch (error) {
+          console.error("Error al obtener los datos:", error);
+        }
+      };
+
+
+      obtenerDatos();
+
+      const interval = setInterval(obtenerDatos, 1000);
+
+
+      return () => clearInterval(interval);
+    }, []);
+  } catch (error) {
+    console.log("Error al llamar los datos", error)
+  }
+
+
+
 
   const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {
@@ -32,79 +72,79 @@ export default function Principal() {
 
   return (
     <View style={styles.mainContainer}>
-  <TopBar />
-    <View style={styles.container}>
-    
-      <View style={styles.viewTitle}>
-        <Text style={styles.title}>Resumen del dia</Text>
+      <TopBar />
+      <View style={styles.container}>
+
+        <View style={styles.viewTitle}>
+          <Text style={styles.title}>Resumen del dia</Text>
+        </View>
+        <View style={styles.btnPrincipal}>
+          <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaPh}>
+            <View style={styles.box}>
+              <View style={styles.boxEnter}>
+                <Text style={styles.boxEnterText}>{nivelPh}</Text>
+              </View>
+              <View style={styles.boxOut}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../../assets/iconos/phIcono.png')}
+                />
+              </View>
+              <Text style={styles.boxText}>Nivel de Ph del agua</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaVentas}>
+            <View style={styles.box}>
+              <View style={styles.boxEnter}>
+                <Text style={styles.boxEnterText}>34</Text>
+              </View>
+              <View style={styles.boxOut}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../../assets/iconos/flujoAguaIcono.png')}
+                />
+              </View>
+              <Text style={styles.boxText}>Total de ventas</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.btnPrincipal}>
+          <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaFlujo}>
+            <View style={styles.box}>
+              <View style={styles.boxEnter}>
+                <Text style={styles.boxEnterText}>{nivelFlujo}</Text>
+              </View>
+              <View style={styles.boxOut}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../../assets/iconos/medidorAguaIcono.png')}
+                />
+              </View>
+              <Text style={styles.boxText}>Flujo del agua</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaDureza}>
+            <View style={styles.box}>
+              <View style={styles.boxEnter}>
+                <Text style={styles.boxEnterText}>{nivelTurbidez}</Text>
+              </View>
+              <View style={styles.boxOut}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={require('../../assets/iconos/durezaAgua.png')}
+                />
+              </View>
+              <Text style={styles.boxText}>Turbidez del agua</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.btnPrincipal}>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaPh}>
-          <View style={styles.box}>
-            <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>{Ph}</Text>
-            </View>
-            <View style={styles.boxOut}>
-              <Image
-                style={styles.tinyLogo}
-                source={require('../../assets/iconos/phIcono.png')}
-              />
-            </View>
-            <Text style={styles.boxText}>Nivel de Ph del agua</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaVentas}>
-          <View style={styles.box}>
-            <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>34</Text>
-            </View>
-            <View style={styles.boxOut}>
-              <Image
-                style={styles.tinyLogo}
-                source={require('../../assets/iconos/flujoAguaIcono.png')}
-              />
-            </View>
-            <Text style={styles.boxText}>Total de ventas</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.btnPrincipal}>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaFlujo}>
-          <View style={styles.box}>
-            <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>{flujo}</Text>
-            </View>
-            <View style={styles.boxOut}>
-              <Image
-                style={styles.tinyLogo}
-                source={require('../../assets/iconos/medidorAguaIcono.png')}
-              />
-            </View>
-            <Text style={styles.boxText}>Flujo del agua</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaDureza}>
-          <View style={styles.box}>
-            <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>{calidad}</Text>
-            </View>
-            <View style={styles.boxOut}>
-              <Image
-                style={styles.tinyLogo}
-                source={require('../../assets/iconos/durezaAgua.png')}
-              />
-            </View>
-            <Text style={styles.boxText}>Calidad del agua</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer:{
+  mainContainer: {
     flex: 1,
     flexDirection: 'column',
   },
@@ -117,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 10,
   },
-    viewTitle: {
+  viewTitle: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
