@@ -1,11 +1,39 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
-import BrokerContext from '../context/broker.context';
-
+import axios from 'axios';
 // Funcion para el componente de la pagina
 const Flujo = () => {
-  const { flujo } = useContext(BrokerContext);
+  const [nivelFlujo, setnivelFlujo] = useState(null);
+
+  // Llamar los ultimos datos registrados en la base de datos
+  try {
+    useEffect(() => {
+      // Función para obtener los últimos datos de cada sección
+      const api = "http://192.168.1.11:3000/api";
+      const obtenerDatos = async () => {
+        try {
+          // Hacer solicitudes HTTP para obtener los datos más recientes
+          const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
+
+          // Establecer los estados con los datos más recientes
+          // Datos del flujo
+          // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
+          setnivelFlujo(datosFlujo.data)
+        } catch (error) {
+          console.error("Error al obtener los datos:", error);
+        }
+      };
+
+      obtenerDatos();
+
+      const interval = setInterval(obtenerDatos, 1000);
+      return () => clearInterval(interval);
+    }, []);
+  } catch (error) {
+    console.log("Error al llamar los datos", error)
+  }
+
 
   const [data, setData] = useState([]);
 
@@ -33,7 +61,7 @@ const Flujo = () => {
           <View style={styles.sensorContainer}>
             <View style={styles.sensorContainer1}>
               <View style={styles.sensorContainer2}>
-                <Text style={styles.sensorValue}>{flujo}</Text>
+                <Text style={styles.sensorValue}>{nivelFlujo}</Text>
                 <Text style={styles.sensorLabel}>ml</Text>
               </View>
             </View>
