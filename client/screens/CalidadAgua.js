@@ -1,10 +1,36 @@
 import React, {useState, useEffect,useContext } from 'react';
 import { Text, SafeAreaView, StyleSheet, View, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
-import BrokerContext from '../context/broker.context';
-
+import axios from 'axios';
 export default function CalidadAgua() {
-  const { calidad } = useContext(BrokerContext);
+  const [nivelTurbidez, setnivelTurbidez] = useState(null);
+
+  // Llamar los ultimos datos registrados en la base de datos
+  try {
+    useEffect(() => {
+      // Función para obtener los últimos datos de cada sección
+      const api = "http://192.168.1.11:3000/api";
+      const obtenerDatos = async () => {
+        try {
+          // Hacer solicitudes HTTP para obtener los datos más recientes
+          const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
+
+          // Establecer los estados con los datos más recientes
+           // Datos del Turbidez
+          // console.log("Ultimo dato de Turbidez: ", datoTurbidez.data)
+          setnivelTurbidez(datoTurbidez.data)
+        } catch (error) {
+          console.error("Error al obtener los datos:", error);
+        }
+      };
+      obtenerDatos();
+
+      const interval = setInterval(obtenerDatos, 1000);
+      return () => clearInterval(interval);
+    }, []);
+  } catch (error) {
+    console.log("Error al llamar los datos", error)
+  }
   const [data, setData] = useState([]);
 
   const fetchDataFromDatabase = () => {
@@ -25,7 +51,7 @@ export default function CalidadAgua() {
     <SafeAreaView style={styles.container}>
       <View style={styles.subtitleContainer}>
         <View style={styles.subtitleBackground}>
-          <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {calidad}</Text>
+          <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {nivelTurbidez}</Text>
           <Text style={styles.subtitleText}>Última Revisión: </Text>
         </View>
       </View>
