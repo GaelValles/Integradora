@@ -1,7 +1,7 @@
 import React, {useState, useEffect,useContext } from 'react';
 import { Text, SafeAreaView, StyleSheet, View, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
-import BrokerContext from '../context/calidad.context';
+import BrokerContext from '../context/broker.context';
 
 export default function CalidadAgua() {
   const { calidad } = useContext(BrokerContext);

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react
 import React,{useContext} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
-import BrokerContext from '../context/calidad.context';
+import BrokerContext from '../context/broker.context';
 
 export default function Principal() {
 

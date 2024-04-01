@@ -11,7 +11,7 @@ const ph = require('../../assets/ph.png')
 const flujo = require('../../assets/flujo.png')
 import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
-import BrokerContext from '../context/calidad.context';
+import BrokerContext from '../context/broker.context';
 
 // Funcion del componente de la aplicacion
 const PhScreen = () => {

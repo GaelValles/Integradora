@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { StyleSheet, Text } from 'react-native'
 import { TabButton } from '../components/TabButton'
-import BrokerContext, { BrokerProvider } from '../context/calidad.context'; // Importa el proveedor del contexto
+import BrokerContext, { BrokerProvider } from '../context/broker.context'; // Importa el proveedor del contexto
 
 // Importar las distinatas paginas que contendra el menu
 import Principal from '../screens/Principal'
