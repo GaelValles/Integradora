@@ -1,23 +1,42 @@
-import React, { useState, useEffect,useContext } from 'react';
-import { Client } from "paho-mqtt";
+import React, { useState, useEffect, useContext } from 'react';
 import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, FlatList } from 'react-native';
-const logo = require('../../assets/logo.png')
-const flecha = require('../../assets/atras.png')
-const user = require('../../assets/user.png')
-const home = require('../../assets/home.png')
-const ventas = require('../../assets/ventas.png')
-const dureza = require('../../assets/dureza.png')
-const ph = require('../../assets/ph.png')
-const flujo = require('../../assets/flujo.png')
 import TopBar from '../components/TopBar';
 import { useNavigation } from '@react-navigation/native';
-import BrokerContext from '../context/broker.context';
+import axios from 'axios';
+
 
 // Funcion del componente de la aplicacion
 const PhScreen = () => {
-  const { Ph } = useContext(BrokerContext);
+  const [nivelPh, setnivelPh] = useState(null);
+  // Llamar los ultimos datos registrados en la base de datos
+  try {
+    useEffect(() => {
+      // Función para obtener los últimos datos de cada sección
+      const api = "http://192.168.1.11:3000/api";
+      const obtenerDatos = async () => {
+        try {
+          // Hacer solicitudes HTTP para obtener los datos más recientes
+          const datosPh = await axios.get(`${api}/UltimoPh`);
+
+          // Establecer los estados con los datos más recientes
+          // console.log("Ultimo PH:", datosPh.data);
+          setnivelPh(datosPh.data);
+        } catch (error) {
+          console.error("Error al obtener los datos:", error);
+        }
+      };
 
 
+      obtenerDatos();
+
+      const interval = setInterval(obtenerDatos, 1000);
+
+
+      return () => clearInterval(interval);
+    }, []);
+  } catch (error) {
+    console.log("Error al llamar los datos", error)
+  }
 
   // guardar las rutas en una pantalla
   // const navigation = useNavigation();
@@ -32,8 +51,8 @@ const PhScreen = () => {
   const fetchDataFromDatabase = () => {
     const exampleData = [
       { date: '2024-02-26', Ph: 1, state: 'Base' },
-      { date: '2024-02-25', Ph:  1, state: 'Base' },
-      { date: '2024-02-24', Ph:  1, state: 'Base' },
+      { date: '2024-02-25', Ph: 1, state: 'Base' },
+      { date: '2024-02-24', Ph: 1, state: 'Base' },
     ];
     setData(exampleData);
   };
@@ -46,12 +65,12 @@ const PhScreen = () => {
     <View style={styles.mainContainer}>
       <TopBar />
       <View style={styles.container}>
-        
+
         {/* Tabla para mostrar historial de PH */}
         <View style={styles.tableContainer}>
           <View style={[styles.dataItem, styles.header]}>
             <Text style={[styles.dataText, styles.headerText]}>Historial</Text>
-            <Text>{Ph}</Text>
+            <Text>{nivelPh}</Text>
           </View>
           <FlatList
             data={data}
