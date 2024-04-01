@@ -7,6 +7,9 @@ import BrokerContext from '../context/calidad.context';
 export default function Principal() {
 
   const { calidad } = useContext(BrokerContext);
+  const { Ph } = useContext(BrokerContext);
+  const { flujo } = useContext(BrokerContext);
+
   const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {
     console.log(`caja ${boxNumber} presionada`);
@@ -39,7 +42,7 @@ export default function Principal() {
         <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaPh}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>7</Text>
+              <Text style={styles.boxEnterText}>{Ph}</Text>
             </View>
             <View style={styles.boxOut}>
               <Image
@@ -69,7 +72,7 @@ export default function Principal() {
         <TouchableOpacity style={styles.touchBox} activeOpacity={.9} onPress={rutaFlujo}>
           <View style={styles.box}>
             <View style={styles.boxEnter}>
-              <Text style={styles.boxEnterText}>2.300</Text>
+              <Text style={styles.boxEnterText}>{flujo}</Text>
             </View>
             <View style={styles.boxOut}>
               <Image

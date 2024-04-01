@@ -1,92 +1,19 @@
-import { Client } from "paho-mqtt";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
-
-
-// Conexion al broker
-const client = new Client(
-  "broker.hivemq.com",
-  Number(8000),
-  `sensoresintegradora ${parseInt(Math.random() * 100)}`
-);
+import BrokerContext from '../context/calidad.context';
 
 // Funcion para el componente de la pagina
 const Flujo = () => {
-
-  //Guardar valores del flujo recibido en un estado
-  const [Flujo, setFlujo] = useState(0);
-
-  // Funcion para leer los datos desde el topic
-  function onMessage(message) {
-    if (message.destinationName === "/Integradora/Flujo") {
-      // Guardar en variable el dato de caracter numerico en una variable
-      const receivedValue = parseInt(message.payloadString);
-      // Actualizar el valor del flujo del estado 
-      setFlujo(receivedValue);
-      console.log(`Valor Flujo: ${receivedValue}`);
-      // Enviar dato a la funcion
-      enviarFlujoaDB(receivedValue);
-    }
-  }
-  // UseEffect para comprobar conexion al broker y subcripcion al topic
-  useEffect(() => {
-    client.connect({
-      onSuccess: () => {
-        console.log("Conectado al broker!");
-        client.subscribe("/Integradora/Flujo");
-        client.onMessageArrived = onMessage;
-      },
-      onFailure: () => {
-        console.log("Fallo la conexion al broker!");
-      }
-    });
-
-    return () => {
-      if (client.isConnected()) {
-        client.disconnect();
-      }
-    };
-  }, []);
-
-
-
-  async function enviarFlujoaDB(nuevaCalidad) {
-    try {
-     console.log("dato en la funcion",nuevaCalidad)
-      // Enviar los datos a la api
-      let estado='Activo'
-      const response = await fetch('http://localhost:3000/api/agregarFlujo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mlSalidos: nuevaCalidad,
-          estado: estado,
-          FlujoAcumulado:1200,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.status === 201) {
-        console.log('Flujo guardado correctamente en la base de datos', data.Flujo);
-      } else {
-        console.error('Error al guardar en la base de datos', data.message);
-      }
-    } catch (error) {
-      console.error('Error al enviar la solicitud al servidor', error);
-    }
-  }
+  const { flujo } = useContext(BrokerContext);
 
   const [data, setData] = useState([]);
 
   const fetchDataFromDatabase = () => {
     const exampleData = [
-      { date: '2024-02-26', Flujo: 7.2, state: 'Base' },
-      { date: '2024-02-25', Flujo: 6.8, state: 'Base' },
-      { date: '2024-02-24', Flujo: 7.5, state: 'Base' },
+      { date: '2024-02-26', Flujo: 1.2, state: 'Base' },
+      { date: '2024-02-25', Flujo: 22, state: 'Base' },
+      { date: '2024-02-24', Flujo: 1, state: 'Base' },
     ];
     setData(exampleData);
   };
@@ -106,7 +33,7 @@ const Flujo = () => {
           <View style={styles.sensorContainer}>
             <View style={styles.sensorContainer1}>
               <View style={styles.sensorContainer2}>
-                <Text style={styles.sensorValue}>{Flujo}</Text>
+                <Text style={styles.sensorValue}>{flujo}</Text>
                 <Text style={styles.sensorLabel}>ml</Text>
               </View>
             </View>
