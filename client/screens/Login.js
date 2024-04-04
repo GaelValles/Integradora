@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { TextInput, StyleSheet, Image, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { login } from '../api/auth';
 
-//Rutas para las imagenes
 const fondo = require('../../assets/fondo.jpg');
 const efecto = require('../../assets/efecto.png');
-const facebook = require('../../assets/facebook.png');
-const google = require('../../assets/google.png');
 const logo = require('../../assets/logo.png');
 
 const styles = StyleSheet.create({
   efecto: {
     width: '100%',
-    aspectRatio: 1, // Relación de aspecto 2:1
+    aspectRatio: 1,
     marginTop: '35%',
   },
   div: {
@@ -23,7 +20,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: '75%',
     height: '70%',
-    width: '100%'
+    width: '100%',
   },
   titulo: {
     fontSize: 35,
@@ -33,7 +30,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     color: '#474747',
-
   },
   input: {
     width: '75%',
@@ -44,7 +40,7 @@ const styles = StyleSheet.create({
     borderColor: '#DBF2EE',
     borderRadius: 15,
     borderWidth: 2,
-    backgroundColor: '#DBF2EE'
+    backgroundColor: '#DBF2EE',
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -55,12 +51,11 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 20,
     height: 20,
-    borderColor: 'black'
+    borderColor: 'black',
   },
   button: {
     width: '75%',
     height: 40,
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#49CCCC',
@@ -70,62 +65,74 @@ const styles = StyleSheet.create({
     color: 'white',
     borderColor: '#0000',
   },
+  disabledButton: {
+    backgroundColor: 'gray',
+  },
   logoContainer: {
     position: 'absolute',
-
     alignItems: 'center',
     marginTop: 70,
     zIndex: 2,
     width: '100%',
-    height: 100
+    height: 100,
   },
   logo: {
     width: 100,
-    height: 100
-  }
-
+    height: 100,
+  },
 });
 
 const Login = () => {
-  const [loginData, setloginData] = useState({});
-
+  const [loginData, setLoginData] = useState({ correo: '', password: '' });
+  const [formCompleted, setFormCompleted] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({ correo: false, password: false });
 
   const handleChange = (name, value) => {
     if (name === 'password' && value.length < 6) {
       return;
     }
-    setloginData({ ...loginData, [name]: value });
+    setLoginData({ ...loginData, [name]: value });
+    // Verificar si los campos de correo y contraseña están llenos
+    setFormCompleted(loginData.correo.trim() !== '' && loginData.password.trim() !== '');
+    // Verificar si hay errores en los campos y resaltarlos
+    setFieldErrors({ ...fieldErrors, [name]: value.trim() === '' });
   };
-
 
   const handleSubmit = async () => {
     try {
+      if (!formCompleted) {
+        console.log('\x1b[31m', 'Alguno de los campos está vacío.');
+        if (loginData.correo.trim() === '') console.log('\x1b[31m', 'Correo está vacío.');
+        if (loginData.password.trim() === '') console.log('\x1b[31m', 'Contraseña está vacía.');
+        return;
+      }
       console.log(loginData);
       const res = await login(loginData);
-      console.log(res)
-      navigation.navigate('TabNavigator')
-      console.log('Inicio de Sesion Exitoso')
+      console.log(res);
+      navigation.navigate('TabNavigator');
+      console.log('Inicio de Sesión Exitoso');
     } catch (error) {
-      console.error('Credenciales invalidas',error);
-
+      console.error('Credenciales inválidas', error);
     }
   };
-  // // guardar las rutas en una pantalla
+
   const navigation = useNavigation();
 
   const rutaRegistrar = () => {
-    navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
+    navigation.navigate('Registrar');
   };
 
-
-  // Ruta para enviar a Login
-  const rutaPrincipal = () => {
-    navigation.navigate('TabNavigator'); // Navegar a la pantalla de creación de cuenta
+  // Función para determinar si el botón de iniciar sesión está habilitado
+  const isButtonEnabled = () => {
+    if (formCompleted) {
+      return styles.button; // Habilitar el botón de iniciar sesión
+    } else {
+      return [styles.button, styles.disabledButton]; // Inhabilitar el botón de iniciar sesión y colocarlo de color gris
+    }
   };
 
   return (
     <View style={{ flex: 1 }}>
-
       <ImageBackground source={fondo} resizeMode="cover">
         <View style={styles.logoContainer}>
           <Image source={logo} style={styles.logo} />
@@ -137,37 +144,35 @@ const Login = () => {
         <Text style={styles.titulo}>Bienvenido</Text>
         <Text style={styles.subtitulo}>Inicia sesión</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, fieldErrors.correo && { borderColor: 'red' }]} // Cambia el borde a rojo si hay un error en el campo de correo
           placeholder='Correo'
-          onChangeText={(text) => handleChange('correo', text)} />
-
+          onChangeText={(text) => handleChange('correo', text)}
+        />
         <TextInput
-          style={styles.input}
+          style={[styles.input, fieldErrors.password && { borderColor: 'red' }]} // Cambia el borde a rojo si hay un error en el campo de contraseña
           secureTextEntry={true}
           placeholder='Contraseña'
-          onChangeText={(text) => handleChange('password', text)} />
-
+          onChangeText={(text) => handleChange('password', text)}
+        />
         <View style={styles.checkboxContainer}>
           <View style={styles.checkbox}></View>
           <Text>Recuérdame</Text>
         </View>
-        <TouchableOpacity style={styles.button}
-          onPress={handleSubmit}>
-          <Text style={{ color: '#fff' }} >Iniciar</Text>
+        <TouchableOpacity
+          style={isButtonEnabled()}
+          onPress={handleSubmit}
+          disabled={!formCompleted}
+        >
+          <Text style={{ color: '#fff' }}>Iniciar</Text>
         </TouchableOpacity>
         <View style={{ top: 10 }}>
-          <Text>No tienes cuenta aun? <TouchableOpacity onPress={rutaRegistrar}>
-            <Text style={{ color: '#000', fontWeight: '800', top: 3 }} >Regístrate</Text>
+          <Text>No tienes cuenta aún? <TouchableOpacity onPress={rutaRegistrar}>
+            <Text style={{ color: '#000', fontWeight: '800', top: 3 }}>Regístrate</Text>
           </TouchableOpacity></Text>
-
         </View>
-
       </View>
-
-
     </View>
   );
 }
-
 
 export default Login;
