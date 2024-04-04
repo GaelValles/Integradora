@@ -7,6 +7,7 @@ import { regis } from '../api/auth';
 const Registrar = () => {
   const [formData, setFormData] = useState({});
   const [aceptarTerminos, setAceptarTerminos] = useState(false);
+  const [formCompleted, setFormCompleted] = useState(false); // Nuevo estado para verificar si los campos obligatorios están completos
   const navigation = useNavigation();
 
   const rutaIniciarSesion = () => {
@@ -21,7 +22,7 @@ const Registrar = () => {
       }
       console.log(formData);
       const res = await regis(formData);
-      console.log(res)
+      console.log(res);
     } catch (error) {
       console.error(error);
     }
@@ -31,7 +32,11 @@ const Registrar = () => {
     if (name === 'password' && value.length < 6) {
       return;
     }
-      setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
+    // Verificar si los campos obligatorios están completos
+    const mandatoryFields = ['nombres', 'apellidos', 'correo', 'telefono', 'password', 'passwordConfirmada'];
+    const isFormComplete = mandatoryFields.every(field => formData[field]?.trim() !== ''); // Verifica si todos los campos obligatorios tienen valor
+    setFormCompleted(isFormComplete);
   };
 
   return (
@@ -48,35 +53,35 @@ const Registrar = () => {
 
       <Text style={styles.title}>Registro</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.nombres && styles.errorText]} // Resaltar el campo si está vacío
         placeholder="Nombre(s)"
         onChangeText={(text) => handleChange('nombres', text)}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.apellidos && styles.errorText]} // Resaltar el campo si está vacío
         placeholder="Apellido(s)"
         onChangeText={(text) => handleChange('apellidos', text)}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.correo && styles.errorText]} // Resaltar el campo si está vacío
         placeholder="Correo electrónico"
         onChangeText={(text) => handleChange('correo', text)}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.telefono && styles.errorText]} // Resaltar el campo si está vacío
         placeholder="Telefono"
         maxLength={10}
         onChangeText={(text) => handleChange('telefono', text)}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.password && styles.errorText]} // Resaltar el campo si está vacío
         secureTextEntry={true}
         placeholder="Contraseña"
         onChangeText={(text) => handleChange('password', text)}
       />
       {/* input para confirmar password */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, !formData.passwordConfirmada && styles.errorText]} // Resaltar el campo si está vacío
         secureTextEntry={true}
         placeholder="Confirmar Contraseña"
         onChangeText={(text) => handleChange('passwordConfirmada', text)}
@@ -90,11 +95,14 @@ const Registrar = () => {
         <Text style={styles.termsText}>Acepto términos y condiciones</Text>
       </View>
       <TouchableOpacity
-        style={styles.button}
-        onPress={handleSubmit}
-        disabled={!aceptarTerminos}>
-        <Text style={[styles.buttonText, styles.buttonTextRight]}>Registrarse</Text>
-      </TouchableOpacity>
+      style={[styles.button, (!formCompleted || !aceptarTerminos) && styles.disabledButton]} // Estilo del botón    habilitado/deshabilitado
+      onPress={handleSubmit}
+      disabled={!aceptarTerminos || !formCompleted} // Habilitar el botón si se aceptan términos y condiciones y todos    los campos obligatorios están completos
+    >
+      <Text style={[styles.buttonText, styles.buttonTextRight]}>Registrarse</Text>
+    </TouchableOpacity>
+
+
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -106,9 +114,6 @@ const Registrar = () => {
     </View>
   );
 };
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -203,8 +208,12 @@ const styles = StyleSheet.create({
     resizeMode: 'cover', // Ajustar la imagen para cubrir todo el espacio sin distorsión
   },
   errorText:{
-    color: "#FF0000"
-  }
+    borderBottomColor: '#FF0000', // Cambiar el color del borde a rojo
+    borderBottomWidth: 2, // Aumentar el ancho del borde para resaltar el campo
+  },
+  disabledButton: {
+    backgroundColor: 'gray', // Cambiar el color del botón a gris
+  },
 });
 
 export default Registrar;
