@@ -1,54 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
-import axios from 'axios';
+import BrokerContext from '../context/broker.context';
 export default function Principal() {
 
-  const [nivelPh, setnivelPh] = useState(null);
-  const [nivelFlujo, setnivelFlujo] = useState(null);
-  const [nivelTurbidez, setnivelTurbidez] = useState(null);
-
-  // Llamar los ultimos datos registrados en la base de datos
-  try {
-    useEffect(() => {
-      // Función para obtener los últimos datos de cada sección
-      const api = "http://192.168.1.11:3000/api";
-      const obtenerDatos = async () => {
-        try {
-          // Hacer solicitudes HTTP para obtener los datos más recientes
-          const datosPh = await axios.get(`${api}/UltimoPh`);
-          const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
-          const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
-
-          // Establecer los estados con los datos más recientes
-          // console.log("Ultimo PH:", datosPh.data);
-          setnivelPh(datosPh.data);
-          // Datos del flujo
-          // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
-          setnivelFlujo(datosFlujo.data)
-          // Datos del Trubidez
-          // console.log("Ultimo dato de Turbidez: ", datoTurbidez.data)
-          setnivelTurbidez(datoTurbidez.data)
-        } catch (error) {
-          console.error("Error al obtener los datos:", error);
-        }
-      };
-
-
-      obtenerDatos();
-
-      const interval = setInterval(obtenerDatos, 1000);
-
-
-      return () => clearInterval(interval);
-    }, []);
-  } catch (error) {
-    console.log("Error al llamar los datos", error)
-  }
-
-
-
+  const{nivelPh,nivelFlujo,nivelTurbidez}=useContext(BrokerContext)
 
   const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {

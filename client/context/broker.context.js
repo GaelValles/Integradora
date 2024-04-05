@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Client } from "paho-mqtt";
+import axios from 'axios'; // Asegúrate de importar axios si no lo has hecho aún
 
-const api = "http://192.168.1.11:3000/api";
+const api = "http://192.168.1.14:3000/api";
 // Conexion al broker
 const client = new Client(
     "broker.hivemq.com",
@@ -17,6 +18,9 @@ export const BrokerProvider = ({ children }) => {
     const [calidad, setCalidad] = useState(0);
     const [flujo, setFlujo] = useState(0);
     const [Ph, setPh] = useState(0);
+    const [nivelPh, setNivelPh] = useState(null);
+    const [nivelFlujo, setNivelFlujo] = useState(null);
+    const [nivelTurbidez, setNivelTurbidez] = useState(null);
 
     // Funcion para leer los datos desde el topic segun lleguen los datos
     function onMessage(message) {
@@ -119,7 +123,6 @@ export const BrokerProvider = ({ children }) => {
         }
     }
 
-
     async function agregarPhaDB(nuevoPh) {
         try {
 
@@ -157,9 +160,47 @@ export const BrokerProvider = ({ children }) => {
             console.error('Error al enviar la solicitud al servidor', error);
         }
     }
+
+    // Llamar los ultimos datos registrados en la base de datos de cada Dato
+    try {
+        useEffect(() => {
+            // Función para obtener los últimos datos de cada sección
+           
+            const obtenerDatos = async () => {
+                try {
+                    
+                    // Hacer solicitudes HTTP para obtener los datos más recientes
+                    const datosPh = await axios.get(`${api}/UltimoPh`);
+                    const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
+                    const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
+
+                    // Establecer los estados con los datos más recientes
+                    // console.log("Ultimo PH:", datosPh.data);
+                    setNivelPh(datosPh.data);
+                    // Datos del flujo
+                    // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
+                    setNivelFlujo(datosFlujo.data)
+                    // Datos del Trubidez
+                    // console.log("Ultimo dato de Turbidez: ", datoTurbidez.data)
+                    setNivelTurbidez(datoTurbidez.data)
+                } catch (error) {
+                    console.error("Error al obtener los datos:", error);
+                }
+            };
+
+            obtenerDatos();
+
+            const interval = setInterval(obtenerDatos, 1000);
+
+            return () => clearInterval(interval);
+        }, []);
+    } catch (error) {
+        console.log("Error al llamar los datos", error)
+    }
+
     // Pasar el estado y las funciones a los hijos a través del contexto
     return (
-        <BrokerContext.Provider value={{ calidad, flujo, Ph }}>
+        <BrokerContext.Provider value={{ calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez }}>
             {children}
         </BrokerContext.Provider>
     );
