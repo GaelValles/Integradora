@@ -3,36 +3,11 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import TopBar from '../components/TopBar';
 import axios from 'axios';
 // Funcion para el componente de la pagina
+import BrokerContext from '../context/broker.context';
+
 const Flujo = () => {
-  const [nivelFlujo, setnivelFlujo] = useState(null);
+  const{nivelFlujo}=useContext(BrokerContext)
 
-  // Llamar los ultimos datos registrados en la base de datos
-  try {
-    useEffect(() => {
-      // Función para obtener los últimos datos de cada sección
-      const api = "http://192.168.1.11:3000/api";
-      const obtenerDatos = async () => {
-        try {
-          // Hacer solicitudes HTTP para obtener los datos más recientes
-          const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
-
-          // Establecer los estados con los datos más recientes
-          // Datos del flujo
-          // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
-          setnivelFlujo(datosFlujo.data)
-        } catch (error) {
-          console.error("Error al obtener los datos:", error);
-        }
-      };
-
-      obtenerDatos();
-
-      const interval = setInterval(obtenerDatos, 1000);
-      return () => clearInterval(interval);
-    }, []);
-  } catch (error) {
-    console.log("Error al llamar los datos", error)
-  }
 
 
   const [data, setData] = useState([]);
