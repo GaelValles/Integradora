@@ -88,14 +88,15 @@ const Login = () => {
   const [fieldErrors, setFieldErrors] = useState({ correo: false, password: false });
 
   const handleChange = (name, value) => {
-    if (name === 'password' && value.length < 6) {
+    if (name === 'password' && value.length < 5) {
+      setFieldErrors({ ...fieldErrors, [name]: true }); // Marcar como error si la contraseña es menor de 5 caracteres
       return;
     }
     setLoginData({ ...loginData, [name]: value });
     // Verificar si los campos de correo y contraseña están llenos
     setFormCompleted(loginData.correo.trim() !== '' && loginData.password.trim() !== '');
     // Verificar si hay errores en los campos y resaltarlos
-    setFieldErrors({ ...fieldErrors, [name]: value.trim() === '' });
+    setFieldErrors({ ...fieldErrors, [name]: false }); // Quitar el error cuando se cumple la longitud mínima
   };
 
   const handleSubmit = async () => {
