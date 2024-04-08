@@ -1,29 +1,26 @@
 const mongoose = require('mongoose');
-const { DateTime } = require('luxon');
-const { number } = require('prop-types');
-
 
 const AguasSchema = new mongoose.Schema({
     nombre:{
-        Type:String,
+        type:String,
     },
     galon:{
-        Type:String,
+        type:String,
     },
     ph:{
-        Type:Number
+        type:Number
     },
     // Precio del garrafon Grande
     precioG:{
-        Type:Number
+        type:Number
     },     
     // Precio del medio Garrafon
     precioMG:{
-        Type:Number
+        type:Number
     },
     // Precio del Garrafon Pequeño
     precioP:{
-        Type:Number
+        type:Number
     }
 
 })
