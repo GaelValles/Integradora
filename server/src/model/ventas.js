@@ -4,19 +4,19 @@ const { DateTime } = require('luxon');
 
 const VentasSchema = new mongoose.Schema({
     nombre:{
-        Type:String,
+        type:String,
     },
     totalGalones:{
-        Type:Number
+        type:Number
     },
     total:{
-        Type:Number
+        type:Number
     },
     fechaCerrar:{
-        Type:Date,
+        type:Date,
     },
     fechaApertura:{
-        Type:Date,
+        type:Date,
     }
 })
 

@@ -3,6 +3,7 @@ const controladorUser = require('../controller/controllerUser.js')
 const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
 const controladorFlujo = require('../controller/controllerFlujo.js')
+const controladorVentas= require('../controller/controllerVentas.js')
 const router =express.Router();
 const { authRequired } = require('../middleware/validarToken.js');
 
@@ -30,4 +31,7 @@ router.post('/agregarFlujo',controladorFlujo.AgregarFlujo) //Registrar datos a d
 router.get('/agregarFlujo',controladorFlujo.MostrarFlujo) //Mostar datos de flujo
 router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo) //Mostrar ultimo dato de flujo en la base de datos
 
+
+// VENTAS Y AGUA
+router.post('/agregarVenta',controladorVentas.agregarVenta)
 module.exports = router;
