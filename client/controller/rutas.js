@@ -14,25 +14,29 @@ import Productos from '../screens/productos';
 import TabNav from './tab-navigator';
 import Ventas from '../screens/Ventas';
 import TopBar from '../components/TopBar';
+import BrokerContext, { BrokerProvider } from '../context/broker.context'; // Importa el proveedor del contexto
+
 // Crea el stack para la navegacion
 const Stack = createStackNavigator();
 
 // Función para crear las rutas 
 function Router() {
   return (
-    <NavigationContainer>
+    <BrokerProvider>
+      <NavigationContainer>
         {/* definir la ruta inicial*/}
-      <Stack.Navigator initialRouteName='Inicio'> 
-        <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
-        <Stack.Screen name="Registrar" component={Registrar} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="NuevosProductos" component={NuevosProductos} options={{headerShown: false}}/>
-        <Stack.Screen name="TabNavigator" component={TabNav} options={{headerShown: false}}/>
-        <Stack.Screen name="Ventas" component={Ventas} options={{headerShown: false}}/>
-        <Stack.Screen name="TopBar" component={TopBar} options={{headerShown: false}}/>
-        <Stack.Screen name="Productos" component={Productos} options={{headerShown: false}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+        <Stack.Navigator initialRouteName='Inicio'>
+          <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
+          <Stack.Screen name="Registrar" component={Registrar} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="NuevosProductos" component={NuevosProductos} options={{ headerShown: false }} />
+          <Stack.Screen name="TabNavigator" component={TabNav} options={{ headerShown: false }} />
+          <Stack.Screen name="Ventas" component={Ventas} options={{ headerShown: false }} />
+          <Stack.Screen name="TopBar" component={TopBar} options={{ headerShown: false }} />
+          <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </BrokerProvider>
   );
 }
 

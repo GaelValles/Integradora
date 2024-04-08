@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
-const Perfil = () => {
+import { useAuth } from "../context/broker.context";
 
+const Perfil = () => {
+  const {isAuth,user}=useAuth();
+  console.log(user);
   return (
     <View style={styles.mainContainer}>
         {/* Importar el TopBar */}
@@ -13,7 +16,7 @@ const Perfil = () => {
           {/*  */}
           <View style={{ alignItems: 'center' }}>
             <Image source={require('../../assets/user-perfil.jpg')} style={styles.imagePerfil} ></Image>
-            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>Nombre y apellido</Text>
+            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>{user ? user.nombres : 'Usuario'}</Text>
             <Text style={{fontSize:15, fontWeight:'bold', color:'grey'}}>Rol</Text>
           </View>
         </View>
@@ -35,10 +38,11 @@ const Perfil = () => {
               editable={false}
             />
             {/* Boton para cerrar sesion */}
-            <TouchableOpacity style={styles.editButton}>
-              <Text style={styles.editButtonText}>Cerrar Sesion</Text>
+            {isAuth && (
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+              <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
             </TouchableOpacity>
-
+          )}
           </View>
         </View>
     </View>

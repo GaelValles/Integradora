@@ -4,7 +4,6 @@ import TopBar from '../components/TopBar';
 import axios from 'axios';
 // Funcion para el componente de la pagina
 import BrokerContext from '../context/broker.context';
-
 const Flujo = () => {
   const{nivelFlujo}=useContext(BrokerContext)
 
