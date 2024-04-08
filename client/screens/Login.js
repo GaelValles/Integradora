@@ -15,10 +15,13 @@ const Login = () => {
   const [fieldErrors, setFieldErrors] = useState({ correo: false, password: false });
 
   const handleChange = (name, value) => {
-    setLoginData({ ...loginData, [name]: value });
-    setFormCompleted(loginData.correo.trim() !== '' || loginData.password.trim() !== '');
+    const updatedLoginData = { ...loginData, [name]: value };
+    const isFormCompleted = updatedLoginData.correo.trim() !== '' && updatedLoginData.password.trim() !== '';
+    setLoginData(updatedLoginData);
+    setFormCompleted(isFormCompleted);
     setFieldErrors({ ...fieldErrors, [name]: value.trim() === '' });
   };
+  
   useEffect(() => {
     // Verificar si el usuario está autenticado después de montar el componente
     if (isAuth) {
