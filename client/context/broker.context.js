@@ -1,26 +1,37 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext,useContext, useState, useEffect } from 'react';
+import { regis, login, verifyTokenRequest } from "../api/auth";
 import { Client } from "paho-mqtt";
-import axios from 'axios'; // Asegúrate de importar axios si no lo has hecho aún
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import Cookies from  'js-cookie';
 
-const api = "http://192.168.1.14:3000/api";
+var api = "http://192.168.1.14:3000/api";
 // Conexion al broker
-const client = new Client(
-    "broker.hivemq.com",
-    Number(8000),
-    `sensoresintegradora ${parseInt(Math.random() * 100)}`
-);
 
 // Crear el contexto
 const BrokerContext = createContext();
 
+export const useAuth=()=>{
+    const context=useContext(BrokerContext)
+    if(!context){
+        throw new Error("useAuth deberia estar dentro del provider")
+    }
+    return context;
+}
 // Crear el proveedor del contexto
 export const BrokerProvider = ({ children }) => {
+    const [client, setClient] = useState(null);
+
     const [calidad, setCalidad] = useState(0);
     const [flujo, setFlujo] = useState(0);
     const [Ph, setPh] = useState(0);
     const [nivelPh, setNivelPh] = useState(null);
     const [nivelFlujo, setNivelFlujo] = useState(null);
     const [nivelTurbidez, setNivelTurbidez] = useState(null);
+    const [user,setUser]=useState(null)
+    const [isAuth,setIsAuth]=useState(false);
+    const [errors, setErrors]=useState([]);
+    const [loading, setLoading]=useState(true);
 
     // Funcion para leer los datos desde el topic segun lleguen los datos
     function onMessage(message) {
@@ -45,22 +56,29 @@ export const BrokerProvider = ({ children }) => {
     }
     // UseEffect para comprobar conexion al broker y subcripcion al topic
     useEffect(() => {
-        client.connect({
+        const mqttClient = new Client(
+            "broker.hivemq.com",
+            Number(8000),
+            `sensoresintegradora ${parseInt(Math.random() * 100)}`
+        );
+
+        mqttClient.connect({
             onSuccess: () => {
                 console.log("Conectado al broker!");
-                client.subscribe("/Integradora/Calidad");
-                client.subscribe("/Integradora/Flujo");
-                client.subscribe("/Integradora/ph");
-                client.onMessageArrived = onMessage;
+                mqttClient.subscribe("/Integradora/Calidad");
+                mqttClient.subscribe("/Integradora/Flujo");
+                mqttClient.subscribe("/Integradora/ph");
+                mqttClient.onMessageArrived = onMessage;
+                setClient(mqttClient); // Establecer el cliente MQTT una vez conectado
             },
             onFailure: () => {
-                console.log("Fallo la conexion al broker!");
+                console.log("Fallo la conexión al broker!");
             }
         });
 
         return () => {
-            if (client.isConnected()) {
-                client.disconnect();
+            if (mqttClient.isConnected()) {
+                mqttClient.disconnect();
             }
         };
     }, []);
@@ -197,13 +215,89 @@ export const BrokerProvider = ({ children }) => {
     } catch (error) {
         console.log("Error al llamar los datos", error)
     }
+    
+    const signup = async (user) => {
+        try {
+            const res= await regis(user);
+            setUser(res.data);
+            setIsAuth(true);
+        } catch (error) {
+            console.log("error al registrar",error.response);
+            setErrors(error.response.data)
+        }
+    };
+    const signin = async (user) => {
+        try{
+            const res= await login(user);
+            console.log("datos del logeado",res.data);
+            setUser(res.data);
+            setIsAuth(true);
+            setUser(res.data);
+            console.log("set user",user)
+        }catch(error){
+            if(Array.isArray(error.response.data)){
+             return   setErrors(error.response.data)
+            }
+            setErrors([error.response.data.message])
+        }};
+
+    const logout=()=>{
+        Cookies.remove("token")
+        setIsAuth(false)
+        setUser(null)
+    }
+        useEffect(()=>{
+            if(errors.length > 0){
+                const timer= setTimeout(()=>{
+                    setErrors([])
+
+                },5000)
+                return ()=>clearTimeout(timer)
+            }
+        },[errors]);
+
+        useEffect(()=>{
+            async function checkLogin(){
+                const cookies = Cookies.get();
+                if(!cookies.token){
+                    setIsAuth(false);
+                    setLoading(false)
+                    return setUser(null);
+                }
+                try {
+                    const res = await verifyTokenRequest(cookies.token)
+                    if(!res.data){
+                        setIsAuth(false)
+                        setLoading(false)
+                        return;
+                    }
+
+                    setIsAuth(true)
+                    setUser(res.data)
+                    setLoading(false)
+                } catch (error) {
+                    setIsAuth(false)
+                    setUser(null)
+                    setLoading(false)
+                }
+            }
+            checkLogin()
+        },[])
 
     // Pasar el estado y las funciones a los hijos a través del contexto
     return (
-        <BrokerContext.Provider value={{ calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez }}>
+        <BrokerContext.Provider value={{
+            client,
+            signup,
+            signin,
+            logout,
+            user,
+            isAuth,
+            loading, calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez }}>
             {children}
         </BrokerContext.Provider>
     );
 };
 
 export default BrokerContext;
+
