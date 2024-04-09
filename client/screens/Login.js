@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, StyleSheet, Image, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { TextInput, StyleSheet, Image, View, Text, ImageBackground, TouchableOpacity, Alert } from 'react-native'; // Agregamos Alert
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from "../context/broker.context";
 
@@ -42,6 +42,7 @@ const Login = () => {
         return;
       }
       await signin(loginData);
+      Alert.alert('Éxito', '¡Inicio de sesión exitoso!'); // Agregamos la alerta de éxito
     } catch (error) {
       console.error('Credenciales inválidas', error);
     }
