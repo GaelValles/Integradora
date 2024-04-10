@@ -4,6 +4,7 @@ const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
 const controladorFlujo = require('../controller/controllerFlujo.js')
 const controladorVentas= require('../controller/controllerVentas.js')
+const controladorAgua = require('../controller/controllerAgua.js')
 const router =express.Router();
 const { authRequired } = require('../middleware/validarToken.js');
 
@@ -34,4 +35,6 @@ router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo) //Mostrar ultimo 
 
 // VENTAS Y AGUA
 router.post('/agregarVenta',controladorVentas.agregarVenta)
+router.post('/agregarAgua',controladorAgua.agregarAgua)
+
 module.exports = router;
