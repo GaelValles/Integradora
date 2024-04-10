@@ -1,6 +1,7 @@
 import axios from 'axios';
 // 192.168.1.14
 // 172.20.98.155
+// 192.168.1.71 (rob)
 // Cambiar la ip segun la red local que utilices
 const api = "http://172.20.98.222:3000/api";
 

@@ -1,22 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { TextInput, StyleSheet, Image, Button, View, Text, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import TopBar from '../components/TopBar';
-import { useNavigation } from '@react-navigation/native';
+import { PieChart } from 'react-native-chart-kit';
+import { useWindowDimensions } from 'react-native';
 import BrokerContext from '../context/broker.context';
 
-
-// Funcion del componente de la aplicacion
 const PhScreen = () => {
-  const{nivelPh,nivelFlujo,nivelTurbidez}=useContext(BrokerContext)
-
-
+  const { nivelPh, nivelFlujo, nivelTurbidez } = useContext(BrokerContext);
   const [data, setData] = useState([]);
+
+  const chartData = [
+    { name: 'Base', value: 3 },
+    { name: 'Base', value: 6 },
+    { name: 'Base', value: 9 },
+  ];
+
+  const chartColors = ['#FF5733', '#33FF57', '#3366FF']; // Colores para las secciones del pastel
+
+  const chartConfig = {
+    backgroundColor: '#e26a00',
+    backgroundGradientFrom: '#fb8c00',
+    backgroundGradientTo: '#ffa726',
+    decimalPlaces: 2,
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
+    propsForDots: {
+      r: '6',
+      strokeWidth: '2',
+      stroke: '#ffa726',
+    },
+  };
+
+  const screenWidth = useWindowDimensions().width;
 
   const fetchDataFromDatabase = () => {
     const exampleData = [
-      { date: '2024-02-26', Ph: 1, state: 'Base' },
-      { date: '2024-02-25', Ph: 1, state: 'Base' },
-      { date: '2024-02-24', Ph: 1, state: 'Base' },
+      { date: '2024-02-26', Ph: 3, state: 'Base' },
+      { date: '2024-02-25', Ph: 6, state: 'Base' },
+      { date: '2024-02-24', Ph: 9, state: 'Base' },
     ];
     setData(exampleData);
   };
@@ -24,66 +48,58 @@ const PhScreen = () => {
   useEffect(() => {
     fetchDataFromDatabase();
   }, []);
+
   return (
-    // View para mostrar el AppBar
     <View style={styles.mainContainer}>
       <TopBar />
-      <View style={styles.container}>
-
+      <ScrollView contentContainerStyle={styles.container}>
         {/* Tabla para mostrar historial de PH */}
         <View style={styles.tableContainer}>
           <View style={[styles.dataItem, styles.header]}>
-            <Text style={[styles.dataText, styles.headerText]}>Historial</Text>
-            <Text>{nivelPh}</Text>
+            <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
+            <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
+            <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
           </View>
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.dataItem}>
-                <Text style={styles.dataText}>{item.date}</Text>
-                <Text style={styles.dataText}>{item.Flujo}</Text>
-                <Text style={styles.dataText}>{item.state}</Text>
-              </View>
-            )}
-            ListHeaderComponent={
-              <View style={[styles.dataItem, styles.header]}>
-                <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
-                <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
-                <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
-              </View>
-            }
-          />
+          {data.map((item, index) => (
+            <View style={styles.dataItem} key={index}>
+              <Text style={styles.dataText}>{item.date}</Text>
+              <Text style={styles.dataText}>{item.Ph}</Text>
+              <Text style={styles.dataText}>{item.state}</Text>
+            </View>
+          ))}
         </View>
 
-      </View>
-
+        {/* Sección de la gráfica */}
+        <View style={styles.chartContainer}>
+          <PieChart
+            data={chartData}
+            width={screenWidth - 40} // Ajusta el ancho de la gráfica según el ancho de la pantalla y el padding horizontal
+            height={220}
+            chartConfig={chartConfig}
+            accessor="value"
+            backgroundColor="transparent"
+            paddingLeft="15"
+            absolute
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };
 
-// Estilos de la pagina
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'column',
   },
   container: {
-    flex: 1,
     padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
   },
   dataItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    // borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
   dataText: {
@@ -100,7 +116,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tableContainer: {
-    flex: 1,
     marginTop: 50,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -109,9 +124,13 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    shadowOpacity: 0.50,
+    shadowOpacity: 0.5,
     shadowRadius: 6.84,
     elevation: 7,
+  },
+  chartContainer: {
+    marginTop: 20,
+    alignItems: 'center',
   },
 });
 
