@@ -6,9 +6,10 @@ import { useWindowDimensions } from 'react-native';
 import BrokerContext from '../context/broker.context';
 
 const PhScreen = () => {
-  const { nivelPh, nivelFlujo, nivelTurbidez } = useContext(BrokerContext);
-  const [data, setData] = useState([]);
+  const { nivelPh, nivelFlujo, nivelTurbidez,historialPh } = useContext(BrokerContext); //Varibles de consulta del Context
+  const ultimos10Registros = historialPh.slice(0, 10); //Guardar los 10 ultimos registros del PH en una variable
 
+ 
   const chartData = [
     { name: 'Base', value: 3 },
     { name: 'Base', value: 6 },
@@ -35,20 +36,6 @@ const PhScreen = () => {
   };
 
   const screenWidth = useWindowDimensions().width;
-
-  const fetchDataFromDatabase = () => {
-    const exampleData = [
-      { date: '2024-02-26', Ph: 3, state: 'Base' },
-      { date: '2024-02-25', Ph: 6, state: 'Base' },
-      { date: '2024-02-24', Ph: 9, state: 'Base' },
-    ];
-    setData(exampleData);
-  };
-
-  useEffect(() => {
-    fetchDataFromDatabase();
-  }, []);
-
   return (
     <View style={styles.mainContainer}>
       <TopBar />
@@ -60,11 +47,12 @@ const PhScreen = () => {
             <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
             <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
           </View>
-          {data.map((item, index) => (
+          {/* Mapear los ultimos 10 registros para mostrarlos en pantalla */}
+          {ultimos10Registros.map((item, index) => (
             <View style={styles.dataItem} key={index}>
-              <Text style={styles.dataText}>{item.date}</Text>
-              <Text style={styles.dataText}>{item.Ph}</Text>
-              <Text style={styles.dataText}>{item.state}</Text>
+              <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
+              <Text style={styles.dataText}>{item.nivel_ph}</Text>
+              <Text style={styles.dataText}>{item.estado}</Text>
             </View>
           ))}
         </View>
