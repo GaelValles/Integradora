@@ -7,7 +7,7 @@ import BrokerContext from '../context/broker.context';
 
 const PhScreen = () => {
   const { nivelPh, nivelFlujo, nivelTurbidez,historialPh } = useContext(BrokerContext); //Varibles de consulta del Context
-  const ultimos10Registros = historialPh.slice(0, 10); //Guardar los 10 ultimos registros del PH en una variable
+  const ultimos10Registros = historialPh.slice(0, 10).reverse(); //Guardar los 10 ultimos registros del PH en una variable
 
  
   const chartData = [
