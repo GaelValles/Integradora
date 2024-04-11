@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from  'js-cookie';
 
-var api = "http://192.168.1.71:3000/api";
+var api = "http://172.20.101.221:3000/api";
 // Conexion al broker
 
 // Crear el contexto
