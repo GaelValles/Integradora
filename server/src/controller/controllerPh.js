@@ -34,13 +34,18 @@ exports.AgregarPh = async (req, res) => {
 // Mostrar Registros
 exports.MostrarPh = async (req, res) => {
     try {
-        const ph = await Ph.find();
-        res.json(ph);
+       
+        const mostrarPh = await Ph.find();
+        if (mostrarPh.length === 0) {
+            return res.status(404).json({ message: "No se encontraron datos de pH" });
+        }
+        res.json(mostrarPh); 
     } catch (error) {
-        console.error('Error al obtener registros de la base de datos', error);
-        res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
+        console.error("Error al obtener los últimos valores de pH:", error);
+        res.status(500).json({ message: "Error del servidor" });
     }
-}
+};
+
 
 exports.MostrarUltimoPH = async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 const express = require("express");
 const controladorUser = require('../controller/controllerUser.js')
-const controladorPh = require('../controller/ph.controller.js')
+const controladorPh = require('../controller/controllerPh.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
 const controladorFlujo = require('../controller/controllerFlujo.js')
 const controladorVentas= require('../controller/controllerVentas.js')
