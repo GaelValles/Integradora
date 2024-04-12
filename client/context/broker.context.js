@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://172.20.98.1941:3000/api"; // Corregir la dirección del servidor API
+var api = "http://172.20.98.194:3000/api"; // Corregir la dirección del servidor API
 
 const BrokerContext = createContext();
 
@@ -26,7 +26,7 @@ export const BrokerProvider = ({ children }) => {
     const [nivelPh, setNivelPh] = useState(null);
     const [nivelFlujo, setNivelFlujo] = useState(null);
     const [nivelTurbidez, setNivelTurbidez] = useState(null);
-    const [user, setUser] = useState(null);
+    const [User, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
