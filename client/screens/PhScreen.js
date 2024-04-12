@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, ScrollView, Text, useWindowDimensions } from 'react-native'; 
 import TopBar from '../components/TopBar'; 
 import { BarChart } from 'react-native-chart-kit'; 
-
+import BrokerContext from '../context/broker.context'
 const PhScreen = () => {
-  const [ultimos10Registros, setUltimos10Registros] = useState([]);
+  const {historialPh}=useContext(BrokerContext)
+  const ultimos10Registros=historialPh.slice(0,10);
   const screenWidth = useWindowDimensions().width;
 
-  useEffect(() => {
-    fetchDataFromDatabase();
-  }, []);
+  // useEffect(() => {
+  //   fetchDataFromDatabase();
+  // }, []);
 
-  const fetchDataFromDatabase = () => {
-    try {
-      const exampleData = [
-        { id: 1, fecha: '2024-02-26', nivel_ph: 0, estado: 'Base' }, 
-        { id: 2, fecha: '2024-02-25', nivel_ph: 7, estado: 'Base' },
-        { id: 3, fecha: '2024-02-24', nivel_ph: 14, estado: 'Base' },
-      ];
+  // const fetchDataFromDatabase = () => {
+  //   try {
+  //     const exampleData = [
+  //       { id: 1, fecha: '2024-02-26', nivel_ph: 0, estado: 'Base' }, 
+  //       { id: 2, fecha: '2024-02-25', nivel_ph: 7, estado: 'Base' },
+  //       { id: 3, fecha: '2024-02-24', nivel_ph: 14, estado: 'Base' },
+  //     ];
 
-      const lastTenData = exampleData.slice(0, 10);
-      setUltimos10Registros(lastTenData);
-    } catch (error) {
-      console.error('Error al obtener datos de la base de datos:', error);
-    }
-  };
+  //     const lastTenData = exampleData.slice(0, 10);
+  //     setUltimos10Registros(lastTenData);
+  //   } catch (error) {
+  //     console.error('Error al obtener datos de la base de datos:', error);
+  //   }
+  // };
 
   // Preparar los datos para la gráfica de barras
   const prepareChartData = () => {
     const data = {
-      labels: ultimos10Registros.map(item => item.fecha), // Fechas como etiquetas
+      labels: ultimos10Registros.map(item => item.fecha), 
       datasets: [
         {
-          data: ultimos10Registros.map(item => item.nivel_ph), // Niveles de pH como datos
+          data: ultimos10Registros.map(item => item.nivel_ph),
         },
       ],
     };
