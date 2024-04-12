@@ -1,46 +1,80 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import TopBar from '../components/TopBar';
-import BrokerContext from '../context/broker.context';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView, Text, useWindowDimensions } from 'react-native'; 
+import TopBar from '../components/TopBar'; 
+import { BarChart } from 'react-native-chart-kit'; 
 
 const PhScreen = () => {
-  const { nivelPh } = useContext(BrokerContext); // Solo se está utilizando nivelPh del contexto
-
-  const [ultimos10Registros, setUltimos10Registros] = useState([]); // Definir estado para ultimos10Registros
-
+  const [ultimos10Registros, setUltimos10Registros] = useState([]);
   const screenWidth = useWindowDimensions().width;
-
-  const fetchDataFromDatabase = () => {
-    // Simulando datos de la base de datos
-    const exampleData = [
-      { fecha: '2024-02-26', nivel_ph: 3, estado: 'Base' },
-      { fecha: '2024-02-25', nivel_ph: 6, estado: 'Base' },
-      { fecha: '2024-02-24', nivel_ph: 9, estado: 'Base' },
-    ];
-
-    // Simulando los últimos 10 registros de la base de datos
-    const lastTenData = exampleData.slice(0, 10);
-    setUltimos10Registros(lastTenData);
-  };
 
   useEffect(() => {
     fetchDataFromDatabase();
   }, []);
 
+  const fetchDataFromDatabase = () => {
+    try {
+      const exampleData = [
+        { id: 1, fecha: '2024-02-26', nivel_ph: 0, estado: 'Base' }, 
+        { id: 2, fecha: '2024-02-25', nivel_ph: 7, estado: 'Base' },
+        { id: 3, fecha: '2024-02-24', nivel_ph: 14, estado: 'Base' },
+      ];
+
+      const lastTenData = exampleData.slice(0, 10);
+      setUltimos10Registros(lastTenData);
+    } catch (error) {
+      console.error('Error al obtener datos de la base de datos:', error);
+    }
+  };
+
+  // Preparar los datos para la gráfica de barras
+  const prepareChartData = () => {
+    const data = {
+      labels: ultimos10Registros.map(item => item.fecha), // Fechas como etiquetas
+      datasets: [
+        {
+          data: ultimos10Registros.map(item => item.nivel_ph), // Niveles de pH como datos
+        },
+      ],
+    };
+    return data;
+  };
+
   return (
     <View style={styles.mainContainer}>
       <TopBar />
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Tabla para mostrar historial de PH */}
+        <View style={styles.chartContainer}>
+          {/* Renderizar la gráfica de barras con los datos preparados */}
+          <BarChart
+            data={prepareChartData()}
+            width={screenWidth * 0.9} // Ancho un poco más pequeño que el de la pantalla
+            height={225} // Altura ajustada
+            yAxisSuffix=""
+            fromZero={true}
+            chartConfig={{
+              backgroundColor: '#7CD7CF', // Color de fondo
+              backgroundGradientFrom: '#AEE1D3', // Gradiente de fondo (inicio)
+              backgroundGradientTo: '#49CCCC', // Gradiente de fondo (fin)
+              decimalPlaces: 2, // Opcional, por defecto es 2dp
+              color: (opacity = 10) => `rgba(0, 0, 0, ${opacity})`, // Color de las líneas
+              labelColor: (opacity = 10) => `rgba(0, 0, 0, ${opacity})`, // Color de las etiquetas
+              style: {
+                borderRadius: 100, // Borde redondo
+              },
+            }}
+            style={{
+              alignSelf: 'center', // Centrar horizontalmente
+            }}
+          />
+        </View>
         <View style={styles.tableContainer}>
           <View style={[styles.dataItem, styles.header]}>
             <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
             <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
             <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
           </View>
-          {/* Mapear los ultimos 10 registros para mostrarlos en pantalla */}
-          {ultimos10Registros.map((item, index) => (
-            <View style={styles.dataItem} key={index}>
+          {ultimos10Registros.map((item) => (
+            <View style={styles.dataItem} key={item.id}>
               <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
               <Text style={styles.dataText}>{item.nivel_ph}</Text>
               <Text style={styles.dataText}>{item.estado}</Text>
@@ -60,20 +94,22 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
   },
+  chartContainer: {
+    marginTop: 20,
+  },
   dataItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderBottomColor: '#ccc',
+    borderBottomWidth: 1, 
   },
   dataText: {
     flex: 1,
     textAlign: 'center',
   },
   header: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
     fontWeight: 'bold',
   },
   headerText: {

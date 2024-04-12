@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://192.168.1.7:3000/api"; // Corregir la dirección del servidor API
+var api = "http://192.168.1.71:3000/api"; // Corregir la dirección del servidor API
 
 const BrokerContext = createContext();
 
