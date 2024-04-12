@@ -1,9 +1,10 @@
 const express = require("express");
 const controladorUser = require('../controller/controllerUser.js')
-const controladorPh = require('../controller/controllerPh.js')
+const controladorPh = require('../controller/ph.controller.js')
 const controladorCalidad = require('../controller/controllerCalidad.js')
 const controladorFlujo = require('../controller/controllerFlujo.js')
 const controladorVentas= require('../controller/controllerVentas.js')
+const controladorAgua = require('../controller/controllerAgua.js')
 const router =express.Router();
 const { authRequired } = require('../middleware/validarToken.js');
 
@@ -18,7 +19,7 @@ router.get('/perfil', controladorUser.perfil);
 
 // Rutas de sensores
 router.post('/agregarPh',controladorPh.AgregarPh); //Registrar nivel de pH
-router.get('/agregarPh',controladorPh.MostrarPh); //Mostrar Registros de nivel de pH
+router.get('/MostrarPh',controladorPh.MostrarPh); //Mostrar Registros de nivel de pH
 router.get('/UltimoPh',controladorPh.MostrarUltimoPH); //Mostrar Registros de nivel de pH
 
 
@@ -34,4 +35,6 @@ router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo) //Mostrar ultimo 
 
 // VENTAS Y AGUA
 router.post('/agregarVenta',controladorVentas.agregarVenta)
+router.post('/agregarAgua',controladorAgua.agregarAgua)
+
 module.exports = router;
