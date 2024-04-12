@@ -32,7 +32,7 @@ exports.MostrarUltimoPH = async (req, res) => {
         if (!ultimoPh) {
             return res.status(404).json({ message: "No se encontraron datos de pH" });
         }
-        res.json(ultimoPh.nivel_ph); // Devuelve solo el valor de 'nivel_ph' del último documento
+        res.json(ultimoPh.nivel_ph); 
     } catch (error) {
         console.error("Error al obtener el último valor de pH:", error);
         res.status(500).json({ message: "Error del servidor" });

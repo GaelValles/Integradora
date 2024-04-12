@@ -48,7 +48,7 @@ export const BrokerProvider = ({ children }) => {
             setFlujo(payload);
             console.log(`Valor Flujo: ${payload}`);
             enviarFlujoaDB(payload);
-        } else if (topic === "/Integradora/ph") {
+        } else if (topic === "/Integradora/Ph") {
             setPh(payload);
             console.log(`Valor Ph del Agua: ${payload}`);
             agregarPhaDB(payload);
@@ -69,7 +69,7 @@ export const BrokerProvider = ({ children }) => {
                 console.log("Conectado al broker!");
                 mqttClient.subscribe("/Integradora/Calidad");
                 mqttClient.subscribe("/Integradora/Flujo");
-                mqttClient.subscribe("/Integradora/ph");
+                mqttClient.subscribe("/Integradora/Ph");
                 mqttClient.onMessageArrived = onMessage;
                 setClient(mqttClient); // Establecer el cliente MQTT una vez conectado
             },
