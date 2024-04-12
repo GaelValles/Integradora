@@ -44,7 +44,7 @@ export const BrokerProvider = ({ children }) => {
             setFlujo(payload);
             console.log(`Valor Flujo: ${payload}`);
             enviarFlujoaDB(payload);
-        } else if (topic === "/Integradora/ph") {
+        } else if (topic === "/Integradora/Ph") {
             setPh(payload);
             console.log(`Valor Ph del Agua: ${payload}`);
             agregarPhaDB(payload);
@@ -65,7 +65,7 @@ export const BrokerProvider = ({ children }) => {
                 console.log("Conectado al broker!");
                 mqttClient.subscribe("/Integradora/Calidad");
                 mqttClient.subscribe("/Integradora/Flujo");
-                mqttClient.subscribe("/Integradora/ph");
+                mqttClient.subscribe("/Integradora/Ph");
                 mqttClient.onMessageArrived = onMessage;
                 setClient(mqttClient); // Establecer el cliente MQTT una vez conectado
             },
@@ -102,10 +102,10 @@ export const BrokerProvider = ({ children }) => {
             if (response.status === 201) {
                 console.log('Calidad guardado correctamente en la base de datos', data.Calidad);
             } else {
-                console.error('Error al guardar en la base de datos', data.message);
+                console.error('Error al Enviar los datos Calidad en la base de datos', data.message);
             }
         } catch (error) {
-            console.error('Error al enviar la solicitud al servidor', error);
+            console.error('Error al enviar la solicitud al servidor de la Calidad', error);
         }
     }
 
@@ -132,10 +132,10 @@ export const BrokerProvider = ({ children }) => {
             if (response.status === 201) {
                 console.log('Flujo guardado correctamente en la base de datos', data.Flujo);
             } else {
-                console.error('Error al guardar en la base de datos', data.message);
+                console.error('Error al guardar Flujo en la base de datos', data.message);
             }
         } catch (error) {
-            console.error('Error al enviar la solicitud al servidor', error);
+            console.error('Error al enviar la solicitud al servidor Flujo', error);
         }
     }
 
@@ -173,7 +173,7 @@ export const BrokerProvider = ({ children }) => {
                 console.error('Error al guardar el PH en la base de datos', data.message);
             }
         } catch (error) {
-            console.error('Error al enviar la solicitud al servidor', error);
+            console.error('Error al enviar la solicitud al servidor PH', error);
         }
     }
 
@@ -200,7 +200,7 @@ export const BrokerProvider = ({ children }) => {
                     // console.log("Ultimo dato de Turbidez: ", datoTurbidez.data)
                     setNivelTurbidez(datoTurbidez.data)
                 } catch (error) {
-                    console.error("Error al obtener los datos:", error);
+                    console.error("Error al obtener los ultimos datos de la BD:", error);
                 }
             };
 
@@ -211,7 +211,7 @@ export const BrokerProvider = ({ children }) => {
             return () => clearInterval(interval);
         }, []);
     } catch (error) {
-        console.log("Error al llamar los datos", error)
+        console.log("Error al llamar los datos de los ultimos Dato", error)
     }
 
     // OBTENER DATOS DE LA BASE DE DATOS
@@ -230,7 +230,7 @@ export const BrokerProvider = ({ children }) => {
             const responseTurbidez = await axios.get(`${api}/turbidez`);
            
         } catch (error) {
-            console.error("Error al obtener los datos:", error);
+            console.error("Error al obtener los datos :", error);
         }
     };
 
