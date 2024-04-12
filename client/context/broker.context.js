@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://172.20.98.194:3000/api"; // Corregir la dirección del servidor API
+var api = "http://172.20.102.159:3000/api"; // Corregir la dirección del servidor API
 
 const BrokerContext = createContext();
 
@@ -19,6 +19,7 @@ export const useAuth = () => {
 
 export const BrokerProvider = ({ children }) => {
     const [historialPh, setHistorialPh] = useState([]);
+    const [historialFlujo, setHistorialFlujo]=useState([])
     const [client, setClient] = useState(null);
     const [calidad, setCalidad] = useState(0);
     const [flujo, setFlujo] = useState(0);
@@ -26,7 +27,7 @@ export const BrokerProvider = ({ children }) => {
     const [nivelPh, setNivelPh] = useState(null);
     const [nivelFlujo, setNivelFlujo] = useState(null);
     const [nivelTurbidez, setNivelTurbidez] = useState(null);
-    const [User, setUser] = useState(null);
+    const [User, setUser] = useState([]);
     const [isAuth, setIsAuth] = useState(false);
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -198,12 +199,21 @@ export const BrokerProvider = ({ children }) => {
                     // Establecer los estados con los datos más recientes
                     // console.log("Ultimo PH:", datosPh.data);
 
+                    // TRAER EL HISTORIAL DEL PH
                     try {
-                        const response = await axios.get(`${api}/MostrarPh`);
-                        setHistorialPh(response.data); //Actualizar UseState con los datos obtenido en la varibale historialPh
+                        const responseHistorialPh = await axios.get(`${api}/MostrarPh`);
+                        setHistorialPh(responseHistorialPh.data); //Actualizar UseState con los datos obtenido en la varibale historialPh
                     } catch (error) {
                         console.error("Error Mostrar Historial de Ph:", error);
                     }
+                    // TRAER EL HISTORIAL DE FLUJO
+                    try {
+                        const responseHistorialFlujo = await axios.get(`${api}/MostrarFlujo`);
+                        setHistorialFlujo(responseHistorialFlujo.data); //Actualizar UseState con los datos obtenido en la varibale historialPh
+                    } catch (error) {
+                        console.error("Error Mostrar Historial de Ph:", error);
+                    }
+
                     setNivelPh(datosPh.data);
                     // Datos del flujo
                     // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
@@ -224,20 +234,11 @@ export const BrokerProvider = ({ children }) => {
         }, []);
     } catch (error) {
         console.log("Error al llamar los datos de los ultimos Dato", error)
-    }
-
-    // OBTENER DATOS DE LA BASE DE DATOS
-   
-
+    }   
     // Obtener todos los datos de la base de datos
     const MostrarFlujo = async () => {
        
     };
-    // Funcion para obtener todos los datos de PH de la base de datos
-    const MostrarPh = async () => {
-       
-    };
-
     const MostrarVentas = async () => {
         try {
             const response = await axios.get(`${api}/Ventas`);
@@ -334,6 +335,7 @@ export const BrokerProvider = ({ children }) => {
             User,
             isAuth,
             historialPh,
+            historialFlujo,
             loading, calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez
         }}>
             {children}

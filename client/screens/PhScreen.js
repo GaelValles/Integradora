@@ -8,25 +8,6 @@ const PhScreen = () => {
   const ultimos10Registros=historialPh.slice(0,10);
   const screenWidth = useWindowDimensions().width;
 
-  // useEffect(() => {
-  //   fetchDataFromDatabase();
-  // }, []);
-
-  // const fetchDataFromDatabase = () => {
-  //   try {
-  //     const exampleData = [
-  //       { id: 1, fecha: '2024-02-26', nivel_ph: 0, estado: 'Base' }, 
-  //       { id: 2, fecha: '2024-02-25', nivel_ph: 7, estado: 'Base' },
-  //       { id: 3, fecha: '2024-02-24', nivel_ph: 14, estado: 'Base' },
-  //     ];
-
-  //     const lastTenData = exampleData.slice(0, 10);
-  //     setUltimos10Registros(lastTenData);
-  //   } catch (error) {
-  //     console.error('Error al obtener datos de la base de datos:', error);
-  //   }
-  // };
-
   // Preparar los datos para la gráfica de barras
   const prepareChartData = () => {
     const data = {

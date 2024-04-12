@@ -32,7 +32,7 @@ exports.AgregarFlujo = async (req, res) => {
 
 exports.MostrarFlujo = async(req, res) => {
     try{
-        const flujo= await Flujo.find()
+        const flujo= await Flujo.find().sort({ $natural: -1 })
         res.json(flujo);
     }catch(error){
         console.error('Error al obtener registros de la base de datos', error);

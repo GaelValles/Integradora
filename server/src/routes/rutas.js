@@ -29,7 +29,7 @@ router.get('/agregarCalidad',controladorCalidad.MostrarCalidad) //Mostrar datos 
 router.get('/UltimaTurbidez',controladorCalidad.MostrarUltimaTurbidez) //Mostrar ultimo dato de flujo en la base de datos
 
 router.post('/agregarFlujo',controladorFlujo.AgregarFlujo) //Registrar datos a de Flujo
-router.get('/agregarFlujo',controladorFlujo.MostrarFlujo) //Mostar datos de flujo
+router.get('/MostrarFlujo',controladorFlujo.MostrarFlujo) //Mostar datos de flujo
 router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo) //Mostrar ultimo dato de flujo en la base de datos
 
 
