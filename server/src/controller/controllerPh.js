@@ -35,7 +35,7 @@ exports.AgregarPh = async (req, res) => {
 exports.MostrarPh = async (req, res) => {
     try {
        
-        const mostrarPh = await Ph.find();
+        const mostrarPh = await Ph.find().sort({ $natural: -1 });
         if (mostrarPh.length === 0) {
             return res.status(404).json({ message: "No se encontraron datos de pH" });
         }

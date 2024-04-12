@@ -7,7 +7,7 @@ import BrokerContext from '../context/broker.context';
 
 const PhScreen = () => {
   const { nivelPh, nivelFlujo, nivelTurbidez,historialPh } = useContext(BrokerContext); //Varibles de consulta del Context
-  const ultimos10Registros = historialPh.slice(0, 10).reverse(); //Guardar los 10 ultimos registros del PH en una variable
+  const ultimos10Registros = historialPh.slice(0, 10); //Guardar los 10 ultimos registros del PH en una variable
 
  
   const chartData = [
@@ -39,6 +39,19 @@ const PhScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <TopBar />
+       {/* Sección de la gráfica */}
+       <View style={styles.chartContainer}>
+          <PieChart
+            data={chartData}
+            width={screenWidth - 40} // Ajusta el ancho de la gráfica según el ancho de la pantalla y el padding horizontal
+            height={220}
+            chartConfig={chartConfig}
+            accessor="value"
+            backgroundColor="transparent"
+            paddingLeft="15"
+            absolute
+          />
+        </View>
       <ScrollView contentContainerStyle={styles.container}>
         {/* Tabla para mostrar historial de PH */}
         <View style={styles.tableContainer}>
@@ -57,19 +70,7 @@ const PhScreen = () => {
           ))}
         </View>
 
-        {/* Sección de la gráfica */}
-        <View style={styles.chartContainer}>
-          <PieChart
-            data={chartData}
-            width={screenWidth - 40} // Ajusta el ancho de la gráfica según el ancho de la pantalla y el padding horizontal
-            height={220}
-            chartConfig={chartConfig}
-            accessor="value"
-            backgroundColor="transparent"
-            paddingLeft="15"
-            absolute
-          />
-        </View>
+       
       </ScrollView>
     </View>
   );

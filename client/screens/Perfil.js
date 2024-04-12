@@ -5,8 +5,9 @@ import TopBar from '../components/TopBar';
 import { useAuth } from "../context/broker.context";
 
 const Perfil = () => {
-  const {isAuth,user}=useAuth();
-  console.log(user);
+  const { isAuth, User } = useAuth();
+
+  console.log(User);
   return (
     <View style={styles.mainContainer}>
         {/* Importar el TopBar */}
@@ -16,7 +17,7 @@ const Perfil = () => {
           {/*  */}
           <View style={{ alignItems: 'center' }}>
             <Image source={require('../../assets/user-perfil.jpg')} style={styles.imagePerfil} ></Image>
-            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>{user ? user.nombres : 'Usuario'}</Text>
+            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>{User ? User.nombres : 'Usuario'}</Text>
             <Text style={{fontSize:15, fontWeight:'bold', color:'grey'}}>Rol</Text>
           </View>
         </View>
@@ -25,16 +26,18 @@ const Perfil = () => {
           {/* Caja para coloar los datos del usuario */}
           <View style={styles.box}>
             
-            <Text style={styles.label}>Correo electrónico:</Text>
+              <Text style={styles.label}>Correo electrónico:</Text>
             <TextInput
               style={styles.input}
-              placeholder="No disponible"
+              placeholder="Correo electrónico"
+              value={User.correo}
               editable={false}
             />
-            <Text style={styles.label}>Teléfono:</Text>
+                <Text style={styles.label}>Telefono:</Text>
             <TextInput
               style={styles.input}
-              placeholder="No disponible"
+              placeholder="Telefono"
+              value={User.telefono}
               editable={false}
             />
             {/* Boton para cerrar sesion */}
@@ -121,5 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Perfil;
-
+export default Perfil;

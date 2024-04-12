@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { regis, login, verifyTokenRequest } from "../api/auth";
+import { regis, login, verifyTokenRequest, getUserRequest } from "../api/auth";
 import { Client } from "paho-mqtt";
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://192.168.1.7:3000/api";
+var api = "http://172.20.98.194:3000/api";
 // Conexion al broker
 
 // Crear el contexto
@@ -30,7 +30,7 @@ export const BrokerProvider = ({ children }) => {
     const [nivelPh, setNivelPh] = useState(null);
     const [nivelFlujo, setNivelFlujo] = useState(null);
     const [nivelTurbidez, setNivelTurbidez] = useState(null);
-    const [user, setUser] = useState(null)
+    const [User, setUser] = useState([])
     const [isAuth, setIsAuth] = useState(false);
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -193,9 +193,21 @@ export const BrokerProvider = ({ children }) => {
                     const datosPh = await axios.get(`${api}/UltimoPh`);
                     const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
                     const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
-
+                    // try {
+                    //     const response = await axios.get(`${api}/mostrarFlujo`);
+                    //     setHistorialFlujo(response.data);
+                    // } catch (error) {
+                    //     console.error("Error Mostrar Historial del Flujo:", error);
+                    // }
                     // Establecer los estados con los datos más recientes
                     // console.log("Ultimo PH:", datosPh.data);
+
+                    try {
+                        const response = await axios.get(`${api}/MostrarPh`);
+                        setHistorialPh(response.data); //Actualizar UseState con los datos obtenido en la varibale historialPh
+                    } catch (error) {
+                        console.error("Error Mostrar Historial de Ph:", error);
+                    }
                     setNivelPh(datosPh.data);
                     // Datos del flujo
                     // console.log("Ultimo dato de Flujo: ", datosFlujo.data)
@@ -219,42 +231,15 @@ export const BrokerProvider = ({ children }) => {
     }
 
     // OBTENER DATOS DE LA BASE DE DATOS
-    useEffect(() => {
-        // MostrarFlujo();
-        // obtenerUltimoDato();
-        MostrarPh(); //Funcion para mostrar los datos de Ph
-        // MostrarVentas();
-    }, []);
-    const obtenerUltimoDato = async () => {
-        try {
-            // Hacer solicitudes HTTP para obtener los datos más recientes
-            const responsePh = await axios.get(`${api}/ph`);
-            const responseFlujo = await axios.get(`${api}/flujo`);
-            const responseCalidad = await axios.get(`${api}/MostrarCalidad`);
-            const responseTurbidez = await axios.get(`${api}/turbidez`);
-           
-        } catch (error) {
-            console.error("Error al obtener los datos :", error);
-        }
-    };
+   
 
     // Obtener todos los datos de la base de datos
     const MostrarFlujo = async () => {
-        try {
-            const response = await axios.get(`${api}/mostrarFlujo`);
-            setHistorialFlujo(response.data);
-        } catch (error) {
-            console.error("Error Mostrar Flujo:", error);
-        }
+       
     };
     // Funcion para obtener todos los datos de PH de la base de datos
     const MostrarPh = async () => {
-        try {
-            const response = await axios.get(`${api}/MostrarPh`);
-            setHistorialPh(response.data); //Actualizar UseState con los datos obtenido en la varibale historialPh
-        } catch (error) {
-            console.error("Error Mostrar Ph:", error);
-        }
+       
     };
 
     const MostrarVentas = async () => {
@@ -284,9 +269,8 @@ export const BrokerProvider = ({ children }) => {
             const res = await login(user);
             console.log("datos del logeado", res.data);
             setUser(res.data);
-            setIsAuth(true);
-            setUser(res.data);
-            console.log("set user", user)
+            setIsAuth(true);;
+            console.log("set user", User)
         } catch (error) {
             if (Array.isArray(error.response.data)) {
                 return setErrors(error.response.data)
@@ -294,7 +278,14 @@ export const BrokerProvider = ({ children }) => {
             setErrors([error.response.data.message])
         }
     };
-
+    const getUsers = async (id) => {
+        try {
+            const res = await getUserRequest(id);
+            return res.data;
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const logout = () => {
         Cookies.remove("token")
         setIsAuth(false)
@@ -325,7 +316,6 @@ export const BrokerProvider = ({ children }) => {
                     setLoading(false)
                     return;
                 }
-
                 setIsAuth(true)
                 setUser(res.data)
                 setLoading(false)
@@ -345,7 +335,7 @@ export const BrokerProvider = ({ children }) => {
             signup,
             signin,
             logout,
-            user,
+            User,
             isAuth,
             historialPh,
             loading, calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez
