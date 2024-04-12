@@ -1,9 +1,11 @@
-import React, {useState, useEffect,useContext } from 'react';
-import { Text, SafeAreaView, StyleSheet, View, FlatList } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, SafeAreaView, StyleSheet, View, FlatList, Dimensions } from 'react-native'; // Importa Dimensions
 import TopBar from '../components/TopBar';
+import { BarChart } from 'react-native-chart-kit';
 import BrokerContext from '../context/broker.context';
+
 export default function CalidadAgua() {
-  const{nivelTurbidez}=useContext(BrokerContext)
+  const { nivelTurbidez } = useContext(BrokerContext);
 
   const [data, setData] = useState([]);
 
@@ -19,26 +21,54 @@ export default function CalidadAgua() {
   useEffect(() => {
     fetchDataFromDatabase();
   }, []);
+
+  const barChartData = {
+    labels: data.map(item => item.date),
+    datasets: [
+      {
+        data: data.map(item => item.Flujo),
+      },
+    ],
+  };
+
   return (
     <View style={styles.mainContainer}>
-    <TopBar />
-    <SafeAreaView style={styles.container}>
-      <View style={styles.subtitleContainer}>
-        <View style={styles.subtitleBackground}>
-          <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {nivelTurbidez}</Text>
-          <Text style={styles.subtitleText}>Última Revisión: </Text>
+      <TopBar />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.chartContainer}>
+          <BarChart
+            data={barChartData}
+            width={Dimensions.get('window').width * 0.9} // Usa Dimensions
+            height={225}
+            yAxisSuffix=""
+            fromZero={true}
+            chartConfig={{
+              backgroundColor: '#49CCCC',
+              backgroundGradientFrom: '#49CCCC',
+              backgroundGradientTo: '#AEE1D3',
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            style={{
+              alignSelf: 'center',
+            }}
+          />
         </View>
-      </View>
-      <View style={styles.currentTimeContainer}>
-        <Text style={styles.currentTimeTitle}>Hora de Introducción de Datos:</Text>
-        <Text style={styles.currentTime}></Text>
-      </View>
-      <View style={styles.container}>
-        {/* Tabla para mostrar historial de Calidad de agua */}
-        <View style={styles.tableContainer}>
-          <View style={[styles.dataItem, styles.header]}>
-            <Text style={[styles.dataText, styles.headerText]}>Historial</Text>
+        <View style={styles.subtitleContainer}>
+          <View style={styles.subtitleBackground}>
+            <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {nivelTurbidez}</Text>
+            <Text style={styles.subtitleText}>Última Revisión: </Text>
           </View>
+        </View>
+        <View style={styles.currentTimeContainer}>
+          <Text style={styles.currentTimeTitle}>Hora de Introducción de Datos:</Text>
+          <Text style={styles.currentTime}></Text>
+        </View>
+        <View style={styles.tableContainer}>
           <FlatList
             data={data}
             keyExtractor={(item, index) => index.toString()}
@@ -58,35 +88,25 @@ export default function CalidadAgua() {
             }
           />
         </View>
-
-      </View>
-      
-    </SafeAreaView>
+      </SafeAreaView>
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer:{
+  mainContainer: {
     flex: 1,
     flexDirection: 'column',
-    },
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
   },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
   subtitleContainer: {
     alignItems: 'center',
-    marginTop:20
+    marginTop: 20,
   },
   subtitleBackground: {
     backgroundColor: 'cyan',
@@ -99,9 +119,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
   },
-  container: {
-    flex: 1,
-    padding: 20,
+  currentTimeContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  currentTimeTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  currentTime: {
+    fontSize: 16,
+    marginBottom: 5,
   },
   titleTable: {
     fontSize: 24,
@@ -114,8 +143,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
-    // borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   dataText: {
     flex: 1,
@@ -131,8 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tableContainer: {
-    flex: 1,
-    marginTop: 50,
+    marginTop: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     shadowColor: '#000',
@@ -140,21 +168,11 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    shadowOpacity: 0.50,
+    shadowOpacity: 0.5,
     shadowRadius: 6.84,
     elevation: 7,
   },
-  currentTimeContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  currentTimeTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  currentTime: {
-    fontSize: 16,
-    marginBottom: 5,
+  chartContainer: {
+    marginTop: 20,
   },
 });

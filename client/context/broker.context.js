@@ -5,10 +5,8 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://172.20.98.194:3000/api";
-// Conexion al broker
+var api = "http://172.20.98.1941:3000/api"; // Corregir la dirección del servidor API
 
-// Crear el contexto
 const BrokerContext = createContext();
 
 export const useAuth = () => {
@@ -18,19 +16,17 @@ export const useAuth = () => {
     }
     return context;
 }
-// Crear el proveedor del contexto
+
 export const BrokerProvider = ({ children }) => {
-
-    const [historialPh, setHistorialPh] = useState([]); //Guardar los datos de PH que se consultaron en la base de datos 
+    const [historialPh, setHistorialPh] = useState([]);
     const [client, setClient] = useState(null);
-
     const [calidad, setCalidad] = useState(0);
     const [flujo, setFlujo] = useState(0);
     const [Ph, setPh] = useState(0);
     const [nivelPh, setNivelPh] = useState(null);
     const [nivelFlujo, setNivelFlujo] = useState(null);
     const [nivelTurbidez, setNivelTurbidez] = useState(null);
-    const [User, setUser] = useState([])
+    const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
