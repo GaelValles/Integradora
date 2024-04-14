@@ -25,7 +25,7 @@ router.get('/UltimoPh',controladorPh.MostrarUltimoPH); //Mostrar Registros de ni
 
 // Funcion para los datos de calidad/Turbidez
 router.post('/agregarCalidad',controladorCalidad.AgregarCalidad) //Registrar datos de Calidad de agua
-router.get('/agregarCalidad',controladorCalidad.MostrarCalidad) //Mostrar datos de calidad de agua
+router.get('/MostrarCalidad',controladorCalidad.MostrarCalidad) //Mostrar datos de calidad de agua
 router.get('/UltimaTurbidez',controladorCalidad.MostrarUltimaTurbidez) //Mostrar ultimo dato de flujo en la base de datos
 
 router.post('/agregarFlujo',controladorFlujo.AgregarFlujo) //Registrar datos a de Flujo
