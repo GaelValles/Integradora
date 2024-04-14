@@ -1,16 +1,19 @@
 
-import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, AsyncStorage } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from "react-native";
 import CheckBox from "react-native-check-box";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import TopBar from "../components/TopBar";
 import { useNavigation } from '@react-navigation/native';
+import { onPress } from "deprecated-react-native-prop-types/DeprecatedTextPropTypes";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Link para los iconos
 // https://pictogrammers.com/library/mdi/ y https://reactnativeelements.com/docs/1.2.0/icon#containerstyle
 
 export default function Ventas() {
-  const [total,setTotal]=useState(0);
+  const [VentaActiva, setVentaActiva] = useState(false);
+  const [total, setTotal] = useState(0);
   const [GarrafonPurificada, setGarrafonPurificada] = useState(0);
   const [MedioGarrafonPurificada, setMedioGarrafonPurificada] = useState(0);
   const [garrafonPequeñoPurificada, setgarrafonPequeñoPurificada] = useState(0);
@@ -21,30 +24,73 @@ export default function Ventas() {
 
   const aumentarGarrafonPurificada = () => {
     setGarrafonPurificada(GarrafonPurificada + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
   const aumentarMedioGarrafonPurificada = () => {
     setMedioGarrafonPurificada(MedioGarrafonPurificada + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
   const aumentargarrafonPequeñoPurificada = () => {
     setgarrafonPequeñoPurificada(garrafonPequeñoPurificada + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
   const aumentarGarrafonAlcalina = () => {
     setGarrafonAlcalina(GarrafonAlcalina + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
   const aumentarMedioGarrafonAlcalina = () => {
     setMedioGarrafonAlcalina(MedioGarrafonAlcalina + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
   const aumentargarrafonPequeñoAlcalina = () => {
     setgarrafonPequeñoAlcalina(garrafonPequeñoAlcalina + 1);
-    setTotal(total+18)
+    setTotal(total + 18)
   };
 
+  useEffect(() => {
+    const checkVentaActiva = async () => {
+      const fechaUltimaApertura = await AsyncStorage.getItem('fechaApertura');
+      const fechaHoy = new Date().toDateString();
+      if (fechaHoy === fechaUltimaApertura) {
+        setVentaActiva(true);
+      }
+    };
+    checkVentaActiva();
+  }, []);
 
+  const ActivarCaja = async () => {
+    console.log("Intentando activar la caja"); // Debugging line
+    const fechaHoy = new Date().toDateString();
+    const fechaUltimaApertura = await AsyncStorage.getItem('fechaApertura');
+
+    if (fechaHoy !== fechaUltimaApertura) {
+      await AsyncStorage.setItem('fechaApertura', fechaHoy);
+      console.log('Fecha se abrió:', fechaHoy);
+      setVentaActiva(true);
+    } else {
+      console.log('La caja ya fue abierta hoy.');
+      alert('La caja ya fue abierta hoy.');
+    }
+};
+
+
+  const CerrarCaja = async () => {
+    const fechaHoy = new Date().toDateString();
+    await AsyncStorage.setItem('fechaApertura', fechaHoy); // Impide otra apertura/cierre en el mismo día
+    console.log('Fecha se cerró:', fechaHoy);
+    setVentaActiva(false);
+    setTotal(0);
+    resetCounts();
+  };
+
+  const resetCounts = () => {
+    setGarrafonPurificada(0);
+    setMedioGarrafonPurificada(0);
+    setgarrafonPequeñoPurificada(0);
+    setGarrafonAlcalina(0);
+    setMedioGarrafonAlcalina(0);
+    setgarrafonPequeñoAlcalina(0);
+  };
 
   const navigation = useNavigation();
   // Navegar a interfaz de editar
@@ -58,171 +104,184 @@ export default function Ventas() {
     // View para agregar el AppBar
     <View style={styles.mainContainer}>
       <TopBar />
-      <View style={styles.container}>
 
-        <ScrollView style={styles.scroll}>
+      {VentaActiva == false ?
+        <ImageBackground source={require('../../assets/VentaDesactivada.jpg')} style={styles.background} blurRadius={9}>
+          <View style={styles.containerCajaCerrada}>
+            <Text style={[styles.text, { marginBottom: 20 }]}>La caja esta desactivada el dia de Hoy..</Text>
+            <TouchableOpacity style={[styles.ActivarCaja, { backgroundColor: '#16c1c8', }]}onPress ={ActivarCaja}>
+              <Text style={styles.buttonText}>Activar Caja</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        :
+        <View style={styles.container}>
 
-          {/* Titulo inicial */}
-          <Text style={styles.title}>Venta del Dia</Text>
-          {/* Botones para editar o Cerrar Caja */}
-          <TouchableOpacity activeOpacity={.8} onPress={rutaNuevoProducto}>
-            <View style={styles.buttonBox}>
-              {/* Icono de editar */}
-              <Material name="file-edit" size={40} color="#000" />
-            </View>
+          <ScrollView style={styles.scroll}>
 
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={.8}>
-            <View style={styles.buttonBox2}>
-              <Text>Cierre de Caja</Text>
-            </View>
-          </TouchableOpacity>
+            {/* Titulo inicial */}
+            <Text style={styles.title}>Venta del Dia</Text>
+            {/* Botones para editar o Cerrar Caja */}
+            <TouchableOpacity activeOpacity={.8} onPress={rutaNuevoProducto}>
+              <View style={styles.buttonBox}>
+                {/* Icono de editar */}
+                <Material name="file-edit" size={40} color="#000" />
+              </View>
 
-          {/* <TouchableOpacity activeOpacity={.8} onPress={rutaNuevaAgua}>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={.8} onPress={CerrarCaja}>
+              <View style={styles.buttonBox2}>
+                <Text>Cierre de Caja</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* <TouchableOpacity activeOpacity={.8} onPress={rutaNuevaAgua}>
             <View style={styles.buttonBox3}>
               <Text>Agregar</Text>
             </View>
           </TouchableOpacity> */}
 
-          {/* Vista para mostrar el total acumulado */}
-          <View style={styles.boxMoney}>
-            <Text style={{ fontSize: 30, marginRight: 20, color: '#fff', fontWeight: "600" }}>TOTAL:</Text>
-            <View style={styles.boxMoneyContent}>
+            {/* Vista para mostrar el total acumulado */}
+            <View style={styles.boxMoney}>
+              <Text style={{ fontSize: 30, marginRight: 20, color: '#fff', fontWeight: "600" }}>TOTAL:</Text>
+              <View style={styles.boxMoneyContent}>
 
-              <Text style={{ fontSize: 40 }}>${total}</Text>
+                <Text style={{ fontSize: 40 }}>${total}</Text>
+              </View>
             </View>
-          </View>
-          {/* Texto sobre el agua */}
-          <View style={styles.textView}>
-            <Text style={styles.text}>Cantidad</Text>
-            <Text style={styles.textSub}>Purificada</Text>
-          </View>
-          {/* Cajas para los tipos de recipientes */}
-          <View style={styles.flexBox}>
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentarGarrafonPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
+            {/* Texto sobre el agua */}
+            <View style={styles.textView}>
+              <Text style={styles.text}>Cantidad</Text>
+              <Text style={styles.textSub}>Purificada</Text>
+            </View>
+            {/* Cajas para los tipos de recipientes */}
+            <View style={styles.flexBox}>
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentarGarrafonPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
 
-              {/* Caja que contiene el total de lo agregado GARRAFON*/}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{GarrafonPurificada}</Text>
+                {/* Caja que contiene el total de lo agregado GARRAFON*/}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{GarrafonPurificada}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente */}
+                <View style={styles.textLabel}>
+                  <Text>Garrafon</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
-              {/* Texto sobre el tipo de recipiente */}
-              <View style={styles.textLabel}>
-                <Text>Garrafon</Text>
+              {/* Segunda Caja */}
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentarMedioGarrafonPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
+                {/* Caja que contiene el total de lo agregado MEDIO GARRAFON*/}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{MedioGarrafonPurificada}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente */}
+                <View style={styles.textLabel}>
+                  <Text>Medio Garrafon</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
+              {/* Tercera Caja */}
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentargarrafonPequeñoPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
+                {/* Caja que contiene el total de lo agregado */}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{garrafonPequeñoPurificada}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente GARRAFON PEQUEÑO*/}
+                <View style={styles.textLabel}>
+                  <Text>Pequeño</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
             </View>
-            {/* Segunda Caja */}
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentarMedioGarrafonPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
-              {/* Caja que contiene el total de lo agregado MEDIO GARRAFON*/}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{MedioGarrafonPurificada}</Text>
-              </View>
-              {/* Texto sobre el tipo de recipiente */}
-              <View style={styles.textLabel}>
-                <Text>Medio Garrafon</Text>
-              </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
-              </View>
-            </View>
-            {/* Tercera Caja */}
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentargarrafonPequeñoPurificada()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
-              {/* Caja que contiene el total de lo agregado */}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{garrafonPequeñoPurificada}</Text>
-              </View>
-              {/* Texto sobre el tipo de recipiente GARRAFON PEQUEÑO*/}
-              <View style={styles.textLabel}>
-                <Text>Pequeño</Text>
-              </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
-              </View>
-            </View>
-          </View>
 
-          {/* Estilo para nombre del agua */}
-          <View style={styles.textView}>
-            <Text style={styles.textSub}>Alcalina</Text>
-          </View>
-          {/* Seccion para el segundo tipo de agua */}
-          <View style={styles.flexBox}>
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentarGarrafonAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
-              {/* Caja que contiene el total de lo agregado */}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{GarrafonAlcalina}</Text>
+            {/* Estilo para nombre del agua */}
+            <View style={styles.textView}>
+              <Text style={styles.textSub}>Alcalina</Text>
+            </View>
+            {/* Seccion para el segundo tipo de agua */}
+            <View style={styles.flexBox}>
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentarGarrafonAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
+                {/* Caja que contiene el total de lo agregado */}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{GarrafonAlcalina}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente */}
+                <View style={styles.textLabel}>
+                  <Text>Garrafon</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
-              {/* Texto sobre el tipo de recipiente */}
-              <View style={styles.textLabel}>
-                <Text>Garrafon</Text>
+              {/* Segunda Caja */}
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentarMedioGarrafonAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
+                {/* Caja que contiene el total de lo agregado */}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{MedioGarrafonAlcalina}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente */}
+                <View style={styles.textLabel}>
+                  <Text>Medio Garrafon</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
+              {/* Tercera Caja */}
+              <View style={styles.box}>
+                {/* Boton para agregar una nueva venta */}
+                <TouchableOpacity onPress={() => aumentargarrafonPequeñoAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
+                  <Text style={styles.arrow}> ↑ </Text>
+                </TouchableOpacity>
+                {/* Caja que contiene el total de lo agregado */}
+                <View style={styles.boxCount}>
+                  <Text style={styles.textCount}>{garrafonPequeñoAlcalina}</Text>
+                </View>
+                {/* Texto sobre el tipo de recipiente */}
+                <View style={styles.textLabel}>
+                  <Text>Pequeño</Text>
+                </View>
+                {/* Parte para mostrar el precio */}
+                <View style={styles.check}>
+                  <Text style={styles.precio}>$18</Text>
+                </View>
               </View>
             </View>
-            {/* Segunda Caja */}
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentarMedioGarrafonAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
-              {/* Caja que contiene el total de lo agregado */}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{MedioGarrafonAlcalina}</Text>
-              </View>
-              {/* Texto sobre el tipo de recipiente */}
-              <View style={styles.textLabel}>
-                <Text>Medio Garrafon</Text>
-              </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
-              </View>
-            </View>
-            {/* Tercera Caja */}
-            <View style={styles.box}>
-              {/* Boton para agregar una nueva venta */}
-              <TouchableOpacity onPress={() => aumentargarrafonPequeñoAlcalina()} activeOpacity={.3} style={styles.touchableOpacity}>
-                <Text style={styles.arrow}> ↑ </Text>
-              </TouchableOpacity>
-              {/* Caja que contiene el total de lo agregado */}
-              <View style={styles.boxCount}>
-                <Text style={styles.textCount}>{garrafonPequeñoAlcalina}</Text>
-              </View>
-              {/* Texto sobre el tipo de recipiente */}
-              <View style={styles.textLabel}>
-                <Text>Pequeño</Text>
-              </View>
-              {/* Parte para mostrar el precio */}
-              <View style={styles.check}>
-                <Text style={styles.precio}>$18</Text>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      }
+
     </View>
 
   )
@@ -261,6 +320,30 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  // Estilo para Caja Cerrada
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerCajaCerrada: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ActivarCaja: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 28,
+    color: 'black',
+    textAlign: 'center',
+
   },
   // Estilo para boton cierre de caja
   buttonBox2: {

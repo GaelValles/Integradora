@@ -264,7 +264,6 @@ export const BrokerProvider = ({ children }) => {
             console.log("datos del logeado", res.data);
             setUser(res.data);
             setIsAuth(true);;
-            console.log("set user", User)
         } catch (error) {
             if (Array.isArray(error.response.data)) {
                 return setErrors(error.response.data)

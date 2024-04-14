@@ -6,7 +6,6 @@ import BrokerContext from '../context/broker.context';
 export default function Principal() {
 
   const{nivelPh,nivelFlujo,nivelTurbidez}=useContext(BrokerContext)
-
   const navigation = useNavigation();
   const handleBoxClick = (boxNumber) => {
     console.log(`caja ${boxNumber} presionada`);

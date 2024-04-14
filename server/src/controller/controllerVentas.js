@@ -2,17 +2,17 @@ const {Ventas} = require('../model/ventas');
 
 exports.agregarVenta = async (req, res) => {
     try {
-        const { nombre, totalGalones, total } = req.body;
+        const { nombre, totalGalones, total,fechaCerrar,fechaApertura } = req.body;
         if (!nombre || !totalGalones || !total) {
-            return res.status(400).json({ message: 'Faltan parámetros en la solicitud' });
+            return res.status(400).json({ message: 'Faltan parámetros en la solicitud Agregar Venta' });
         }
 
         const venta = new Ventas({
             nombre,
             totalGalones,
             total,
-            fechaCerrar: new Date(),
-            fechaApertura: new Date(),
+            fechaCerrar,
+            fechaApertura,
         });
 
         await venta.save();
