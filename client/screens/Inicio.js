@@ -11,9 +11,9 @@ const Inicio = () => {
     navigation.navigate('Login'); // Navegar a la pantalla de creación de cuenta
   };
   // Ruta para enviar a pantalla Registrarse
-  const rutaRegistrarse = () => {
-    navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
-  };
+  // const rutaRegistrarse = () => {
+  //   navigation.navigate('Registrar'); // Navegar a la pantalla de creación de cuenta
+  // };
 
   return (
     <ImageBackground source={require('../../assets/fondo.jpg')} style={styles.background}>
@@ -22,9 +22,9 @@ const Inicio = () => {
         <TouchableOpacity style={[styles.button, { backgroundColor: '#16c1c8', }]} onPress={rutaLogin}>
           <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: 'transparent' }]} onPress={rutaRegistrarse}>
+        {/* <TouchableOpacity style={[styles.button, { backgroundColor: 'transparent' }]} onPress={rutaRegistrarse}>
           <Text style={[styles.buttonText, { color: 'black', fontSize: 16, marginTop:10 }]}>Crear una cuenta</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ImageBackground>
   );

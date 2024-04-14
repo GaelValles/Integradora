@@ -48,9 +48,9 @@ const Login = () => {
     }
   };
 
-  const rutaRegistrar = () => {
-    navigation.navigate('Registrar');
-  };
+  // const rutaRegistrar = () => {
+  //   navigation.navigate('Registrar');
+  // };
 
   const isButtonEnabled = () => {
     if (formCompleted) {
@@ -83,10 +83,10 @@ const Login = () => {
           placeholder='Contraseña'
           onChangeText={(text) => handleChange('password', text)}
         />
-        <View style={styles.checkboxContainer}>
+        {/* <View style={styles.checkboxContainer}>
           <View style={styles.checkbox}></View>
           <Text>Recuérdame</Text>
-        </View>
+        </View> */}
         <TouchableOpacity
           style={isButtonEnabled()}
           onPress={handleSubmit}
@@ -94,11 +94,11 @@ const Login = () => {
         >
           <Text style={{ color: '#fff' }}>Iniciar</Text>
         </TouchableOpacity>
-        <View style={{ top: 10 }}>
+        {/* <View style={{ top: 10 }}>
           <Text>No tienes cuenta aún? <TouchableOpacity onPress={rutaRegistrar}>
             <Text style={{ color: '#000', fontWeight: '800', top: 3 }}>Regístrate</Text>
           </TouchableOpacity></Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );
