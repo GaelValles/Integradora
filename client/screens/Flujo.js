@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,ScrollView } from 'react-native';
 import TopBar from '../components/TopBar';
-import axios from 'axios';
 // Funcion para el componente de la pagina
 import BrokerContext from '../context/broker.context';
 const Flujo = () => {
@@ -12,8 +11,7 @@ const Flujo = () => {
   return (
     <View style={styles.mainContainer}>
       <TopBar />
-      {/* <ScrollView contentContainerStyle={styles.container}> */}
-
+      <ScrollView contentContainerStyle={styles.scrollStyle}>
       <View style={styles.container}>
         <Text style={[styles.title, { textAlign: 'center' }]}>Datos de Flujo de Agua</Text>
         <View style={styles.container1}>
@@ -40,20 +38,16 @@ const Flujo = () => {
             <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
           </View>
           {ultimos10Registros.map((item) => (
-            // <ScrollView>
-
-           
             <View style={styles.dataItem} key={item.id}>
               <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
               <Text style={styles.dataText}>{item.mlSalidos}</Text>
               <Text style={styles.dataText}>{item.estado}</Text>
             </View>
-            // </ScrollView>
           ))}
           
         </View>
         </View>
-        {/* </ScrollView> */}
+        </ScrollView>
     </View>
   );
 };
@@ -159,6 +153,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.50,
     shadowRadius: 6.84,
     elevation: 7,
+    marginBottom:100
   },
 });
 

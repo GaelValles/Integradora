@@ -1,44 +1,53 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, SafeAreaView, StyleSheet, View, FlatList, Dimensions } from 'react-native'; // Importa Dimensions
+import { Text, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'; // Importa Dimensions
 import TopBar from '../components/TopBar';
 import { BarChart } from 'react-native-chart-kit';
 import BrokerContext from '../context/broker.context';
 
 export default function CalidadAgua() {
-  const { nivelTurbidez } = useContext(BrokerContext);
+  const { historialCalidad } = useContext(BrokerContext);
+  const ultimaCalidad = historialCalidad.slice(0, 1).reverse();
+  const ultimos10Registros = historialCalidad.slice(0, 10);
+  const screenWidth = useWindowDimensions().width;
 
-  const [data, setData] = useState([]);
-
-  const fetchDataFromDatabase = () => {
-    const exampleData = [
-      { date: '2024-02-26', Flujo: 7.2, state: 'Base' },
-      { date: '2024-02-25', Flujo: 6.8, state: 'Base' },
-      { date: '2024-02-24', Flujo: 7.5, state: 'Base' },
-    ];
-    setData(exampleData);
+  // Preparar los datos para la gráfica de barras
+  const prepareChartData = () => {
+    const data = {
+      labels: ultimos10Registros.map(item => new Date(item.fecha).toLocaleDateString()),
+      datasets: [
+        {
+          data: ultimos10Registros.map(item => item.nivel_turbidez),
+        },
+      ],
+    };
+    return data;
   };
-
-  useEffect(() => {
-    fetchDataFromDatabase();
-  }, []);
-
-  const barChartData = {
-    labels: data.map(item => item.date),
-    datasets: [
-      {
-        data: data.map(item => item.Flujo),
-      },
-    ],
-  };
-
   return (
     <View style={styles.mainContainer}>
       <TopBar />
-      <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollStyle}>
+        <View style={styles.subtitleContainer}>
+        <Text style={[styles.subtitleText, {fontWeight:'700', fontSize: 28, textAlign:'center' }]}>Datos de Calidad de Agua</Text>
+
+        <Text style={[styles.subtitleText, {fontWeight:'500', fontSize: 20, textAlign:'left' }]}>Ultima Revision:</Text>
+          {ultimaCalidad.map((item) => (
+            
+            <View style={styles.subtitleBackground}>
+              
+              <Text style={[styles.subtitleText, { fontSize: 23 }]}> Calidad: {item.status ? 'Buena' : 'Mala'}</Text>
+              <Text style={styles.subtitleText}> Nivel: {item.nivel_turbidez}</Text>
+
+              <Text style={styles.subtitleText}>Fecha de Revisión: {new Date(item.fecha).toLocaleString()}</Text>
+            </View>
+          ))}
+        </View>
+
+
+
         <View style={styles.chartContainer}>
-          <BarChart
-            data={barChartData}
-            width={Dimensions.get('window').width * 0.9} // Usa Dimensions
+          {/* <BarChart
+            data={prepareChartData()}
+            width={screenWidth * 0.9}
             height={225}
             yAxisSuffix=""
             fromZero={true}
@@ -56,39 +65,27 @@ export default function CalidadAgua() {
             style={{
               alignSelf: 'center',
             }}
-          />
+          /> */}
         </View>
-        <View style={styles.subtitleContainer}>
-          <View style={styles.subtitleBackground}>
-            <Text style={[styles.subtitleText, { color: 'teal' }]}>Calidad: {nivelTurbidez}</Text>
-            <Text style={styles.subtitleText}>Última Revisión: </Text>
+        <Text style={[styles.subtitleText, {fontWeight:'400',marginTop:10, fontSize: 20, textAlign:'left' }]}>Ultimos Registros:</Text>
+
+        <View horizontal={true} style={styles.tableContainer}>
+
+          <View style={[styles.dataItem, styles.header]}>
+            <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
+            <Text style={[styles.dataText, styles.headerText]}>Nivel NPH</Text>
+            <Text style={[styles.dataText, styles.headerText]}>Calidad del Agua</Text>
           </View>
+          {ultimos10Registros.map((item) => (
+            <View style={styles.dataItem} key={item.id}>
+              <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
+              <Text style={styles.dataText}>{item.nivel_turbidez}</Text>
+              <Text style={styles.dataText}>{item.status ? 'Buena' : 'Mala'}</Text>
+            </View>
+          ))}
+
         </View>
-        <View style={styles.currentTimeContainer}>
-          <Text style={styles.currentTimeTitle}>Hora de Introducción de Datos:</Text>
-          <Text style={styles.currentTime}></Text>
-        </View>
-        <View style={styles.tableContainer}>
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.dataItem}>
-                <Text style={styles.dataText}>{item.date}</Text>
-                <Text style={styles.dataText}>{item.Flujo}</Text>
-                <Text style={styles.dataText}>{item.state}</Text>
-              </View>
-            )}
-            ListHeaderComponent={
-              <View style={[styles.dataItem, styles.header]}>
-                <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
-                <Text style={[styles.dataText, styles.headerText]}>PH De Agua</Text>
-                <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
-              </View>
-            }
-          />
-        </View>
-      </SafeAreaView>
+      </ScrollView>
     </View>
   );
 }
@@ -97,16 +94,21 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'column',
+    
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
+    marginBottom:300
+
+  },
+  scrollStyle:{
   },
   subtitleContainer: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   subtitleBackground: {
     backgroundColor: 'cyan',
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 6.84,
     elevation: 7,
+    marginBottom:100
   },
   chartContainer: {
     marginTop: 20,

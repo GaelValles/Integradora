@@ -27,6 +27,8 @@ const PhScreen = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.chartContainer}>
           {/* Renderizar la gráfica de barras con los datos preparados */}
+          <Text style={[styles.subtitleText, {fontWeight:'700', textAlign:'center', marginBottom:20, fontSize: 28 }]}>Datos de PH</Text>
+
           <BarChart
             data={prepareChartData()}
             width={screenWidth * 0.9} // Ancho un poco más pequeño que el de la pantalla
@@ -49,6 +51,8 @@ const PhScreen = () => {
             }}
           />
         </View>
+        <Text style={[styles.subtitleText, {fontWeight:'400',marginTop:10, fontSize: 20 }]}>Ultimos Registros:</Text>
+
         <View style={styles.tableContainer}>
           <View style={[styles.dataItem, styles.header]}>
             <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   chartContainer: {
-    marginTop: 20,
+    marginTop: 0,
   },
   dataItem: {
     flexDirection: 'row',
@@ -110,6 +114,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 6.84,
     elevation: 7,
+    marginBottom:100
+
   },
 });
 
