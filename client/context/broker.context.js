@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-var api = "http://172.20.102.159:3000/api"; // Corregir la dirección del servidor API
+var api = "http://192.168.1.22:3000/api"; // Corregir la dirección del servidor API
 
 const BrokerContext = createContext();
 
@@ -19,7 +19,8 @@ export const useAuth = () => {
 
 export const BrokerProvider = ({ children }) => {
     const [historialPh, setHistorialPh] = useState([]);
-    const [historialFlujo, setHistorialFlujo]=useState([])
+    const [historialFlujo, setHistorialFlujo]=useState([]);
+    const [historialCalidad,setHistorialCalidad]=useState([]);
     const [client, setClient] = useState(null);
     const [calidad, setCalidad] = useState(0);
     const [flujo, setFlujo] = useState(0);
@@ -190,14 +191,14 @@ export const BrokerProvider = ({ children }) => {
                     const datosPh = await axios.get(`${api}/UltimoPh`);
                     const datosFlujo = await axios.get(`${api}/UltimoFlujo`);
                     const datoTurbidez = await axios.get(`${api}/UltimaTurbidez`);
-                    // try {
-                    //     const response = await axios.get(`${api}/mostrarFlujo`);
-                    //     setHistorialFlujo(response.data);
-                    // } catch (error) {
-                    //     console.error("Error Mostrar Historial del Flujo:", error);
-                    // }
+                    // TRAER EL HISTORIAL DE FLUJO
+                    try {
+                        const responseHistorialCalidad = await axios.get(`${api}/MostrarCalidad`);
+                        setHistorialCalidad(responseHistorialCalidad.data);
+                    } catch (error) {
+                        console.error("Error Mostrar Historial del Flujo:", error);
+                    }
                     // Establecer los estados con los datos más recientes
-                    // console.log("Ultimo PH:", datosPh.data);
 
                     // TRAER EL HISTORIAL DEL PH
                     try {
@@ -235,10 +236,6 @@ export const BrokerProvider = ({ children }) => {
     } catch (error) {
         console.log("Error al llamar los datos de los ultimos Dato", error)
     }   
-    // Obtener todos los datos de la base de datos
-    const MostrarFlujo = async () => {
-       
-    };
     const MostrarVentas = async () => {
         try {
             const response = await axios.get(`${api}/Ventas`);
@@ -336,6 +333,7 @@ export const BrokerProvider = ({ children }) => {
             isAuth,
             historialPh,
             historialFlujo,
+            historialCalidad,
             loading, calidad, flujo, Ph, nivelPh, nivelFlujo, nivelTurbidez
         }}>
             {children}
