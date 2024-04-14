@@ -91,7 +91,7 @@ export default function Principal() {
                   source={require('../../assets/iconos/durezaAgua.png')}
                 />
               </View>
-              <Text style={styles.boxText}>Turbidez del agua</Text>
+              <Text style={styles.boxText}>Calidad del agua</Text>
             </View>
           </TouchableOpacity>
         </View>
