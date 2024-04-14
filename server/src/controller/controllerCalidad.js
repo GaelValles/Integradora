@@ -29,11 +29,11 @@ exports.AgregarCalidad = async (req, res) => {
 
 exports.MostrarCalidad=async(req,res)=>{
     try{
-        const calidad= await Turbidez.find()
+        const calidad= await Turbidez.find().sort({ $natural: -1 });
         res.json(calidad);
     }catch(error){
-        console.error('Error al obtener registros de la base de datos', error);
-        res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
+        console.error('Error al obtener registros de Calidad de la base de datos', error);
+        res.status(500).json({ message: 'Error al obtener registros de la base de datos MostrarCalidad' });
     }
    
 }

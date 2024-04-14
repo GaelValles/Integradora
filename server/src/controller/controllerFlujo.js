@@ -35,8 +35,8 @@ exports.MostrarFlujo = async(req, res) => {
         const flujo= await Flujo.find().sort({ $natural: -1 })
         res.json(flujo);
     }catch(error){
-        console.error('Error al obtener registros de la base de datos', error);
-        res.status(500).json({ message: 'Error al obtener registros de la base de datos' });
+        console.error('Error al obtener registros de flujo de la base de datos', error);
+        res.status(500).json({ message: 'Error al obtener registros de la base de datos en MostrarFlujo' });
     }
    
 }
