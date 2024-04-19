@@ -1,13 +1,13 @@
 
 import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from "react-native";
 import CheckBox from "react-native-check-box";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Material from 'react-native-vector-icons/MaterialCommunityIcons'
 import TopBar from "../components/TopBar";
 import { useNavigation } from '@react-navigation/native';
 import { onPress } from "deprecated-react-native-prop-types/DeprecatedTextPropTypes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import  {agregarVenta}  from "../api/auth";
 // Link para los iconos
 // https://pictogrammers.com/library/mdi/ y https://reactnativeelements.com/docs/1.2.0/icon#containerstyle
 
@@ -46,7 +46,6 @@ export default function Ventas() {
     setgarrafonPequeñoAlcalina(garrafonPequeñoAlcalina + 1);
     setTotal(total + 18)
   };
-
   useEffect(() => {
     const checkVentaActiva = async () => {
       const fechaUltimaApertura = await AsyncStorage.getItem('fechaApertura');
@@ -59,7 +58,7 @@ export default function Ventas() {
   }, []);
 
   const ActivarCaja = async () => {
-    console.log("Intentando activar la caja"); // Debugging line
+    console.log("Intentando activar la caja");
     const fechaHoy = new Date().toDateString();
     const fechaUltimaApertura = await AsyncStorage.getItem('fechaApertura');
 
@@ -71,18 +70,44 @@ export default function Ventas() {
       console.log('La caja ya fue abierta hoy.');
       alert('La caja ya fue abierta hoy.');
     }
-};
+  };
 
 
   const CerrarCaja = async () => {
     const fechaHoy = new Date().toDateString();
-    await AsyncStorage.setItem('fechaApertura', fechaHoy); // Impide otra apertura/cierre en el mismo día
-    console.log('Fecha se cerró:', fechaHoy);
-    setVentaActiva(false);
+    await AsyncStorage.setItem('fechaApertura', fechaHoy); 
+    const totalGalones = calcularTotalGalones();
+
+    const ventaData = {
+      nombre: "prueba",
+      fechaApertura: new Date(),
+      fechaCerrar:  new Date(),
+      totalGalones: totalGalones,
+      total : total
+    };
+    console.log('Venta',ventaData)
+    try{
+      agregarV(ventaData);
+    }catch(error){
+      console.log('ERROR AL MANDAR LOS DATOS',error)
+    }
+
     setTotal(0);
     resetCounts();
   };
-
+  // Mandar datos de ventqa
+  const agregarV = async (user) => {
+    try {
+        const res = await agregarVenta(user);
+        console.log('Venta',res);
+    } catch (error) {
+      console.log('Error al registrar la venta axios',error)
+    }
+};
+  // Calcular el totol de galones seleccionados
+  function calcularTotalGalones() {
+    return GarrafonAlcalina + MedioGarrafonAlcalina + garrafonPequeñoAlcalina + GarrafonPurificada + MedioGarrafonPurificada + garrafonPequeñoPurificada;
+  }
   const resetCounts = () => {
     setGarrafonPurificada(0);
     setMedioGarrafonPurificada(0);
@@ -105,11 +130,11 @@ export default function Ventas() {
     <View style={styles.mainContainer}>
       <TopBar />
 
-      {VentaActiva == false ?
+      {VentaActiva == true ?
         <ImageBackground source={require('../../assets/VentaDesactivada.jpg')} style={styles.background} blurRadius={9}>
           <View style={styles.containerCajaCerrada}>
             <Text style={[styles.text, { marginBottom: 20 }]}>La caja esta desactivada el dia de Hoy..</Text>
-            <TouchableOpacity style={[styles.ActivarCaja, { backgroundColor: '#16c1c8', }]}onPress ={ActivarCaja}>
+            <TouchableOpacity style={[styles.ActivarCaja, { backgroundColor: '#16c1c8', }]} onPress={ActivarCaja}>
               <Text style={styles.buttonText}>Activar Caja</Text>
             </TouchableOpacity>
           </View>
@@ -134,7 +159,7 @@ export default function Ventas() {
                 <Text>Cierre de Caja</Text>
               </View>
             </TouchableOpacity>
-
+            {/* Boton Desabilitado para agrgar nuevas  */}
             {/* <TouchableOpacity activeOpacity={.8} onPress={rutaNuevaAgua}>
             <View style={styles.buttonBox3}>
               <Text>Agregar</Text>

@@ -34,7 +34,7 @@ router.get('/UltimoFlujo',controladorFlujo.MostrarUltimoFlujo) //Mostrar ultimo 
 
 
 // VENTAS Y AGUA
-router.post('/agregarVenta',controladorVentas.agregarVenta)
+router.post('/AgregarVenta',controladorVentas.agregarVenta)
 router.post('/agregarAgua',controladorAgua.agregarAgua)
 
 module.exports = router;
