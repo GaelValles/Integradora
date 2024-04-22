@@ -3,15 +3,18 @@ const express = require("express");
 const connectDB = require('./config/conexiondb')
 const rutas = require('./routes/rutas.js')
 const cors = require("cors");
-
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 connectDB();
 
 // middleware
-app.use(cors()); //middleware para permitir entrada desde Frontend
+app.use(cors({
+    credentials: true,
+})); //middleware para permitir entrada desde Frontend
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api', rutas);
 
 

@@ -1,57 +1,89 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
 import TopBar from '../components/TopBar';
-import { useAuth } from "../context/broker.context";
+import { perfil } from '../api/auth';
 
+// Componente de perfil
 const Perfil = () => {
-  const { isAuth, User } = useAuth();
+  // Estado para el perfil del usuario
+  const [userProfile, setUserProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Indica si los datos están cargando
+  const [error, setError] = useState(null); // Para manejar errores
 
-  console.log(User);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await perfil(); // Llama a la función para obtener el perfil
+        setUserProfile(response.data); // Almacena los datos del perfil
+      } catch (error) {
+        setError(error.message); // Almacena el mensaje de error
+      } finally {
+        setIsLoading(false); // Indica que la carga ha terminado
+      }
+    };
+
+    fetchProfile(); // Llama a la función al montar el componente
+  }, []); // Se ejecuta solo una vez cuando el componente se monta
+
+  if (isLoading) {
+    return <Text>Cargando...</Text>; // Indicar que está cargando
+  }
+
+  if (error) {
+    return <Text>Error: {error}</Text>; // Mostrar un mensaje de error
+  }
+
+  if (!userProfile) {
+    return <Text>No se encontró información del perfil.</Text>; // Si no hay datos
+  }
+
+  const handleLogout = () => {
+    // Lógica para cerrar sesión
+    console.log("Cerrar sesión");
+  };
+
   return (
     <View style={styles.mainContainer}>
-        {/* Importar el TopBar */}
-        <TopBar />
-        {/* Seccion para colocar la imagen, nombre del usuario y rol */}
-        <View style={styles.boxProfile}>
-          {/*  */}
-          <View style={{ alignItems: 'center' }}>
-            <Image source={require('../../assets/user-perfil.jpg')} style={styles.imagePerfil} ></Image>
-            <Text style={{fontSize:25, fontWeight:'bold', padding:10}}>{User ? User.nombres : 'Usuario'}</Text>
-            <Text style={{fontSize:15, fontWeight:'bold', color:'grey'}}>Rol</Text>
-          </View>
+      <TopBar />
+      <View style={styles.boxProfile}>
+        <View style={{ alignItems: 'center' }}>
+          <Image source={require('../../assets/user-perfil.jpg')} style={styles.imagePerfil} />
+          <Text style={{ fontSize: 25, fontWeight: 'bold', padding: 10 }}>
+            {userProfile.nombres} {userProfile.apellidos}
+          </Text>
+          <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'grey' }}>
+            Rol
+          </Text>
         </View>
+      </View>
 
-        <View style={styles.container}>
-          {/* Caja para coloar los datos del usuario */}
-          <View style={styles.box}>
-            
-              <Text style={styles.label}>Correo electrónico:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Correo electrónico"
-              value={User.correo}
-              editable={false}
-            />
-                <Text style={styles.label}>Telefono:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Telefono"
-              value={User.telefono}
-              editable={false}
-            />
-            {/* Boton para cerrar sesion */}
-            {isAuth && (
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
-            </TouchableOpacity>
-          )}
-          </View>
+      <View style={styles.container}>
+        <View style={styles.box}>
+          <Text style={styles.label}>Correo electrónico:</Text>
+          <TextInput
+            style={styles.input}
+            value={userProfile.correo}
+            editable={false}
+          />
+
+          <Text style={styles.label}>Teléfono:</Text>
+          <TextInput
+            style={styles.input}
+            value={userProfile.telefono}
+            editable={false}
+          />
+
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={handleLogout}
+          >
+            <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+          </TouchableOpacity>
         </View>
+      </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -62,25 +94,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 110,
     backgroundColor: '#16C1C8',
-   borderBottomEndRadius:100,
-   borderBottomLeftRadius:100,
-  },
-  image: {
-    width: 30,
-    height: 30
+    borderBottomEndRadius: 100,
+    borderBottomLeftRadius: 100,
   },
   imagePerfil: {
     width: 140,
     height: 140,
     borderRadius: 100,
-    borderWidth:3,
-    borderColor:'#fff',
-    marginTop: 40
+    borderWidth: 3,
+    borderColor: '#fff',
+    marginTop: 40,
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 150
+    marginTop: 150,
   },
   box: {
     backgroundColor: 'white',
@@ -109,19 +137,18 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 20,
   },
-
-  editButton: {
+  logoutButton: {
     backgroundColor: '#00BCC5',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     marginTop: 30,
   },
-  editButtonText: {
+  logoutButtonText: {
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
   },
 });
 
-export default Perfil;
+export default Perfil;

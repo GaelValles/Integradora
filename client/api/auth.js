@@ -1,10 +1,13 @@
 import axios from 'axios';
-// 192.168.1.14
-// 172.20.98.155
-// 192.168.1.71 (rob)
-// Cambiar la ip segun la red local que utilices
-const api = "http://192.168.1.22:3000/api";
 
-export const regis = async (User) => axios.post(`${api}/registrarse`, User);
-export const login= async(User)=> axios.post(`${api}/login`, User)
-export const verifyTokenRequest=() => axios.get(`${api}/verify`)
+// Cambiar la IP según la red local que utilices
+const api = "http://192.168.1.15:3000/api";
+
+// Configurar Axios para que siempre incluya cookies
+axios.defaults.withCredentials = true;
+
+// Funciones para interactuar con el servidor
+export const regis = async (user) => axios.post(`${api}/registrarse`, user);
+export const login = async (user) => axios.post(`${api}/login`, user);
+export const perfil = async () => axios.get(`${api}/perfil`);
+export const verifyTokenRequest = () => axios.get(`${api}/verify`);

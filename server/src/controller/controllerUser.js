@@ -43,32 +43,37 @@ exports.Mostrarusuario = async (req, res) => {
 
 
 exports.login = async (req, res) => {
-    const { correo, password } = req.body;
-    try {
-      // Encuentra la información del usuario por su correo
-      const userFound = await User.findOne({ correo });
-      if (!userFound) return res.status(400).json({ message: "Credenciales invalidas" });
-      // Compara las contraseñas
-      const passwordMatch = await bcrypt.compare(password, userFound.password);
-  
-      if (!passwordMatch) {
-        return res.status(400).json({ message: 'Credenciales invalidas' });
-      }
-  
-      const token = await CreateAccessToken({ id: userFound._id });
-      res.cookie('token', token);
-      res.json({
-        id:userFound._id,
-        nombres:userFound.nombres,
-        apellidos:userFound.apellidos,
-        telefono:userFound.telefono,
-        correo:userFound.correo,
-      });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-      console.log(error)
-    }
+  const { correo, password } = req.body;
+
+  // Buscar usuario por correo electrónico
+  const user = await User.findOne({ correo });
+
+  console.log(correo)
+
+  if (!user || !(await user.comparePassword(password))) {
+    return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
   }
+
+  // Crear el token JWT
+  const token = jwt.sign({ id: user._id }, TOKEN_SECRET, { expiresIn: '1h' });
+
+  // Configurar la cookie con el token
+  res.cookie('token', token, {
+    httpOnly: true, // Asegura que la cookie no se pueda acceder desde JavaScript
+    secure: process.env.NODE_ENV === 'production', // Solo en producción
+    sameSite: 'strict', // Asegura que solo se envíe dentro del mismo sitio
+  });
+  
+  // Responder con el perfil del usuario y el token
+  res.json({
+    id: user._id,
+    nombres: user.nombres,
+    apellidos: user.apellidos,
+    correo: user.correo,
+    telefono: user.telefono,
+    token, // Devolver el token por si necesitas usarlo también
+  });
+};
 
   exports.logout= async(req,res)=>{
     res.cookie("token", "",{
@@ -77,20 +82,37 @@ exports.login = async (req, res) => {
     return res.sendStatus(200);
   }
 
-
-  exports.perfil=async(req,res)=>{
-    const userFound = await User.findById(req.user.id)
+  exports.perfil = async (req, res) => {
+    try {
+      // Verificar que el usuario esté autenticado
+      if (!req.user || !req.user.id) {
+        return res.status(400).json({ message: "Usuario no autenticado" });
+      }
   
-    if(!userFound) return res.status(400).json({message:"Credenciales invalidas"});
+      const userFound = await User.findById(req.user.id);
   
-    return res.json({
-      id:userFound._id,
-      nombres:userFound.nombres,
-      apellidos:userFound.apellidos,
-      telefono:userFound.telefono,
-      correo:userFound.correo,
-    })
-  }
+      if (!userFound) {
+        return res.status(400).json({ message: "Usuario no encontrado" });
+      }
+  
+      // Obtener el token de las cookies (o desde otro lugar)
+      const { token } = req.cookies;
+  
+      // Respuesta JSON incluyendo detalles del usuario y el token
+      return res.json({
+        id: userFound._id,
+        nombres: userFound.nombres,
+        apellidos: userFound.apellidos,
+        correo: userFound.correo,
+        telefono: userFound.telefono,
+        token: token, // Aquí incluyes el token en la respuesta
+      });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+  
+  
   
   exports.verifyToken=async(req,res)=>{
     const {token} =req.cookies;

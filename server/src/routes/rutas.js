@@ -15,7 +15,7 @@ router.post('/logout',controladorUser.logout);
 
 router.post('/login',controladorUser.login)
 router.get('/verify', controladorUser.verifyToken);
-router.get('/perfil', controladorUser.perfil);
+router.get('/perfil', authRequired, controladorUser.perfil);
 
 // Rutas de sensores
 router.post('/agregarPh',controladorPh.AgregarPh); //Registrar nivel de pH
