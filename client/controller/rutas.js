@@ -9,7 +9,7 @@ import Inicio from '../screens/Inicio';
 import Registrar from '../screens/Registrar';
 import Login from '../screens/Login';
 import Principal from '../screens/Principal';
-import NuevosProductos from '../screens/nuevosProductos';
+import editarPrecios from '../screens/editarPrecios';
 import Productos from '../screens/productos';
 import TabNav from './tab-navigator';
 import Ventas from '../screens/Ventas';
@@ -29,7 +29,7 @@ function Router() {
           <Stack.Screen name="Inicio" component={Inicio} options={{ headerShown: false }} />
           <Stack.Screen name="Registrar" component={Registrar} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-          <Stack.Screen name="NuevosProductos" component={NuevosProductos} options={{ headerShown: false }} />
+          <Stack.Screen name="editarPrecios" component={editarPrecios} options={{ headerShown: false }} />
           <Stack.Screen name="TabNavigator" component={TabNav} options={{ headerShown: false }} />
           <Stack.Screen name="Ventas" component={Ventas} options={{ headerShown: false }} />
           <Stack.Screen name="TopBar" component={TopBar} options={{ headerShown: false }} />
