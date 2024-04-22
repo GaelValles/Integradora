@@ -120,7 +120,7 @@ export default function Ventas() {
   const navigation = useNavigation();
   // Navegar a interfaz de editar
   const rutaNuevoProducto = () => {
-    navigation.navigate('NuevosProductos'); // Navegar a la pantalla de creación de cuenta
+    navigation.navigate('editarPrecios'); // Navegar a la pantalla de creación de cuenta
   };
   // const rutaNuevaAgua = () => {
   //   navigation.navigate('Productos'); // Navegar a la pantalla de creación de cuenta
@@ -231,7 +231,7 @@ export default function Ventas() {
                 </View>
                 {/* Texto sobre el tipo de recipiente GARRAFON PEQUEÑO*/}
                 <View style={styles.textLabel}>
-                  <Text>Pequeño</Text>
+                  <Text>Galon</Text>
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
@@ -295,7 +295,7 @@ export default function Ventas() {
                 </View>
                 {/* Texto sobre el tipo de recipiente */}
                 <View style={styles.textLabel}>
-                  <Text>Pequeño</Text>
+                  <Text>Galon</Text>
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
