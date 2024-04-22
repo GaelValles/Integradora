@@ -3,7 +3,7 @@ const { Turbidez } = require("../model/calidad")
 // Enviar datos de calidad de agua a la Base de datos
 exports.AgregarCalidad = async (req, res) => {
     try{
-        const{nivel_turbidez}= req.body;
+        const{nivel_turbidez,status}= req.body;
 
 
         if (nivel_turbidez == '') {
@@ -12,7 +12,7 @@ exports.AgregarCalidad = async (req, res) => {
             const calidad=new Turbidez({
                 fecha:new Date(),
                 nivel_turbidez:nivel_turbidez,
-                status:true
+                status
             });    
             console.log(calidad);
             await calidad.save();
