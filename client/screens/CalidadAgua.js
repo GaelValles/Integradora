@@ -73,7 +73,7 @@ export default function CalidadAgua() {
 
           <View style={[styles.dataItem, styles.header]}>
             <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
-            <Text style={[styles.dataText, styles.headerText]}>Nivel NPH</Text>
+            <Text style={[styles.dataText, styles.headerText]}>Nivel NTU</Text>
             <Text style={[styles.dataText, styles.headerText]}>Calidad del Agua</Text>
           </View>
           {ultimos10Registros.map((item) => (
@@ -83,7 +83,7 @@ export default function CalidadAgua() {
               <Text style={styles.dataText}>{item.status ? 'Buena' : 'Mala'}</Text>
             </View>
           ))}
-
+          <Text>Los datos completos se mostraran en la aplicacion Web</Text>
         </View>
       </ScrollView>
     </View>

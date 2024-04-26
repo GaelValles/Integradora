@@ -1,53 +1,55 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet,ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import TopBar from '../components/TopBar';
 // Funcion para el componente de la pagina
 import BrokerContext from '../context/broker.context';
 const Flujo = () => {
-  const{nivelFlujo, historialFlujo}=useContext(BrokerContext)
+  const { nivelFlujo, historialFlujo } = useContext(BrokerContext)
 
-  const ultimos10Registros=historialFlujo.slice(0,10)
+  const ultimos10Registros = historialFlujo.slice(0, 10)
 
   return (
     <View style={styles.mainContainer}>
       <TopBar />
       <ScrollView contentContainerStyle={styles.scrollStyle}>
-      <View style={styles.container}>
-        <Text style={[styles.title, { textAlign: 'center' }]}>Datos de Flujo de Agua</Text>
-        <View style={styles.container1}>
+        <View style={styles.container}>
+          <Text style={[styles.subtitleText, { fontWeight: '500', fontSize: 20, textAlign: 'left' }]}>Ultima Revision:</Text>
+          <Text style={[styles.title, { textAlign: 'center' }]}>Datos de Flujo de Agua</Text>
+          <View style={styles.container1}>
 
-          <View style={styles.sensorContainer3}></View>
-          <View style={styles.sensorContainer}>
-            <View style={styles.sensorContainer1}>
-              <View style={styles.sensorContainer2}>
-                <Text style={styles.sensorValue}>{nivelFlujo}</Text>
-                <Text style={styles.sensorLabel}>ml</Text>
+            <View style={styles.sensorContainer3}></View>
+            <View style={styles.sensorContainer}>
+              <View style={styles.sensorContainer1}>
+                <View style={styles.sensorContainer2}>
+                  <Text style={styles.sensorValue}>{nivelFlujo}</Text>
+                  <Text style={styles.sensorLabel}>ml</Text>
+                </View>
               </View>
             </View>
+            <View style={styles.sensorContainer3}></View>
           </View>
-          <View style={styles.sensorContainer3}></View>
-        </View>
-        {/* Tabla para el historial */}
+          {/* Tabla para el historial */}
           <View style={styles.tableContainer}>
-            
 
-           
-          <View style={[styles.dataItem, styles.header]}>
-            <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
-            <Text style={[styles.dataText, styles.headerText]}>Ml Salidos</Text>
-            <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
-          </View>
-          {ultimos10Registros.map((item) => (
-            <View style={styles.dataItem} key={item.id}>
-              <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
-              <Text style={styles.dataText}>{item.mlSalidos}</Text>
-              <Text style={styles.dataText}>{item.estado}</Text>
+
+
+            <View style={[styles.dataItem, styles.header]}>
+              <Text style={[styles.dataText, styles.headerText]}>Fecha</Text>
+              <Text style={[styles.dataText, styles.headerText]}>Ml Salidos</Text>
+              <Text style={[styles.dataText, styles.headerText]}>Estado</Text>
             </View>
-          ))}
-          
+            {ultimos10Registros.map((item) => (
+              <View style={styles.dataItem} key={item.id}>
+                <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
+                <Text style={styles.dataText}>{item.mlSalidos}</Text>
+                <Text style={styles.dataText}>{item.estado}</Text>
+              </View>
+            ))}
+            <Text>Los datos completos se muestran en la pagina Web</Text>
+
+          </View>
         </View>
-        </View>
-        </ScrollView>
+      </ScrollView>
     </View>
   );
 };
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.50,
     shadowRadius: 6.84,
     elevation: 7,
-    marginBottom:100
+    marginBottom: 100
   },
 });
 

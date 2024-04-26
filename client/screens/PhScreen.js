@@ -66,6 +66,7 @@ const PhScreen = () => {
               <Text style={styles.dataText}>{item.estado}</Text>
             </View>
           ))}
+           <Text>Los datos completos se muestran en la pagina Web</Text>
         </View>
       </ScrollView>
     </View>

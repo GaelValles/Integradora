@@ -24,27 +24,27 @@ export default function Ventas() {
 
   const aumentarGarrafonPurificada = () => {
     setGarrafonPurificada(GarrafonPurificada + 1);
-    setTotal(total + 18)
+    setTotal(total + 25)
   };
   const aumentarMedioGarrafonPurificada = () => {
     setMedioGarrafonPurificada(MedioGarrafonPurificada + 1);
-    setTotal(total + 18)
+    setTotal(total + 20)
   };
   const aumentargarrafonPequeñoPurificada = () => {
     setgarrafonPequeñoPurificada(garrafonPequeñoPurificada + 1);
-    setTotal(total + 18)
+    setTotal(total + 16)
   };
   const aumentarGarrafonAlcalina = () => {
     setGarrafonAlcalina(GarrafonAlcalina + 1);
-    setTotal(total + 18)
+    setTotal(total + 28)
   };
   const aumentarMedioGarrafonAlcalina = () => {
     setMedioGarrafonAlcalina(MedioGarrafonAlcalina + 1);
-    setTotal(total + 18)
+    setTotal(total + 24)
   };
   const aumentargarrafonPequeñoAlcalina = () => {
     setgarrafonPequeñoAlcalina(garrafonPequeñoAlcalina + 1);
-    setTotal(total + 18)
+    setTotal(total + 20)
   };
   useEffect(() => {
     const checkVentaActiva = async () => {
@@ -147,13 +147,13 @@ export default function Ventas() {
             {/* Titulo inicial */}
             <Text style={styles.title}>Venta del Dia</Text>
             {/* Botones para editar o Cerrar Caja */}
-            <TouchableOpacity activeOpacity={.8} onPress={rutaNuevoProducto}>
-              <View style={styles.buttonBox}>
+            {/* <TouchableOpacity activeOpacity={.8} onPress={rutaNuevoProducto}>
+              <View style={styles.buttonBox}> */}
                 {/* Icono de editar */}
-                <Material name="file-edit" size={40} color="#000" />
+                {/* <Material name="file-edit" size={40} color="#000" />
               </View>
 
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity activeOpacity={.8} onPress={CerrarCaja}>
               <View style={styles.buttonBox2}>
                 <Text>Cierre de Caja</Text>
@@ -197,7 +197,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$25</Text>
                 </View>
               </View>
               {/* Segunda Caja */}
@@ -216,7 +216,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$20</Text>
                 </View>
               </View>
               {/* Tercera Caja */}
@@ -235,7 +235,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$16</Text>
                 </View>
               </View>
             </View>
@@ -261,7 +261,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$28</Text>
                 </View>
               </View>
               {/* Segunda Caja */}
@@ -280,7 +280,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$24</Text>
                 </View>
               </View>
               {/* Tercera Caja */}
@@ -299,7 +299,7 @@ export default function Ventas() {
                 </View>
                 {/* Parte para mostrar el precio */}
                 <View style={styles.check}>
-                  <Text style={styles.precio}>$18</Text>
+                  <Text style={styles.precio}>$20</Text>
                 </View>
               </View>
             </View>
