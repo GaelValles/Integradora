@@ -87,6 +87,7 @@ export const BrokerProvider = ({ children }) => {
     async function agregarTBaDB(nuevaCalidad) {
         try {
             console.log("dato en la funcion", nuevaCalidad)
+            nuevaCalidad > 2 ? estado = false : estado = true;
             // Enviar los datos a la api
             const response = await fetch(`${api}/agregarCalidad`, {
                 method: 'POST',
@@ -95,7 +96,7 @@ export const BrokerProvider = ({ children }) => {
                 },
                 body: JSON.stringify({
                     nivel_turbidez: nuevaCalidad,
-                    status: true,
+                    status: estado,
                 }),
             });
 
@@ -110,7 +111,6 @@ export const BrokerProvider = ({ children }) => {
             console.error('Error al enviar la solicitud al servidor de la Calidad', error);
         }
     }
-
     // Funcion par enviar dato del flujo a la base de datos
     async function enviarFlujoaDB(nuevoFlujo) {
         try {
