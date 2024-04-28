@@ -41,7 +41,7 @@ const Flujo = () => {
             {ultimos10Registros.map((item) => (
               <View style={styles.dataItem} key={item.id}>
                 <Text style={styles.dataText}>{new Date(item.fecha).toLocaleString()}</Text>
-                <Text style={styles.dataText}>{item.mlSalidos}</Text>
+                <Text style={styles.dataText}>{item.mlSalidos}ml</Text>
                 <Text style={styles.dataText}>{item.estado}</Text>
               </View>
             ))}
