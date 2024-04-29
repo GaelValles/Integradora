@@ -66,7 +66,7 @@ useEffect(() => {
 async function agregarTBaDB(nuevaCalidad) {
     try {
         console.log("dato en la funcion", nuevaCalidad)
-        nuevaCalidad<0 ? nuevaCalidad=1: nuevaCalidad=nuevaCalidad
+        nuevaCalidad<=0 ? nuevaCalidad=1: nuevaCalidad=nuevaCalidad
         nuevaCalidad > 2 ? estado = false : estado = true;
         // Enviar los datos a la api
         const response = await fetch(`${api}/agregarCalidad`, {
