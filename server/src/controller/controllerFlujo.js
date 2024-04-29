@@ -17,7 +17,7 @@ exports.AgregarFlujo = async (req, res) => {
             });    
             console.log(flujo);
             await flujo.save();
-            res.status(201).json({ message: 'Turbidez guardada correctamente', flujo });
+            res.status(201).json({ message: 'Flujo guardada correctamente', flujo });
         }
     }catch(error){
         console.error(error);

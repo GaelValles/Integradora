@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { StyleSheet, Text } from 'react-native'
 import { TabButton } from '../components/TabButton'
 import BrokerContext, { BrokerProvider } from '../context/broker.context'; // Importa el proveedor del contexto
-
+import { SensorProvider } from '../context/sensores.context';
 // Importar las distinatas paginas que contendra el menu
 import Principal from '../screens/Principal'
 import PhScreen from '../screens/PhScreen'
@@ -63,30 +63,32 @@ const TabNav = () => {
 
 
     return (
-        <BrokerProvider>
+            <SensorProvider>
 
-            <Tab.Navigator
-                initialRouteName={'Principal'}
-                screenOptions={{
-                    headerShown: false,
-                    tabBarStyle: styles.tabBar
-                }}
-            >
-                {
-                    tabs.map((item, index) =>
-                        <Tab.Screen
-                            key={item.id}
-                            name={item.screen}
-                            component={item.Component}
-                            options={{
-                                tabBarShowLabel: false,
-                                tabBarButton: (props) => <TabButton item={item} {...props} />
-                            }}
-                        />
-                    )
-                }
-            </Tab.Navigator>
-        </BrokerProvider>
+
+                <Tab.Navigator
+                    initialRouteName={'Principal'}
+                    screenOptions={{
+                        headerShown: false,
+                        tabBarStyle: styles.tabBar
+                    }}
+                >
+                    {
+                        tabs.map((item, index) =>
+                            <Tab.Screen
+                                key={item.id}
+                                name={item.screen}
+                                component={item.Component}
+                                options={{
+                                    tabBarShowLabel: false,
+                                    tabBarButton: (props) => <TabButton item={item} {...props} />
+                                }}
+                            />
+                        )
+                    }
+                </Tab.Navigator>
+            </SensorProvider>
+        
     )
 }
 
